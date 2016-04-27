@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48"
+   height="48"
+   viewBox="0 0 48 48"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="Logo.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="-10.661427 : 18.559279 : 1"
+       inkscape:vp_y="0 : 982.29146 : 0"
+       inkscape:vp_z="43.501132 : 18.559279 : 1"
+       inkscape:persp3d-origin="16.419852 : 10.700947 : 1"
+       id="perspective6402" />
+    <marker
+       inkscape:stockid="TriangleInS"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="TriangleInS"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4857"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         transform="scale(-0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker5148"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path5150"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="scale(0.2) translate(6,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="marker5102"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path5104"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="scale(0.2) translate(-6,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondS"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="EmptyDiamondS"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4830"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="scale(0.2)" />
+    </marker>
+    <marker
+       inkscape:stockid="CurveIn"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="CurveIn"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4902"
+         d="M 4.6254930,-5.0456926 C 1.8654930,-5.0456926 -0.37450702,-2.8056926 -0.37450702,-0.045692580 C -0.37450702,2.7143074 1.8654930,4.9543074 4.6254930,4.9543074"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;fill:none;stroke-opacity:1"
+         transform="scale(0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="EmptyDiamondSstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4839"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="scale(0.2) translate(6,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="EmptyDiamondSend"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         id="path4848"
+         d="M 0,-7.0710768 L -7.0710894,0 L 0,7.0710589 L 7.0710462,0 L 0,-7.0710768 z "
+         style="fill-rule:evenodd;fill:#ffffff;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="scale(0.2) translate(-6,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker5102-9"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5104-0"
+         d="M 0,-7.0710768 -7.0710894,0 0,7.0710589 7.0710462,0 0,-7.0710768 Z"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.2,0,0,0.2,-1.2,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="EmptyDiamondSend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="marker5102-9-5"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5104-0-0"
+         d="M 0,-7.0710768 -7.0710894,0 0,7.0710589 7.0710462,0 0,-7.0710768 Z"
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1"
+         transform="matrix(0.2,0,0,0.2,-1.2,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.9195959"
+     inkscape:cx="48.935723"
+     inkscape:cy="9.3043095"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1526"
+     inkscape:window-height="1008"
+     inkscape:window-x="14"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1004.3622)">
+    <g
+       id="g4232"
+       transform="matrix(1.4170902,0,0,1.4262458,6.000595,1010.2454)">
+      <g
+         id="g4162">
+        <path
+           id="path4164"
+           d="M 11.313,7.422 11.204,7.326 C 11.739,5.406 11.252,3.26 9.743,1.75 8.243,0.254 6.123,-0.236 4.214,0.281 L 7.446,3.513 6.598,6.68 3.431,7.527 0.197,4.297 c -0.514,1.908 -0.025,4.029 1.475,5.529 1.571,1.572 3.835,2.033 5.814,1.389 l 0.018,0.018 13.3,13.299 c 0.526,0.525 1.214,0.791 1.904,0.791 0.69,0 1.377,-0.266 1.906,-0.791 1.053,-1.049 1.053,-2.754 0,-3.811 L 11.313,7.422 Z M 22.94,24.08 c -0.566,0 -1.027,-0.461 -1.027,-1.029 0,-0.57 0.461,-1.029 1.027,-1.029 0.57,0 1.03,0.459 1.03,1.029 0.001,0.568 -0.459,1.029 -1.03,1.029 z"
+           inkscape:connector-curvature="0" />
+        <g
+           id="g4166" />
+        <g
+           id="g4168" />
+        <g
+           id="g4170" />
+        <g
+           id="g4172" />
+        <g
+           id="g4174" />
+        <g
+           id="g4176" />
+        <g
+           id="g4178" />
+        <g
+           id="g4180" />
+        <g
+           id="g4182" />
+        <g
+           id="g4184" />
+        <g
+           id="g4186" />
+        <g
+           id="g4188" />
+        <g
+           id="g4190" />
+        <g
+           id="g4192" />
+        <g
+           id="g4194" />
+      </g>
+      <g
+         id="g4196" />
+      <g
+         id="g4198" />
+      <g
+         id="g4200" />
+      <g
+         id="g4202" />
+      <g
+         id="g4204" />
+      <g
+         id="g4206" />
+      <g
+         id="g4208" />
+      <g
+         id="g4210" />
+      <g
+         id="g4212" />
+      <g
+         id="g4214" />
+      <g
+         id="g4216" />
+      <g
+         id="g4218" />
+      <g
+         id="g4220" />
+      <g
+         id="g4222" />
+      <g
+         id="g4224" />
+    </g>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:100;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4266"
+       width="44.965637"
+       height="44.965633"
+       x="1.5171828"
+       y="1005.8793"
+       ry="7.2405601"
+       rx="7.2405596" />
+  </g>
+</svg>

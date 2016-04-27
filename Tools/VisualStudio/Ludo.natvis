@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+   
+   <!-- Containers -->
+   <Type Name="Ludo::Array&lt;*&gt;">
+     <DisplayString Condition="(m_Length) &lt;= 0">Empty</DisplayString>
+     <DisplayString>{(m_Length),i} Items</DisplayString>
+     <Expand>
+       <ArrayItems>
+         <Size>m_Length</Size>
+         <ValuePointer>m_Data</ValuePointer>
+       </ArrayItems>
+     </Expand>
+   </Type>
+   
+   <!-- Types -->
+   <Type Name="Ludo::String">
+     <DisplayString Condition="(m_Buffer->Size) &lt;= 0">Empty</DisplayString>
+     <DisplayString>{(m_Buffer->Buffer),sb}</DisplayString>
+     <StringView>(m_Buffer->Buffer),sb</StringView>
+     <Expand>
+       <Item Name="Value">(m_Buffer->Buffer),sb</Item>
+       <Item Name="Length">(m_Buffer->Size),i</Item>
+     </Expand>
+   </Type>
+
+   <!-- Platform -->
+   <Type Name="Ludo::Path">
+     <DisplayString Condition="(m_CachedString.m_Buffer->Size) &lt;= 0">Empty</DisplayString>
+     <DisplayString>{(m_CachedString.m_Buffer->Buffer),sb}</DisplayString>
+     <Expand>
+       <Item Name="Mount Point">m_Mount</Item>
+       <Item Name="Directories">(m_Directories)</Item>
+       <Item Name="Filename">m_Filename</Item>
+       <Item Name="Extension">m_Extension</Item>
+     </Expand>
+   </Type>
+   
+ </AutoVisualizer>
