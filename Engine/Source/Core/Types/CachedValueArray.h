@@ -25,7 +25,7 @@ public:
 	/// \brief TODO
 	ElementType Get(int Index, GetValueFunction RetrievalFunction)
 	{
-		if (Index >= m_Values.size())
+		if (Index >= (int)m_Values.size())
 		{
 			m_Values.resize(Index + 1);
 		}

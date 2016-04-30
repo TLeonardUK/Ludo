@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 	UNUSED_PARAMETER(pScmdline);
 	UNUSED_PARAMETER(iCmdshow);
 
-	Ludo::Error result = Ludo::Platform::LudoEntryPoint();
+	Ludo::Error result = Ludo::LudoEntryPoint();
 	if (result.Failed())
 	{
 		return 1;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 	UNUSED_PARAMETER(argc);
 	UNUSED_PARAMETER(argv);
 
-	Ludo::Error result = Ludo::Platform::LudoEntryPoint();
+	Ludo::Error result = Ludo::LudoEntryPoint();
 	if (result.Failed())
 	{
 		return 1;
@@ -68,7 +68,7 @@ struct WindowsDebugLogOutput : public LogOutput
 private:
 	virtual void Emit(const char* Message) override
 	{
-		OutputDebugString(Message);
+		OutputDebugStringA(Message);
 	}
 };
 

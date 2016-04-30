@@ -63,7 +63,7 @@ void GameEngine::EmitBuildInfo()
 	SizeStringArgumentFormatter SizeFormatter;
 
 	StringArgumentList Args;
-	Args.Add("ExecutablePath", Environment::GetSpecialPath(SpecialPath::ExecutableFile).ToString());
+	Args.Add("ExecutablePath", Environment::GetSpecialPath(Environment::SpecialPath::ExecutableFile).ToString());
 	Args.Add("Username", Environment::GetUsername());
 	Args.Add("PlatformName", Environment::GetPlatformName());
 	Args.Add("ConcurrencyFactor", Environment::GetConcurrencyFactor());
@@ -77,16 +77,16 @@ void GameEngine::EmitBuildInfo()
 
 	for (int i = 0; i < Environment::GetCpuCount(); i++)
 	{
-		CpuInfo CpuInfo = Environment::GetCpuInfo(i);
+		Environment::CpuInfo CpuInfo = Environment::GetCpuInfo(i);
 
 		String FeatureString;
-		for (CpuFeature Feature : CpuInfo.Features)
+		for (Environment::CpuFeature Feature : CpuInfo.Features)
 		{
 			if (!FeatureString.IsEmpty())
 			{
 				FeatureString += ", ";
 			}
-			FeatureString += CpuFeatureName[(int)Feature];
+			FeatureString += Environment::CpuFeatureName[(int)Feature];
 		}
 
 		Args.Add("CpuIndex", i);
@@ -99,7 +99,7 @@ void GameEngine::EmitBuildInfo()
 
 	for (int i = 0; i < Environment::GetGpuCount(); i++)
 	{
-		GpuInfo GpuInfo = Environment::GetGpuInfo(i);
+		Environment::GpuInfo GpuInfo = Environment::GetGpuInfo(i);
 
 		Args.Add("GpuIndex", i);
 		Args.Add("GpuName", GpuInfo.Name);
@@ -108,7 +108,7 @@ void GameEngine::EmitBuildInfo()
 	}
 
 	{
-		RamInfo MemoryInfo = Environment::GetRamInfo();
+		Environment::RamInfo MemoryInfo = Environment::GetRamInfo();
 
 		Args.Add("TotalPhysicalMemory", MemoryInfo.TotalPhysicalRam, &SizeFormatter);
 		Args.Add("TotalVirtualMemory", MemoryInfo.TotalVirtualRam, &SizeFormatter);

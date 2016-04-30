@@ -64,6 +64,27 @@ int WmiQueryRow::GetInt(const char* Name)
 	return Variant.intVal;
 }
 
+uint64_t WmiQueryRow::GetLong(const char* Name)
+{
+	VARIANT Variant;
+
+	WCHAR  WideName[128];
+	if (!MultiByteToWideChar(0, 0, Name, -1, WideName, 128))
+	{
+		AssertLastSystemError("MultiByteToWideChar");
+		return 0;
+	}
+
+	HRESULT ComResult = m_Object->Get(WideName, 0, &Variant, 0, 0);
+	if (FAILED(ComResult))
+	{
+		AssertLastSystemError("IWbemClassObject->Get");
+		return 0;
+	}
+
+	return Variant.ullVal;
+}
+
 WmiQueryResult::~WmiQueryResult()
 {
 	for (IWbemClassObject* Object : m_ResultObjects)

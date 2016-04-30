@@ -18,6 +18,7 @@ public:
 	typedef std::function<void (Thread* Self)> EntryPoint;
 
 	/// \brief TODO
+	Thread();
 	Thread(String Name, EntryPoint Point);
 
 	/// \brief TODO

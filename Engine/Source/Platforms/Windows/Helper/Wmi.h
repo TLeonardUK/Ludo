@@ -23,6 +23,7 @@ private:
 public:
 	String GetString(const char* Name);
 	int GetInt(const char* Name);
+	uint64_t GetLong(const char* Name);
 
 };
 

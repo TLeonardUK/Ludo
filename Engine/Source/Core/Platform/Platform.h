@@ -4,11 +4,12 @@
 #include "Core/Types/Error.h"
 
 namespace Ludo {
-namespace Platform {
 
 // \brief Defined in engine code, called by the platform entry point
 //		  to begin game execution!
 extern Error LudoEntryPoint();
+
+namespace Platform {
 
 /// \brief TODO
 void PreInit();

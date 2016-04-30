@@ -120,7 +120,7 @@ bool Path::CreateAsDirectory() const
 		ParentDir.CreateAsDirectory();
 	}
 
-	BOOL Ret = CreateDirectory(m_CachedString.Data(), NULL);
+	BOOL Ret = CreateDirectoryA(m_CachedString.Data(), NULL);
 	if (Ret == 0)
 	{
 		LogLastSystemError("CreateDirectory");
@@ -138,7 +138,7 @@ bool Path::CreateAsFile() const
 		ParentDir.CreateAsDirectory();
 	}
 
-	HANDLE Ret = CreateFile(
+	HANDLE Ret = CreateFileA(
 		m_CachedString.Data(), 
 		GENERIC_WRITE,
 		0,
@@ -169,7 +169,7 @@ bool Path::Copy(const Path& Destination) const
 {
 	if (IsFile())
 	{
-		BOOL Ret = CopyFile(m_CachedString.Data(), Destination.m_CachedString.Data() , false);
+		BOOL Ret = CopyFileA(m_CachedString.Data(), Destination.m_CachedString.Data() , false);
 		if (Ret == 0)
 		{
 			LogLastSystemError("CopyFile");
@@ -216,7 +216,7 @@ bool Path::Delete() const
 {
 	if (IsFile())
 	{
-		BOOL Ret = DeleteFile(m_CachedString.Data());
+		BOOL Ret = DeleteFileA(m_CachedString.Data());
 		if (Ret == 0)
 		{
 			LogLastSystemError("DeleteFile");
@@ -242,7 +242,7 @@ bool Path::Delete() const
 		}
 
 		// Delete the actual folder.
-		BOOL Ret = RemoveDirectory(m_CachedString.Data());
+		BOOL Ret = RemoveDirectoryA(m_CachedString.Data());
 		if (Ret == 0)
 		{
 			LogLastSystemError("RemoveDirectory");

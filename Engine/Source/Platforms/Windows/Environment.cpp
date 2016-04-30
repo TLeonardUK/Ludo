@@ -218,7 +218,7 @@ GpuInfo GetGpuInfo(const int GpuIndex)
 		{
 			WmiQueryRow Row = Result.GetRow(GpuIndex);
 			Info.Name = Row.GetString("Name");
-			Info.TotalVRam = Row.GetInt("AdapterRAM");
+			Info.TotalVRam = Row.GetLong("AdapterRAM"); // uint32, does not support more than 4GiB, sigh.
 		}
 
 		return Info;
@@ -231,13 +231,14 @@ RamInfo GetRamInfo()
 
 	return Value.Get([]() 
 	{
-		MEMORYSTATUS MemInfo;
-		GlobalMemoryStatus(&MemInfo);
+		MEMORYSTATUSEX MemInfo;
+		MemInfo.dwLength = sizeof(MEMORYSTATUSEX);
+		GlobalMemoryStatusEx(&MemInfo);
 
 		RamInfo Info;
-		Info.TotalPhysicalRam = MemInfo.dwTotalPhys;
-		Info.TotalVirtualRam = MemInfo.dwTotalVirtual;
-		Info.TotalPageRam = MemInfo.dwTotalPageFile;
+		Info.TotalPhysicalRam = MemInfo.ullTotalPhys;
+		Info.TotalVirtualRam = MemInfo.ullTotalVirtual;
+		Info.TotalPageRam = MemInfo.ullTotalPageFile;
 
 		return Info;
 	});
@@ -251,14 +252,14 @@ String GetPlatformName()
 	{		
 		SYSTEM_INFO SystemInfo;
 
-		OSVERSIONINFOEX VersionInfo;
-		VersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+		OSVERSIONINFOEXA VersionInfo;
+		VersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXA);
 
 		DWORD ProductType;
 
 		GetSystemInfo(&SystemInfo);
 
-		if (!GetVersionEx((OSVERSIONINFO*)&VersionInfo))
+		if (!GetVersionExA((OSVERSIONINFOA*)&VersionInfo))
 		{
 			LogLastSystemError("GetVersionEx");
 			return String("Unknown");
@@ -575,7 +576,7 @@ String GetUsername()
 
 		DWORD BufferLen = UNLEN;
 
-		if (0 == GetUserName(Buffer, &BufferLen))
+		if (0 == GetUserNameA(Buffer, &BufferLen))
 		{
 			LogLastSystemError("GetUsername");
 			return String("Unknown");
@@ -601,7 +602,7 @@ Path GetSpecialPath(SpecialPath Type)
 				if (hModule)
 				{
 					char ModulePath[MAX_PATH + 1];
-					GetModuleFileName(hModule, ModulePath, sizeof(ModulePath));
+					GetModuleFileNameA(hModule, ModulePath, sizeof(ModulePath));
 
 					return Path(ModulePath);
 				}
@@ -618,7 +619,7 @@ Path GetSpecialPath(SpecialPath Type)
 			return CachedPath.Get([]()
 			{
 				char TempPath[MAX_PATH + 1];
-				if (!GetTempPath(sizeof(TempPath), TempPath))
+				if (!GetTempPathA(sizeof(TempPath), TempPath))
 				{
 					LogLastSystemError("GetTempPath");
 					return Path("");
@@ -635,7 +636,7 @@ Path GetSpecialPath(SpecialPath Type)
 			{
 				char TempPath[MAX_PATH + 1];
 
-				if (SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, TempPath) != S_OK)
+				if (SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, TempPath) != S_OK)
 				{
 					LogLastSystemError("SHGetFolderPath");
 					return Path("");

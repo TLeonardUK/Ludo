@@ -1,6 +1,6 @@
 // Copyright 2016 TwinDrills
 
-#include "Barrier.h"
+#include "Core/Platform/Barrier.h"
 
 namespace Ludo {
 

@@ -148,10 +148,11 @@ void InitMainThread()
 		TRUE,
 		DUPLICATE_SAME_ACCESS);
 
-	g_ThreadSelf = new Thread();
-	g_ThreadMain = g_ThreadSelf;
+//	LS_NEW(PlatformMemoryArena, Thread, );
+	//g_ThreadSelf = new Thread("Main Thread");
+	//g_ThreadMain = g_ThreadSelf;
 
-	g_ThreadSelf->Set_Name("Main Thread");
+	//g_ThreadSelf->Set_Name("Main Thread");
 }
 
 void TermMainThread()
@@ -159,8 +160,10 @@ void TermMainThread()
 	ArenaAllocator<PlatformMemoryArena> Allocator;
 	Allocator.Delete<Thread>(g_ThreadSelf);
 
-	g_ThreadSelf = nullptr;
-	g_ThreadMain = nullptr;
+//	LD_DELETE(PlatformMemoryArena, Allocator, g_ThreadSelf);
+
+	//g_ThreadSelf = nullptr;
+	//g_ThreadMain = nullptr;
 }
 
 // todo: Just have Create function thats overriden per platform? But what about delete?
@@ -168,18 +171,18 @@ void TermMainThread()
 
 Thread::Thread(String Name, EntryPoint Point)
 {
-	ArenaAllocator<PlatformMemoryArena> Allocator;
+//	ArenaAllocator<PlatformMemoryArena> Allocator;
 
-	m_Impl = Allocator.New<Impl>(Name, Point, this);
-	Assert(m_Impl != nullptr);
+//	m_Impl = Allocator.New<Impl>(Name, Point, this);
+//	Assert(m_Impl != nullptr);
 }
 
 Thread::~Thread()
 {
-	ArenaAllocator<PlatformMemoryArena> Allocator;
+//	ArenaAllocator<PlatformMemoryArena> Allocator;
 
-	Allocator.Delete<Impl>(m_Impl);
-	m_Impl = nullptr;
+//	Allocator.Delete<Impl>(m_Impl);
+//	m_Impl = nullptr;
 }
 
 void Thread::Start()
