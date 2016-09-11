@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+  
+<!--
+Ludo Game Engine
+Copyright (C) 2016 TwinDrills
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+    
  <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
-   
-   <!-- Containers -->
+      
+   <!-- Engine/Core/Public/Types/Array.h -->
    <Type Name="Ludo::Array&lt;*&gt;">
      <DisplayString Condition="(m_Length) &lt;= 0">Empty</DisplayString>
      <DisplayString>{(m_Length),i} Items</DisplayString>
@@ -12,8 +31,35 @@
        </ArrayItems>
      </Expand>
    </Type>
-   
-   <!-- Types -->
+  
+   <!-- Engine/Core/Public/Types/Map.h -->
+   <Type Name="Ludo::Map&lt;*&gt;">
+     <DisplayString Condition="(m_TotalEntries) &lt;= 0">Empty</DisplayString>
+     <DisplayString>{(m_TotalEntries),i} Items</DisplayString>
+     <Expand>
+       <CustomListItems MaxItemsPerView="5000">
+         <Variable Name="BucketIndex" InitialValue="0"/>
+         <Variable Name="ValueIndex" InitialValue="0"/>
+         <Loop>
+           <Break Condition="BucketIndex >= m_BucketCount"/>
+           <Exec>ValueIndex = 0</Exec>
+           <Loop>
+             <Break Condition="ValueIndex >= m_Buckets[BucketIndex].Values.m_Length"/>
+             <Item>m_Buckets[BucketIndex].Values[ValueIndex]</Item>
+             <Exec>ValueIndex++</Exec>
+           </Loop>
+           <Exec>BucketIndex++</Exec>           
+         </Loop>
+       </CustomListItems>
+     </Expand>
+   </Type>
+
+   <!-- Engine/Core/Public/Types/Pair.h -->
+   <Type Name="Ludo::Pair&lt;*&gt;">
+     <DisplayString>{(m_Key)} = {(m_Value)}</DisplayString>
+   </Type>
+
+   <!-- Engine/Core/Public/Types/String.h -->
    <Type Name="Ludo::String">
      <DisplayString Condition="(m_Buffer->Size) &lt;= 0">Empty</DisplayString>
      <DisplayString>{(m_Buffer->Buffer),sb}</DisplayString>
@@ -23,16 +69,21 @@
        <Item Name="Length">(m_Buffer->Size),i</Item>
      </Expand>
    </Type>
+      
+   <!-- Engine/Core/Public/Types/StringId.h -->
+   <Type Name="Ludo::StringId">
+     <DisplayString Condition="(m_Index) &lt; 0">Invalid StringId</DisplayString>
+     <DisplayString>{Ludo::StringId::m_StringArray[m_Index]}</DisplayString>
+   </Type>
 
-   <!-- Platform -->
+   <!-- Engine/Core/Public/IO/Path.h -->
    <Type Name="Ludo::Path">
-     <DisplayString Condition="(m_CachedString.m_Buffer->Size) &lt;= 0">Empty</DisplayString>
-     <DisplayString>{(m_CachedString.m_Buffer->Buffer),sb}</DisplayString>
+     <DisplayString Condition="(m_raw.m_Buffer->Size) &lt;= 0">Empty</DisplayString>
+     <DisplayString>{(m_raw.m_Buffer->Buffer),sb}</DisplayString>
+     <StringView>(m_raw.m_Buffer->Buffer),sb</StringView>
      <Expand>
-       <Item Name="Mount Point">m_Mount</Item>
-       <Item Name="Directories">(m_Directories)</Item>
-       <Item Name="Filename">m_Filename</Item>
-       <Item Name="Extension">m_Extension</Item>
+       <Item Name="Value">(m_raw.m_Buffer->Buffer),sb</Item>
+       <Item Name="Length">(m_raw.m_Buffer->Size),i</Item>
      </Expand>
    </Type>
    

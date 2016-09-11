@@ -1,0 +1,3 @@
+[submodule "Tools/MicroBuild"]
+	path = Tools/MicroBuild
+	url = https://github.com/TLeonardUK/MicroBuild.git
