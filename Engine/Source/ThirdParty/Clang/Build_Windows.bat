@@ -17,3 +17,7 @@ msbuild tools/clang/tools/libclang/libclang.vcxproj /p:Configuration=Release;Pla
 
 cd ..
 
+copy build.x86/Release/bin/libclang.dll Binaries/windows_x86/libclang.dll
+copy build.x86/Release/lib/libclang.lib Binaries/windows_x86/libclang.lib
+copy build.x64/Release/bin/libclang.dll Binaries/windows_x64/libclang.dll
+copy build.x64/Release/lib/libclang.lib Binaries/windows_x64/libclang.lib

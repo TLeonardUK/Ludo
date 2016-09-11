@@ -5,3 +5,5 @@ Binaries/**
 *.log
 **/build.x86/**
 **/build.x86_64/**
+**/llvm/**
+**/tmp/**
