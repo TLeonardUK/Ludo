@@ -88,8 +88,8 @@ protected:
 
 	void CollectParameterPointers(Array<void*>& Result, int ParamIndex)
 	{
-		UNUSED_PARAMETER(Result);
-		UNUSED_PARAMETER(ParamIndex);
+		LD_UNUSED_PARAMETER(Result);
+		LD_UNUSED_PARAMETER(ParamIndex);
 
 		// Termination function of templated version, intentially left empty.
 	}

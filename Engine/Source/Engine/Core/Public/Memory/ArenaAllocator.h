@@ -36,7 +36,7 @@ public:
 	*/
 	virtual void* Alloc(const int Size, const int Alignment = DefaultAlignment) override
 	{
-		UNUSED_PARAMETER(Alignment);
+		LD_UNUSED_PARAMETER(Alignment);
 		// TODO
 		return malloc(Size);
 	}

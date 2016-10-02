@@ -55,7 +55,7 @@ void SizeStringArgumentFormatter::Format(const StringArgument& Argument, String&
 		}
 	}
 
-	while (Result > 1024.0f && PostfixIndex < ARRAY_LENGTH(Postfix))
+	while (Result > 1024.0f && PostfixIndex < LD_ARRAY_LENGTH(Postfix))
 	{
 		PostfixIndex++;
 		Result /= 1024.0f;

@@ -58,12 +58,12 @@ void GameEngine::InitLogging()
 	Args.Add("Changelist", LD_BUILD_CHANGELIST);
 	Args.Add("Branch", LD_BUILD_BRANCH);
 
-	Log(LogEngine, LogInfo, "Ludo Engine");
-	Log(LogEngine, LogInfo, "Copyright (C) TwinDrills, All Rights Reserved");
-	Log(LogEngine, LogInfo, "");
+	LD_LOG(LogEngine, LogInfo, "Ludo Engine");
+	LD_LOG(LogEngine, LogInfo, "Copyright (C) TwinDrills, All Rights Reserved");
+	LD_LOG(LogEngine, LogInfo, "");
 	LogF(LogEngine, LogInfo, "Changelist {Changelist}, Branch {Branch}", Args);
-	Log(LogEngine, LogInfo, "Compiled on " LD_BUILD_TIMESTAMP);
-	Log(LogEngine, LogInfo, "");
+	LD_LOG(LogEngine, LogInfo, "Compiled on " LD_BUILD_TIMESTAMP);
+	LD_LOG(LogEngine, LogInfo, "");
 }
 
 void GameEngine::TermLogging()
@@ -76,7 +76,7 @@ typedef void (*RegisterLinkedMetadataFunction)();
 
 void GameEngine::InitReflection()
 {
-	Log(LogEngine, LogInfo, "Loading engine metadata ...");
+	LD_LOG(LogEngine, LogInfo, "Loading engine metadata ...");
 
 	// Register primitive types.
 	Register_Primitive_Metadata();
@@ -90,7 +90,7 @@ void GameEngine::InitReflection()
 	}
 	else
 	{
-		Log(LogEngine, LogInfo, "Looks like no metadata has been linked. Bootstrap build?");
+		LD_LOG(LogEngine, LogInfo, "Looks like no metadata has been linked. Bootstrap build?");
 	}
 
 	for (TypeModule* Mod : TypeModule::GetModules())
@@ -121,7 +121,7 @@ void GameEngine::EmitBuildInfo()
 	Args.Add("PlatformName", Environment::GetPlatformName());
 	Args.Add("ConcurrencyFactor", Environment::GetConcurrencyFactor());
 
-	Log(LogEngine, LogInfo, "Machine Specs:");
+	LD_LOG(LogEngine, LogInfo, "Machine Specs:");
 	LogF(LogEngine, LogInfo, "\tUsername: {Username}", Args);
 	LogF(LogEngine, LogInfo, "\tExecutable Path: {ExecutablePath}", Args);
 	LogF(LogEngine, LogInfo, "\tPlatform Name: {PlatformName}", Args);
@@ -168,12 +168,12 @@ void GameEngine::EmitBuildInfo()
 		LogF(LogEngine, LogInfo, "\tRAM: Physical={TotalPhysicalMemory}, Virtual={TotalVirtualMemory}, PageFile={TotalPageMemory}", Args);
 	}
 
-	Log(LogEngine, LogInfo, "");
+	LD_LOG(LogEngine, LogInfo, "");
 }
 
 Error GameEngine::LoadEngineCore()
 {
-	Log(LogEngine, LogInfo, "Loading engine core.");
+	LD_LOG(LogEngine, LogInfo, "Loading engine core.");
 
 	Error Result = CreateEngineCore(&m_EngineCore);
 	if (Result.Failed())
@@ -187,7 +187,7 @@ Error GameEngine::LoadEngineCore()
 
 void GameEngine::UnloadEngineCore()
 {
-	Log(LogEngine, LogInfo, "Unloading engine core.");
+	LD_LOG(LogEngine, LogInfo, "Unloading engine core.");
 
 	Error Result = m_EngineCore->Term();
 	if (Result.Failed())
@@ -244,7 +244,7 @@ int GameEngine::EntryPoint()
 	InitReflection();
 	InitPlatform();
 
-	Log(LogEngine, LogInfo, "");
+	LD_LOG(LogEngine, LogInfo, "");
 
 	int ExitCode = 0;
 
@@ -259,12 +259,12 @@ int GameEngine::EntryPoint()
 				EmitBuildInfo();
 			}
 
-			Log(LogEngine, LogInfo, "Initializing engine core.");
+			LD_LOG(LogEngine, LogInfo, "Initializing engine core.");
 
 			Result = m_EngineCore->Init(this);
 			if (Result.Succeeded())
 			{
-				Log(LogEngine, LogInfo, "Successfully initialized engine core.");
+				LD_LOG(LogEngine, LogInfo, "Successfully initialized engine core.");
 				ExitCode = m_EngineCore->Run();
 			}		
 			else

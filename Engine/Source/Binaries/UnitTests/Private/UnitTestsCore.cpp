@@ -26,7 +26,7 @@ LD_EXPORT_ENGINE_CORE(UnitTestsCore);
 
 Error UnitTestsCore::Init(GameEngine* Engine)
 {
-	UNUSED_PARAMETER(Engine);
+	LD_UNUSED_PARAMETER(Engine);
 	return Error(ErrorType::Success);
 }
 
@@ -39,9 +39,9 @@ int UnitTestsCore::Run()
 {
 	String ExePath = Environment::GetSpecialPath(Environment::SpecialPath::ExecutableFile).ToString();
 
-	Log(LogTests, LogInfo, "");
-	Log(LogTests, LogInfo, "Starting GoogleTest ...");
-	Log(LogTests, LogInfo, "");
+	LD_LOG(LogTests, LogInfo, "");
+	LD_LOG(LogTests, LogInfo, "Starting GoogleTest ...");
+	LD_LOG(LogTests, LogInfo, "");
 	printf("\n");
 
 	int argc = 1;

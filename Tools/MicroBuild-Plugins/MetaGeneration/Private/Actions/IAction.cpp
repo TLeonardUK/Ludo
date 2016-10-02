@@ -1,5 +1,5 @@
 /*
-Ludo Game Engine
+MicroBuild
 Copyright (C) 2016 TwinDrills
 
 This program is free software: you can redistribute it and/or modify
@@ -15,28 +15,11 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 
-#include "Framework/Public/EngineCore.h"
+#include "PCH.h"
 
-namespace Ludo {
+#include "Actions/IAction.h"
 
-class Command;
+namespace MicroBuild {
 
-/// \brief TODO
-class BuilderCore : public EngineCore
-{
-private:
-	GameEngine* m_Engine;
-
-private:
-	void PrintHelp(const Array<Command*>& Commands);
-
-public:
-	virtual Error Init(GameEngine* Engine) override;
-	virtual Error Term() override;
-	virtual int Run() override;
-	virtual bool UseFastInit() override;
-};
-
-}; // namespace Ludo
+}; // namespace MicroBuild

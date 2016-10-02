@@ -26,7 +26,7 @@ LD_EXPORT_ENGINE_CORE(RunnerCore);
 
 Error RunnerCore::Init(GameEngine* Engine)
 {
-	UNUSED_PARAMETER(Engine);
+	LD_UNUSED_PARAMETER(Engine);
 	return Error(ErrorType::Success);
 }
 

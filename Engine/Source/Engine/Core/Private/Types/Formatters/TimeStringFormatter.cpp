@@ -30,8 +30,8 @@ TimeStringArgumentFormatter::TimeStringArgumentFormatter(const char* Format)
 void TimeStringArgumentFormatter::Format(const StringArgument& Argument, String& Output)
 {
 	// TODO
-	UNUSED_PARAMETER(Argument);
-	UNUSED_PARAMETER(Output);
+	LD_UNUSED_PARAMETER(Argument);
+	LD_UNUSED_PARAMETER(Output);
 }
 
 }; // namespace Ludo

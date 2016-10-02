@@ -43,7 +43,7 @@ JobScheduler::JobScheduler(int ThreadCount)
 		m_Threads.Add(NewThread);
 
 		NewThread->Start([this](Thread* Self) { 
-			UNUSED_PARAMETER(Self);
+			LD_UNUSED_PARAMETER(Self);
 			ThreadEntryPoint(); 
 		});
 	}

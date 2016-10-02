@@ -39,9 +39,9 @@ Type* Method::GetReturnType()
 
 void Method::InvokeInternal(void* Instance, void* Result, Array<void*>& Parameters)
 {
-	UNUSED_PARAMETER(Instance);
-	UNUSED_PARAMETER(Result);
-	UNUSED_PARAMETER(Parameters);
+	LD_UNUSED_PARAMETER(Instance);
+	LD_UNUSED_PARAMETER(Result);
+	LD_UNUSED_PARAMETER(Parameters);
 	PureVirtual();
 }
 

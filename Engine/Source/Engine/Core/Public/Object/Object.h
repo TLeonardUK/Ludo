@@ -22,6 +22,7 @@ namespace Ludo {
 class Type;
 
 /// \brief Base class for all objects that can be accessed via reflection.
+META()
 class Object
 {
 private:

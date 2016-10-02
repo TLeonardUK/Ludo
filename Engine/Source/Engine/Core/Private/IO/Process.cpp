@@ -36,7 +36,7 @@ uint64 Process::Length()
 
 void Process::Seek(uint64 Position)
 {
-	UNUSED_PARAMETER(Position);
+	LD_UNUSED_PARAMETER(Position);
 	NotImplemented();
 }
 

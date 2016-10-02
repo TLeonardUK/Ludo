@@ -1,5 +1,5 @@
 /*
-Ludo Game Engine
+MicroBuild
 Copyright (C) 2016 TwinDrills
 
 This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-#pragma once
 
-namespace Ludo {
+#include "PCH.h"
 
-/// \brief TODO
-class Command
+#include "Actions/WriteHeaderMetadataToFile.h"
+
+namespace MicroBuild {
+	
+WriteHeaderMetadataToFile::WriteHeaderMetadataToFile(MetadataFileInfo& info)
+	: m_fileInfo(info)
 {
-public:
-	virtual String GetName() = 0;
-	virtual void PrintHelp() = 0;
-	virtual bool ValidateArgs(const Array<String>& Args) = 0;
-	virtual bool Run(const Array<String>& Args) = 0;
-};
+}
 
-}; // namespace Ludo
+bool WriteHeaderMetadataToFile::Execute()
+{
+	// todo
+	return true;
+}
+
+}; // namespace MicroBuild

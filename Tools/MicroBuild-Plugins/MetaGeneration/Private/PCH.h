@@ -1,5 +1,5 @@
 /*
-Ludo Game Engine
+MicroBuild
 Copyright (C) 2016 TwinDrills
 
 This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,28 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
+// Can't use pragma once in PCH's or we get erronous warnings in older versions
+// of llvm/clang (aka xcode), see here - https://reviews.llvm.org/D19815
+#ifndef _MICROBUILD_PCH_
+#define _MICROBUILD_PCH_
 
-#include "Core/Public/Core.h"
+#include <stdio.h>
+#include <vector>
+#include <string>
+#include <string.h>
+#include <ctime>
+#include <assert.h>
+#include <cassert>
+#include <stdarg.h>
+#include <chrono>
+#include <map>
+#include <algorithm>
+#include <climits>
+#include <memory>
+
+#include "Core/Compiler.h"
+#include "Core/Log.h"
+
+#include "Schemas/Plugin/PluginInterface.h"
+
+#endif

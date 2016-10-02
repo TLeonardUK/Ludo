@@ -29,7 +29,7 @@ struct TypeConstructor
 	}
 	static void Destruct(ElementType& Ref)
 	{
-		UNUSED_PARAMETER(Ref); // Not sure why VS requires this...
+		LD_UNUSED_PARAMETER(Ref); // Not sure why VS requires this...
 		Ref.~ElementType();
 	}
 };

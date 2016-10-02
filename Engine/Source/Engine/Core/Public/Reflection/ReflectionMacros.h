@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-// Reflection attributes.
+	// Reflection attributes.
 #ifdef LD_REFLECTION_GENERATOR
 
 // Ok, so this ugly struct is here so we can do things like
@@ -34,23 +34,26 @@ namespace Ludo {
 // which field/class/etc.
 //
 // Don't worry, its not compiled into final code, just for the reflection generator :).
-#define META(...) struct __attribute__((annotate(#__VA_ARGS__))) LD_INDIRECT_TOKEN_PASTE(_MetaAttributes_, __COUNTER__) {}; 
-
-// This macro must be included inside all Object derived classes, it writes various
-// meta-data related data into the class.
-#define GENERATED_BODY() __attribute__((annotate("_META_GeneratedBodyFlag")))
+//#define META(...) struct __attribute__((annotate(#__VA_ARGS__))) LD_INDIRECT_TOKEN_PASTE(_MetaAttributes_, __COUNTER__) {}; 
 
 #else
 
-#define META(...)
 
+#endif
+
+// This is used to provide attributes to specific constructs in the code. This forms
+// the basis of our reflection system.
+#define META(...) 
+
+// This macro must be included inside all Object derived classes, it writes various
+// meta-data related data into the class.
 #define GENERATED_BODY() \
 	private:\
 		friend class ReflectionAccessor; \
 		/*typedef _META_ObjectXSuper Super;*/ \
+		void StaticType(); \
 	\
 	public:
 
-#endif
 
 }; // namespace Ludo

@@ -104,13 +104,13 @@ void* operator new[](std::size_t count)
 
 void* operator new(std::size_t count, const std::nothrow_t& tag) throw()
 {
-	UNUSED_PARAMETER(tag);
+	LD_UNUSED_PARAMETER(tag);
 	return Ludo::LegacyNew(count);
 }
 
 void* operator new[](std::size_t count, const std::nothrow_t& tag) throw()
 {
-	UNUSED_PARAMETER(tag);
+	LD_UNUSED_PARAMETER(tag);
 	return Ludo::LegacyNewArray(count);
 }
 
@@ -126,13 +126,13 @@ void operator delete[](void* ptr) throw()
 
 void operator delete(void* ptr, const std::nothrow_t& tag) throw()
 {
-	UNUSED_PARAMETER(tag);
+	LD_UNUSED_PARAMETER(tag);
 	Ludo::LegacyDelete(ptr);
 }
 
 void operator delete[](void* ptr, const std::nothrow_t& tag) throw()
 {
-	UNUSED_PARAMETER(tag);
+	LD_UNUSED_PARAMETER(tag);
 	Ludo::LegacyDeleteArray(ptr);
 }
 

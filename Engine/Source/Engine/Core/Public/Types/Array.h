@@ -102,7 +102,7 @@ public:
 		, m_Length(0)
 		, m_Data(nullptr)
 	{
-		UNUSED_PARAMETER(Other);
+		LD_UNUSED_PARAMETER(Other);
 		// TODO Move.
 	}*/
 

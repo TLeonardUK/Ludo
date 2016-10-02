@@ -44,15 +44,15 @@ bool Field::IsConst()
 
 void Field::SetInternal(void* Instance, void* Data)
 {
-	UNUSED_PARAMETER(Instance);
-	UNUSED_PARAMETER(Data);
+	LD_UNUSED_PARAMETER(Instance);
+	LD_UNUSED_PARAMETER(Data);
 	PureVirtual();
 }
 
 void Field::GetInternal(void* Instance, void* Data)
 {
-	UNUSED_PARAMETER(Instance);
-	UNUSED_PARAMETER(Data);
+	LD_UNUSED_PARAMETER(Instance);
+	LD_UNUSED_PARAMETER(Data);
 	PureVirtual();
 }
 

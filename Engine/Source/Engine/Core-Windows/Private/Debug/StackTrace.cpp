@@ -167,7 +167,7 @@ Error StackTrace::Generate(StackTrace& Trace, ExceptionRecord Record)
 		StackFrame64.AddrStack.Offset = Context.Rsp;
 		StackFrame64.AddrStack.Mode = AddrModeFlat;
 #else
-		Log(LogPlatform, LogError, "Platform does not support stack walking.");
+		LD_LOG(LogPlatform, LogError, "Platform does not support stack walking.");
 		return ErrorType::NotSupported;
 #endif
 
@@ -191,7 +191,7 @@ Error StackTrace::Generate(StackTrace& Trace, ExceptionRecord Record)
 #elif defined(LD_ARCHITECTURE_X64)
 				Frame.Address = (intptr)StackFrame64.AddrPC.Offset;
 #else
-				Log(LogPlatform, LogError, "Platform does not support stack walking.");
+				LD_LOG(LogPlatform, LogError, "Platform does not support stack walking.");
 				return ErrorType::NotSupported;
 #endif
 				Trace.m_Frames.Push(Frame);

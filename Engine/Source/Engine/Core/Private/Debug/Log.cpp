@@ -34,11 +34,11 @@ Array<LogOutput*> gGlobalLogOutputs;
 int gGlobalLogVerbosity = 0;
 
 // Declare all the default log severities.
-#define LOG_SEVERITY LogSeverityImplement
+#define LOG_SEVERITY LD_LOG_SEVERITY_IMPLEMENT
 #include "Core/Private/Debug/LogSeverities.inc"
 #undef LOG_SEVERITY
 
-#define LOG_CATEGORY LogCategoryImplement
+#define LOG_CATEGORY LD_LOG_CATEGORY_IMPLEMENT
 #include "Core/Private/Debug/LogCategories.inc"
 #undef LOG_CATEGORY
 

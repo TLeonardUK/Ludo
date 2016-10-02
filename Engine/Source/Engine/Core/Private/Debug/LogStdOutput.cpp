@@ -26,7 +26,7 @@ namespace Ludo {
 
 void LogStdOutput::Emit(const char* Message, const unsigned int ColorArgb)
 {
-	UNUSED_PARAMETER(ColorArgb);
+	LD_UNUSED_PARAMETER(ColorArgb);
 
 	printf("%s", Message);
 }

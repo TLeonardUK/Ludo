@@ -33,10 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 /// \brief: TODO
-#define UNUSED_PARAMETER(x) ((void)(x))
+#define LD_UNUSED_PARAMETER(x) ((void)(x))
 
 /// \brief: TODO
-#define ARRAY_LENGTH(x) (sizeof((x)) / sizeof(*(x)))
+#define LD_ARRAY_LENGTH(x) (sizeof((x)) / sizeof(*(x)))
 
 /// \brief: TODO
 typedef signed char			int8;

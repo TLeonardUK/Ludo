@@ -26,18 +26,18 @@ using namespace Ludo::Windows;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow)
 {
-	UNUSED_PARAMETER(hInstance);
-	UNUSED_PARAMETER(hPrevInstance);
-	UNUSED_PARAMETER(pScmdline);
-	UNUSED_PARAMETER(iCmdshow);
+	LD_UNUSED_PARAMETER(hInstance);
+	LD_UNUSED_PARAMETER(hPrevInstance);
+	LD_UNUSED_PARAMETER(pScmdline);
+	LD_UNUSED_PARAMETER(iCmdshow);
 
 	return Ludo::LudoEntryPoint();
 }
 
 int main(int argc, char* argv[])
 {
-	UNUSED_PARAMETER(argc);
-	UNUSED_PARAMETER(argv);
+	LD_UNUSED_PARAMETER(argc);
+	LD_UNUSED_PARAMETER(argv);
 
 	return Ludo::LudoEntryPoint();
 } 
@@ -102,15 +102,15 @@ WmiConnection gWmiConnection;
 
 LONG WINAPI WindowsExceptionHandler(struct _EXCEPTION_POINTERS *exceptionInfo)
 {
-	UNUSED_PARAMETER(exceptionInfo);
+	LD_UNUSED_PARAMETER(exceptionInfo);
 
-	Log(LogPlatform, LogError, "~~~~~~~~~~~~ UNHANDLED EXCEPTION OCCURRED ~~~~~~~~~~~");
-	Log(LogPlatform, LogError, "Stack Trace:");
+	LD_LOG(LogPlatform, LogError, "~~~~~~~~~~~~ UNHANDLED EXCEPTION OCCURRED ~~~~~~~~~~~");
+	LD_LOG(LogPlatform, LogError, "Stack Trace:");
 
 	StackTrace Trace;
 	if (StackTrace::Generate(Trace, (void*)exceptionInfo).Failed())
 	{
-		Log(LogPlatform, LogError, "Failed to generate stack trace.");
+		LD_LOG(LogPlatform, LogError, "Failed to generate stack trace.");
 		return 0;
 	}
 	else
@@ -134,9 +134,9 @@ LONG WINAPI WindowsExceptionHandler(struct _EXCEPTION_POINTERS *exceptionInfo)
 
 BOOL WINAPI WindowsConsoleCloseCallback(_In_ DWORD dwCtrlType)
 {
-	UNUSED_PARAMETER(dwCtrlType);
+	LD_UNUSED_PARAMETER(dwCtrlType);
 
-	Log(LogPlatform, LogWarning, "Recieved console close callback. Terminating.");
+	LD_LOG(LogPlatform, LogWarning, "Recieved console close callback. Terminating.");
 
 	Environment::Exit();
 
@@ -156,35 +156,35 @@ void Init()
 
 	// Disable any pita popups that occassionally occur when checking drive file
 	// sizes, errors in libraries, etc.	
-	Log(LogPlatform, LogInfo, "Setting error mask to supress non-critical error popups.");
+	LD_LOG(LogPlatform, LogInfo, "Setting error mask to supress non-critical error popups.");
 	SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOALIGNMENTFAULTEXCEPT | SEM_NOOPENFILEERRORBOX | SEM_NOGPFAULTERRORBOX);
 
 	// Symbols need to be initialized if we want debug stack traces and such
 	// when the allocators are initialized.
-	Log(LogPlatform, LogInfo, "Attempting to load symbol information if available ...");
+	LD_LOG(LogPlatform, LogInfo, "Attempting to load symbol information if available ...");
 	SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
 	if (!SymInitialize(GetCurrentProcess(), NULL, TRUE))
 	{
-		Log(LogPlatform, LogInfo, "\tFailed to load symbol information.");
+		LD_LOG(LogPlatform, LogInfo, "\tFailed to load symbol information.");
 	}
 	else
 	{
-		Log(LogPlatform, LogInfo, "\tSuccessfully loaded symbol information.");
+		LD_LOG(LogPlatform, LogInfo, "\tSuccessfully loaded symbol information.");
 	}
 
 	// Install exception filter.	
-	Log(LogPlatform, LogInfo, "Installing exception handler.");
+	LD_LOG(LogPlatform, LogInfo, "Installing exception handler.");
 	SetUnhandledExceptionFilter(WindowsExceptionHandler);
 
-	Log(LogPlatform, LogInfo, "Installing console ctrl handler.");
+	LD_LOG(LogPlatform, LogInfo, "Installing console ctrl handler.");
 	SetConsoleCtrlHandler(WindowsConsoleCloseCallback, true);
 
 	// Seed random.
-	Log(LogPlatform, LogInfo, "Seeding random number information.");
+	LD_LOG(LogPlatform, LogInfo, "Seeding random number information.");
 	srand((int)GetTickCount());
 
 	// Setup COM information.
-	Log(LogPlatform, LogInfo, "Initializing COM interface.");
+	LD_LOG(LogPlatform, LogInfo, "Initializing COM interface.");
 	HRESULT ComResult = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 	if (FAILED(ComResult))
 	{
@@ -209,14 +209,14 @@ void Init()
 	}
 
 	// Initialize WMI connection.
-	Log(LogPlatform, LogInfo, "Initializing WMI connection.");
+	LD_LOG(LogPlatform, LogInfo, "Initializing WMI connection.");
 	if (gWmiConnection.Connect().Failed())
 	{
-		Log(LogPlatform, LogWarning, "Failed to create connection to WMI, WMI queries may return invalid data.");
+		LD_LOG(LogPlatform, LogWarning, "Failed to create connection to WMI, WMI queries may return invalid data.");
 	}
 
 	// Initialize Winsock
-	Log(LogPlatform, LogInfo, "Initializing winsock library.");
+	LD_LOG(LogPlatform, LogInfo, "Initializing winsock library.");
 	WSADATA winsockData;
 	int WasResult = WSAStartup(MAKEWORD(2, 2), &winsockData);
 	if (FAILED(WasResult))
@@ -228,18 +228,18 @@ void Init()
 void Term()
 {
 	// Cleanup winsock interface.
-	Log(LogPlatform, LogInfo, "Terminating COM interface.");
+	LD_LOG(LogPlatform, LogInfo, "Terminating COM interface.");
 	WSACleanup();
 	
 	// Cleanup WMI connection.
 	if (gWmiConnection.IsConnected())
 	{
-		Log(LogPlatform, LogInfo, "Disconnecting WMI connection.");
+		LD_LOG(LogPlatform, LogInfo, "Disconnecting WMI connection.");
 		gWmiConnection.Disconnect();
 	}
 
 	// Cleanup com library.
-	Log(LogPlatform, LogInfo, "Terminating winsock library.");
+	LD_LOG(LogPlatform, LogInfo, "Terminating winsock library.");
 	CoUninitialize();
 
 	// Cleanup main thread information.

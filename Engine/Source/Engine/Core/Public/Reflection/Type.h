@@ -38,7 +38,7 @@ struct TypeOfEvaluator
 {
 	static Type* Find(T x)
 	{
-		UNUSED_PARAMETER(x);
+		LD_UNUSED_PARAMETER(x);
 		return Type::FindByType<T>();
 	}
 };

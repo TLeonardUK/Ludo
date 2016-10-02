@@ -30,7 +30,7 @@ Class::Class()
 
 void* Class::NewInstance(IAllocator* Allocator)
 {
-	UNUSED_PARAMETER(Allocator);
+	LD_UNUSED_PARAMETER(Allocator);
 	Assert("Attempt to create instance of class with non-overriden NewInstance method.");
 	return nullptr;
 }

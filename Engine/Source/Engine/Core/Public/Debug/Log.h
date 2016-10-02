@@ -96,32 +96,32 @@ public:
 #define MAX_LOG_VERBOSITY 0x7FFFFFFF
 
 /// \brief TODO
-#define LogSeverityImplement(Name, VerbosityLevel, DisplayColor) \
+#define LD_LOG_SEVERITY_IMPLEMENT(Name, VerbosityLevel, DisplayColor) \
 	LogSeverity Log##Name(#Name, VerbosityLevel, DisplayColor);
 
-#define LogSeverityDeclare(Name, VerbosityLevel, DisplayColor) \
+#define LD_LOG_SEVERITY_DECLARE(Name, VerbosityLevel, DisplayColor) \
 	extern LogSeverity Log##Name;
 
 /// \brief TODO
-#define LogCategoryImplement(Name, VerbosityLevel) \
+#define LD_LOG_CATEGORY_IMPLEMENT(Name, VerbosityLevel) \
 	LogCategory Log##Name(#Name, VerbosityLevel);
 
-#define LogCategoryDeclare(Name, VerbosityLevel)  \
+#define LD_LOG_CATEGORY_DECLARE(Name, VerbosityLevel)  \
 	extern LogCategory Log##Name;
 
 /// \brief TODO
-#define Log(Category, Severity, Message) \
+#define LD_LOG(Category, Severity, Message) \
 	LogOutput::GlobalEmit(Severity, Category, __FILE__, __LINE__, Message);
 
-#define LogF(Category, Severity, Message, ...) \
+#define LD_LOGF(Category, Severity, Message, ...) \
 	LogOutput::GlobalEmitF(Severity, Category, __FILE__, __LINE__, Message, ##__VA_ARGS__);
 
 // Declare all the default log severities.
-#define LOG_SEVERITY LogSeverityDeclare
+#define LOG_SEVERITY LD_LOG_SEVERITY_DECLARE
 #include "Core/Private/Debug/LogSeverities.inc"
 #undef LOG_SEVERITY
 
-#define LOG_CATEGORY LogCategoryDeclare
+#define LOG_CATEGORY LD_LOG_CATEGORY_DECLARE
 #include "Core/Private/Debug/LogCategories.inc"
 #undef LOG_CATEGORY
 

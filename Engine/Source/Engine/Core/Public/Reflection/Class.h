@@ -43,7 +43,7 @@ protected:
 protected:
 	void CollectParameterTypes(Array<Type*>& Result)
 	{
-		UNUSED_PARAMETER(Result);
+		LD_UNUSED_PARAMETER(Result);
 		// Termination function of templated version, intentially left empty.
 	}
 
@@ -56,7 +56,7 @@ protected:
 
 	void CollectParameters(Array<Type*>& Result)
 	{
-		UNUSED_PARAMETER(Result);
+		LD_UNUSED_PARAMETER(Result);
 		// Termination function of templated version, intentially left empty.
 	}
 
