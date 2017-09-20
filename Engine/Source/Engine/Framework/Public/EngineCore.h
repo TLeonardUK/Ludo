@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
+#include "Core/Public/Core.h"
+
 #define LD_EXPORT_ENGINE_CORE(ClassName)					\
 	Error CreateEngineCore(EngineCore** Result)				\
 	{														\

@@ -21,20 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/IO/Streams/IStream.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 void IStream::Flush()
 {
 	// Does nothing unless supported.
 }
 
+// ************************************************************************************************
+
 bool IStream::AtEnd()
 {
 	return Position() >= Length();
 }
 
+// ************************************************************************************************
+
 uint64 IStream::BytesLeft()
 {
 	return Length() - Position();
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "PCH.h"
-
+ 
 #include "Core/Public/Debug/Log.h"
 #include "Core/Public/Types/String.h"
 #include "Core/Public/Types/Formatters/SimpleStringFormatter.h"
@@ -30,7 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-Array<LogOutput*> gGlobalLogOutputs;
+// ************************************************************************************************
+
+Array<LogListener*> gGlobalLogListeners;
 int gGlobalLogVerbosity = 0;
 
 // Declare all the default log severities.
@@ -42,6 +44,8 @@ int gGlobalLogVerbosity = 0;
 #include "Core/Private/Debug/LogCategories.inc"
 #undef LOG_CATEGORY
 
+// ************************************************************************************************
+
 LogSeverity::LogSeverity(const char* InName, const int InVerbosityLevel, unsigned int InDisplayColorARGB)
 	: VerbosityLevel(InVerbosityLevel)
 	, DisplayColorARGB(InDisplayColorARGB)
@@ -51,6 +55,8 @@ LogSeverity::LogSeverity(const char* InName, const int InVerbosityLevel, unsigne
 	Name[MaxNameLength - 1] = '\0';
 }
 
+// ************************************************************************************************
+
 LogCategory::LogCategory(const char* InName, const int InVerbosityLevel)
 	: VerbosityLevel(InVerbosityLevel)
 	, bSuppressed(false)
@@ -59,13 +65,17 @@ LogCategory::LogCategory(const char* InName, const int InVerbosityLevel)
 	Name[MaxNameLength - 1] = '\0';
 }
 
-void LogOutput::GlobalEmit(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message)
+// ************************************************************************************************
+
+void LogListener::GlobalEmit(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message)
 {
 	StringArgumentList Args;
 	GlobalEmitF(Severity, Category, File, Line, Message, Args);
 }
 
-void LogOutput::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message, StringArgumentList& Args)
+// ************************************************************************************************
+
+void LogListener::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message, StringArgumentList& Args)
 {
 	int Verbosity = (Severity.VerbosityLevel < Category.VerbosityLevel ? Severity.VerbosityLevel : Category.VerbosityLevel);
 	if (Verbosity >= gGlobalLogVerbosity)
@@ -105,13 +115,15 @@ void LogOutput::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Cate
 
 	String FinalFormattedMessage = String::FormatArgs("[{Time}] [{Category}] [{Severity}] ({FileInfo}) {Message}\n", LogFormatArgs);
 	
-	for (auto output : gGlobalLogOutputs)
+	for (auto output : gGlobalLogListeners)
 	{
 		output->Emit(FinalFormattedMessage.Data(), Severity.DisplayColorARGB);
 	}
 }
 
-void LogOutput::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message, ...)
+// ************************************************************************************************
+
+void LogListener::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Category, const char* File, int Line, const char* Message, ...)
 {
 	int Verbosity = (Severity.VerbosityLevel < Category.VerbosityLevel ? Severity.VerbosityLevel : Category.VerbosityLevel);
 	if (Verbosity >= gGlobalLogVerbosity)
@@ -154,34 +166,46 @@ void LogOutput::GlobalEmitF(const LogSeverity& Severity, const LogCategory& Cate
 
 	String FinalFormattedMessage = String::FormatArgs("[{Time}] [{Category}] [{Severity}] ({FileInfo}) {Message}\n", LogFormatArgs);
 
-	for (auto output : gGlobalLogOutputs)
+	for (auto output : gGlobalLogListeners)
 	{
 		output->Emit(FinalFormattedMessage.Data(), Severity.DisplayColorARGB);
 	}
 }
 
-void LogOutput::SetLogVerbosity(int Verbosity)
+// ************************************************************************************************
+
+void LogListener::SetLogVerbosity(int Verbosity)
 {
 	gGlobalLogVerbosity = Verbosity;
 }
 
-int LogOutput::GetLogVerbosity()
+// ************************************************************************************************
+
+int LogListener::GetLogVerbosity()
 {
 	return gGlobalLogVerbosity;
 }
 
-LogOutput::~LogOutput()
+// ************************************************************************************************
+
+LogListener::~LogListener()
 {
 }
 
-void LogOutput::Register()
+// ************************************************************************************************
+
+void LogListener::Register()
 {
-	gGlobalLogOutputs.AddUnique(this);
+	gGlobalLogListeners.AddUnique(this);
 }
 
-void LogOutput::Unregister()
+// ************************************************************************************************
+
+void LogListener::Unregister()
 {
-	gGlobalLogOutputs.Remove(this);
+	gGlobalLogListeners.Remove(this);
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

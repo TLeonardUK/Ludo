@@ -19,126 +19,223 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PCH.h"
 
 #include "Core/Public/Reflection/Type.h"
-#include "Core/Public/Reflection/Attribute.h"
 #include "Core/Public/Reflection/Class.h"
+#include "Core/Public/Reflection/Enum.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
-Array<Type*> Type::m_Types;
-Map<StringId, Type*> Type::m_TypesByFullName;
-Map<StringId, Type*> Type::m_TypesByName;
-Map<StringId, Type*> Type::m_TypesByTypeInfo;
-Map<StringId, Type*> Type::m_TypesByMetaTypeInfo;
-
-Type::Type()
+Type::Type(TypePrimitive primitive)
+	: m_Primitive(primitive)
+	, m_bConst(false)
 {
 }
 
-Type::~Type()
+// ************************************************************************************************
+
+Type::Type(TypePrimitive primitive, bool bConst)
+	: m_Primitive(primitive)
+	, m_bConst(bConst)
 {
-	for (Attribute* Attr : m_Attributes)
+}
+
+// ************************************************************************************************
+
+Type::Type(TypePrimitive primitive, Type* pointerType)
+	: m_Primitive(primitive)
+	, m_PointerType(pointerType)
+	, m_bConst(false)
+{
+}
+
+// ************************************************************************************************
+
+Type::Type(TypePrimitive primitive, Type* pointerType, bool bConst)
+	: m_Primitive(primitive)
+	, m_PointerType(pointerType)
+	, m_bConst(bConst)
+{
+}
+
+// ************************************************************************************************
+
+Type::Type(Class* classType)
+	: m_Primitive(TypePrimitive::Class)
+	, m_Class(classType)
+	, m_bConst(false)
+{
+}
+
+// ************************************************************************************************
+
+Type::Type(Class* classType, bool bConst)
+	: m_Primitive(TypePrimitive::Class)
+	, m_Class(classType)
+	, m_bConst(bConst)
+{
+}
+
+// ************************************************************************************************
+
+Type::Type(Enum* enumType)
+	: m_Primitive(TypePrimitive::Enum)
+	, m_Enum(enumType)
+	, m_bConst(false)
+{
+}
+
+// ************************************************************************************************
+
+Type::Type(Enum* enumType, bool bConst)
+	: m_Primitive(TypePrimitive::Enum)
+	, m_Enum(enumType)
+	, m_bConst(bConst)
+{
+}
+
+// ************************************************************************************************
+
+TypePrimitive Type::GetPrimitive()
+{
+	return m_Primitive;
+}
+
+// ************************************************************************************************
+
+Type* Type::GetPointerType()
+{
+	return m_PointerType;
+}
+
+// ************************************************************************************************
+
+Class* Type::GetClass()
+{
+	return m_Class;
+}
+
+// ************************************************************************************************
+
+Enum* Type::GetEnum()
+{
+	return m_Enum;
+}
+
+// ************************************************************************************************
+
+bool Type::IsConst()
+{
+	return m_bConst;
+}
+
+// ************************************************************************************************
+
+String Type::ToString()
+{		
+	String result;
+
+	switch (m_Primitive)
 	{
-		LD_ARENA_DELETE(ReflectionMemoryArena, Attr);
-	}
-	m_Attributes.Empty();
-}
-
-StringId Type::GetName()
-{
-	return m_Name;
-}
-
-StringId Type::GetFullName()
-{
-	return m_FullName;
-}
-
-StringId Type::GetUUID()
-{
-	return m_UUID;
-}
-
-Array<Attribute*> Type::GetAttributes()
-{
-	return m_Attributes;
-}
-
-TypeAccessQualifier Type::GetAccessQualifier()
-{
-	return m_AccessQualifier;
-}
-
-Type* Type::FindByName(const StringId& Name)
-{
-	Type* Result = nullptr;
-
-	// Don't do this, causes issues with Constructor/Class/etc names that are the same
-	// and only differ by scope. Always use full name.
-	//if (!m_TypesByName.FindValue(Name, Result))
-	//{
-	//	m_TypesByFullName.FindValue(Name, Result);
-	//}
-
-	m_TypesByFullName.FindValue(Name, Result);
-	return Result;
-}
-
-Type* Type::FindByTypeInfo(const std::type_info& id)
-{
-	Type* Result = nullptr;
-	StringId Name = StringId::Create(id.name());
-	if (!m_TypesByTypeInfo.FindValue(Name, Result))
-	{
-		m_TypesByMetaTypeInfo.FindValue(Name, Result);
-	}
-	return Result;
-}
-
-/// \brief TODO
-void Type::FinalizeRegistration()
-{
-	for (Type* type : m_Types)
-	{
-		type->OnPostRegistration();
-	}
-	for (Type* type : m_Types)
-	{
-		type->OnBuildClassTree();
-	}	
-}
-
-/// \brief TODO
-void Type::Teardown()
-{
-}
-
-/// \brief TODO
-void Type::OnPostRegistration()
-{
-}
-
-/// \brief TODO
-void Type::OnBuildClassTree()
-{
-}
-
-/// \brief TODO
-Array<Class*> Type::GetDerivedClasses(Class* Base)
-{
-	Array<Class*> Result;
-	for (Type* type : m_Types)
-	{
-		Class* cls = dynamic_cast<Class*>(type);
-		if (cls != nullptr)
+	case TypePrimitive::Pointer:
 		{
-			Array<Class*> BaseClasses = cls->GetBaseClasses();
-			if (BaseClasses.Contains(Base))
-			{
-				Result.Add(cls);
-			}
+			result = m_PointerType->ToString() + "* ";
+			break;
+		}
+	case TypePrimitive::LValueReference:
+		{
+			result = m_PointerType->ToString() + "& ";
+			break;
+		}
+	case TypePrimitive::RValueReference:
+		{
+			result = m_PointerType->ToString() + "&& ";
+			break;
+		}
+	case TypePrimitive::Class:
+		{
+			result = m_Class->GetFullName().ToString();
+			break;
+		}
+	case TypePrimitive::Enum:
+		{
+			result = m_Enum->GetFullName().ToString();
+			break;
+		}
+	case TypePrimitive::Void:
+		{
+			result = "void";
+			break;
+		}
+	case TypePrimitive::Bool:
+		{
+			result = "bool";
+			break;
+		}
+	case TypePrimitive::Int8:
+		{
+			result = "signed char";
+			break;
+		}
+	case TypePrimitive::Int16:
+		{
+			result = "signed short";
+			break;
+		}
+	case TypePrimitive::Int32:
+		{
+			result = "signed int";
+			break;
+		}
+	case TypePrimitive::Int64:
+		{
+			result = "signed long long";
+			break;
+		}
+	case TypePrimitive::UInt8:
+		{
+			result = "unsigned char";
+			break;
+		}
+	case TypePrimitive::UInt16:
+		{
+			result = "unsigned short";
+			break;
+		}
+	case TypePrimitive::UInt32:
+		{
+			result = "unsigned int";
+			break;
+		}
+	case TypePrimitive::UInt64:
+		{
+			result = "unsigned long long";
+			break;
+		}
+	case TypePrimitive::Float:
+		{
+			result = "float";
+			break;
+		}
+	case TypePrimitive::Double:
+		{
+			result = "double";
+			break;
+		}
+	default:
+		{
+			LD_CONSTANT_LD_ASSERT();
 		}
 	}
-	return Result;
+
+	if (m_bConst)
+	{
+		result += " const";
+	}
+
+	return result;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

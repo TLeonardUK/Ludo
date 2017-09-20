@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['abm',['ABM',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca39a8e755839fd97adb0c6dba2a1dfb84',1,'Ludo::Environment']]],
+  ['adx',['ADX',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca1dd1e7ad2dcbd28d9ccd3cecb67325df',1,'Ludo::Environment']]],
+  ['aes',['AES',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca76b7593457e2ab50befe2dcd63cf388f',1,'Ludo::Environment']]],
+  ['alreadyopen',['AlreadyOpen',['../namespace_ludo.html#a3832a54f2ff67c04055f4e0643cbe350a0ebc7f5d8955a65fe878357e927a3a99',1,'Ludo']]],
+  ['atend',['AtEnd',['../namespace_ludo.html#a3832a54f2ff67c04055f4e0643cbe350a8d04b2d09dcc744cf134542097642db5',1,'Ludo']]],
+  ['avx',['AVX',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca4863502abea45861b9ed022e66d66cb2',1,'Ludo::Environment']]],
+  ['avx2',['AVX2',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3caee6ecd3e091cdefd02e783f9b9869388',1,'Ludo::Environment']]],
+  ['avx512bw',['AVX512BW',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cae40532ee8b64dc414674792121cc3207',1,'Ludo::Environment']]],
+  ['avx512cd',['AVX512CD',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cade72b1d0ac2e433a7d70f9aa063785e6',1,'Ludo::Environment']]],
+  ['avx512dq',['AVX512DQ',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cacd0d3fb97c3229c4467776d92cbd88ab',1,'Ludo::Environment']]],
+  ['avx512er',['AVX512ER',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca05fda420d46b7858be5d23767d75cae4',1,'Ludo::Environment']]],
+  ['avx512f',['AVX512F',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cab33e06dd59917c832b87dbd3fd6a9e04',1,'Ludo::Environment']]],
+  ['avx512ifma',['AVX512IFMA',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca1fe79418895da7bcacea9e25d10325d4',1,'Ludo::Environment']]],
+  ['avx512pf',['AVX512PF',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cac1e281f5c8836ea32a86d967f55d615e',1,'Ludo::Environment']]],
+  ['avx512vbmi',['AVX512VBMI',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3cacde699d99759ae3cd91c01fcf301dfa2',1,'Ludo::Environment']]],
+  ['avx512vl',['AVX512VL',['../namespace_ludo_1_1_environment.html#a2ae04e40fcf92cd5ab554f3710c07a3ca017e7a658dfd751542fc5709704b7c02',1,'Ludo::Environment']]]
+];

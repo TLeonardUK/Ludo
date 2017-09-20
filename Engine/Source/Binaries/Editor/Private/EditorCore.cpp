@@ -22,7 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 LD_EXPORT_ENGINE_CORE(EditorCore);
+
+// ************************************************************************************************
 
 Error EditorCore::Init(GameEngine* Engine)
 {
@@ -30,14 +34,20 @@ Error EditorCore::Init(GameEngine* Engine)
 	return Error(ErrorType::Success);
 }
 
+// ************************************************************************************************
+
 Error EditorCore::Term()
 {
 	return Error(ErrorType::Success);
 }
 
+// ************************************************************************************************
+
 int EditorCore::Run()
 {
 	return 0;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

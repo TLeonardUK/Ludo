@@ -26,14 +26,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/* 
+\brief Base class for all attributes that can be applied to metadata records.
+
+Attributes are attached to individual reflection records using the META macro. Each attribute
+in the META macro expands to an instantiation of an attribute called NameAttribute, with all parameters
+given passed to its constructor.
+
+e.g.
+	
+	META(DisplayName("My Display Name"), Serializable)
+	class ...
+
+Weill attach the following attributes to the the classes record:
+	
+	new DisplayNameAttribute("My Display Name")
+	new SerializableAttribute()
+*/
 class Attribute
 {
 public:
-	virtual ~Attribute();
 
-	/// This does absolutely nothing by default, user has to derive different
-	/// attribute types to do anything.
+	// \brief Constructors
+	virtual ~Attribute();
 
 };
 

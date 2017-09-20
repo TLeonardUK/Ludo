@@ -19,7 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 namespace Endianness {
-
+    
+/** \brief TODO
+ * 
+ *  \tparam BaseType
+ *  \param Data
+ */
 template <typename BaseType>
 void SwapEndian(BaseType& Data)
 {

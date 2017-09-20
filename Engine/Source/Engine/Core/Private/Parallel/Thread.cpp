@@ -21,15 +21,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Parallel/Thread.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 bool Thread::operator==(const Thread& other) const
 {
 	return IsEqual(&other);
 }
 
+// ************************************************************************************************
+
 bool Thread::operator!=(const Thread& other) const
 {
 	return !operator==(other);
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

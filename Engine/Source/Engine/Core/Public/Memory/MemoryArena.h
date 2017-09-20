@@ -23,23 +23,47 @@ namespace Ludo {
 class IMemoryArena
 {
 public:
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \returns
+     */
 	virtual const char* GetName() const = 0;
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \returns
+     */
 	virtual const char* GetDescription() const = 0;
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \param bResizable
+     *  \param DefaultSize
+     */
 	virtual void GetDefaultState(bool& bResizable, int& DefaultSize) const = 0;
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \param Count
+     *
+     *  \returns
+     */
 	virtual void* Allocate(const int Count) = 0;
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \param Ptr
+     *  \param Count
+     *
+     *  \returns
+     */
 	virtual void* Reallocate(void* Ptr, const int Count) = 0;
-
-	/// \brief TODO
+    
+    /** \brief TODO
+     * 
+     *  \param Ptr
+     */
 	virtual void Free(void* Ptr) = 0;
 
 };

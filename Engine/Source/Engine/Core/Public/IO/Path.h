@@ -24,150 +24,338 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-// Represents a local file system path on the host platform.
+/**
+ * \brief Represents a path to a file or object on the local platforms file system.
+ */
 class Path
 {
 private:
 	String m_raw;
 
 protected:
+
+	/** \brief Normalizes the path in-place. 
+     *
+     *  This involes removing trailing seperators, normalizing direction of seperators, 
+     *  removal of relative directory references (.. & .) where possible, and various
+     *  other operations.
+     */
 	void Normalize();
 
 public:
-	// Seperator of individual path segments.
+	/// \brief Seperator of individual path segments.
 	static char Seperator;
 
-	// Constructors.
 	Path();
 	Path(const char* Value);
 	Path(const String& Value);
-
-	// Converts the path to a string.
+    
+	/** \brief Converts the path to a string.
+     *
+     *  \returns Path represented as a string.
+     */
 	String ToString() const;
-
-	// Concatinates the relative path to this one.
+    
+	/** \brief Concatinates the relative path to this one.
+     *
+     *  \param Other Path to concatinate to this one.
+     *
+     *  \returns Combined represention of this path.
+     *
+     *  Output is indeterminate if path being concatinated is not
+     *  relative. Concatinating absolute paths is not a valid operation.
+     */
 	Path operator +(const Path& Other) const;
 	Path operator +(const String& Other) const;
-
-	// Equality test operators.
+    
+	/** \brief Performs an equality comparison between this path and another.
+     *
+     *  \param Other Path to compare this one against.
+     *
+     *  \returns True if paths point to the same file.
+     */
 	bool operator ==(const Path& Other) const;
 	bool operator !=(const Path& Other) const;
-
-	// Gets the base name for the path, which is the filename without 
-	// an extension.
+ 
+	/** \brief Gets the base name for the path, which is the filename without 
+	 *         an extension.
+     *
+     *  \returns Base name of path.
+     */
 	String GetBaseName() const;
 
-	// Gets the extension of the file this path points to.
+    /** \brief Gets the extension of the file this path points to.
+     *
+     *  \returns Extension of path.
+     */
 	String GetExtension() const;
-
-	// Gets the filename section of this path.
+    
+    /** \brief Gets the filename section of this path.
+     *
+     *  \returns Filename of path.
+     */
 	String GetFilename() const;
-
-	// Gets the mount of this path (drive name etc).
+    
+    /** \brief Gets the mount of this path (drive name etc).
+     *
+     *  \returns Mount of path.
+     */
 	String GetMount() const;
-
-	// Gets the directory this path is contained in.
+    
+    /** \brief Gets the directory this path is contained in.
+     *
+     *  \returns Directory of path.
+     */
 	Path GetDirectory() const;
-
-	// Returns a path with the same value but a different extension.
+    
+    /** \brief Returns a path with the same value but a different extension.
+     *
+     *  \param Value Extension to change to.
+     *
+     *  \returns Path with changed extension.
+     */
 	Path ChangeExtension(const String& Value) const;
-
-	// Returns a path with the same value but a different basename.
+    
+    /** \brief Returns a path with the same value but a different basename.
+     *
+     *  \param Value Base name to change to.
+     *
+     *  \returns Path with changed base name.
+     */
 	Path ChangeBaseName(const String& Value) const;
-
-	// Returns a path with the same value but a different filename.
+    
+    /** \brief Returns a path with the same value but a different filename.
+     *
+     *  \param Value File name to change to.
+     *
+     *  \returns Path with changed file name.
+     */
 	Path ChangeFilename(const String& Value) const;
-
-	// Returns a path with the same value but a different mount.
+    
+    /** \brief Returns a path with the same value but a different mount.
+     *
+     *  \param Value Mount to change to.
+     *
+     *  \returns Path with changed mount.
+     */
 	Path ChangeMount(const String& Value) const;
-
-	// Returns a path with the same value but a different directory.
+    
+    /** \brief Returns a path with the same value but a different directory.
+     *
+     *  \param Value Directory to change to.
+     *
+     *  \returns Path with changed directory.
+     */
 	Path ChangeDirectory(const Path& Value) const;
-
-	// Appends a fragment to the path and returns it. This is a faster
-	// way of doing concatanation. 
+    
+    /** \brief Appends a fragment to the path and returns it.
+     *
+     *  \param Value            Fragment to append.
+     *  \param bAddDeliminator  If true a directory seperator will be added before the fragment.
+     *
+     *  \returns Path with fragment appended.
+     *
+     *  This is a faster primary a faster way of doing concatanation, as more assumptions
+     *  can be made and unneccesary work avoided. This does not perform normalization.
+     */
 	Path AppendFragment(const String& Value, bool bAddDeliminator = false) const;
-
-	// Returns a list of filenames of the files in the directory 
-	// this path points to.
+    
+    /** \brief Returns a list of files in the directory 
+	 *         this path points to.
+     *
+     *  \returns List of files in the directory pointed to by this path.
+     */
 	Array<Path> GetFiles() const;
-
-	// Returns a list of filenames of the directories in the 
-	// directory this path points to.
+    
+    /** \brief Returns a list of directories in the directory 
+	 *         this path points to.
+     *
+     *  \returns List of directories in the directory pointed to by this path.
+     */
 	Array<Path> GetDirectories() const;
-
-	// Returns a list of fragments that make up this path.
+    
+    /** \brief Returns a list of fragments that make up this path.
+     *
+     *  \returns List of fragments that make up this path.
+     *
+     *  A fragment is a part of the string deliminated by seperators. For example,
+     *  the string MyFolder/MyOtherFolder/MyFile.txt is made up of the following fragments:
+     *
+     *  MyFolder, MyOtherFolder, MyFile.txt
+     */
 	Array<String> GetFragments() const;
-
-	// Returns true if this path is empty.
+    
+    /** \brief Returns true if this path is empty.
+     *
+     *  \returns True if this path is empty.
+     */
 	bool IsEmpty() const;
-
-	// Returns true if this path points to a file.
+    
+    /** \brief Returns true if this path points to a file.
+     *
+     *  \returns True if this path is a file.
+     */
 	bool IsFile() const;
 
-	// Returns true if this path points to a directory.
+    /** \brief Returns true if this path points to a directory.
+     *
+     *  \returns True if this path is a directory.
+     */
 	bool IsDirectory() const;
-
-	// Returns true if this path is relative.
+    
+    /** \brief Returns true if this path is relative.
+     *
+     *  \returns True if this path is relative.
+     */
 	bool IsRelative() const;
-
-	// Returns true if this path is absolute.
+    
+    /** \brief Returns true if this path is absolute.
+     *
+     *  \returns True if this path is absolute.
+     */
 	bool IsAbsolute() const;
-
-	// Returns true if this path points to a root mount.
+    
+    /** \brief Returns true if this path points to a root mount.
+     *
+     *  \returns True if this path points to a root mount.
+     *
+     *  A root mount on windows would be a file with a drive letter and colon, eg (C:, A:), on
+     *  unix platforms this will just be a single forward slash /.
+     */
 	bool IsRoot() const;
 	
-	// Creates this path as a directory.
+	/** \brief Attempts to create this path as a directory. 
+     *
+     *  \returns True if creation was successful.
+     *
+     *  If the parent of this path also does not exist it then the entire
+     *  structure will be created recursively.
+     */
 	bool CreateAsDirectory() const;
-
-	// Creates this path as a file.
+    
+	/** \brief Attempts to create this path as a file. 
+     *
+     *  \returns True if creation was successful.
+     *
+     *  If the parent of this path also does not exist it then the entire
+     *  structure will be created recursively.
+     */
 	bool CreateAsFile() const;
 
-	// Returns true if this path exists.
+    /** \brief Returns true if this path exists.
+     *
+     *  \returns True if this path exists.
+     */
 	bool Exists() const;
-
-	// Copies the file or directory this path points to, to another 
-	// directory or file.
+    
+    /** \brief Copies the file or directory this path points to, to another 
+	 *         directory or file.
+     *
+     *  \param Destination Path to copy file or directory to. If a file this should be a file
+     *                     path, if a directory it should be a directory.
+     *
+     *  \returns True on success.
+     */ 
 	bool Copy(const Path& Destination) const;
-
-	// Deletes this path recursively.
+    
+    /** \brief Deletes this path recursively.
+     *
+     *  \returns True on success.
+     */
 	bool Delete() const;
-
-	// Gets the time this path was last modified.
+    
+    /** \brief Gets the time this path was last modified.
+     *
+     *  \returns Time this path was last modified.
+     */
 	Time GetModifiedTime() const;
-
-	// Creates a path that represents a relative reference from this path
-	// to the given destination path.
+    
+    /** \brief Creates a path that represents a relative reference from this path
+	 *         to the given destination path.
+     *
+     *  \param Destination Destination path to make relative reference to.
+     *
+     *  \returns Relative reference from this path to the given destination.
+     * 
+     * Example: 
+     *  If this path is:
+     *    C:\MyFolder\Folder\File.txt
+     *  And the destination is:
+     *    C:\MyFolder2\Folder\File.txt
+     *  The result will be:
+     *    ..\..\MyFolder2\Folder\File.txt
+     *
+     * If either this path or the destination is relative then the desination
+     * path will be returned unchanged. As there is no root to determine relative
+     * path from.
+     *
+     * If this path or the destination do not share a mount point (eg. Different drive on windows),
+     * then the destination path will be returned unchanged.
+     */
 	Path RelativeTo(const Path& Destination) const;
-
-	// Attempts to find all file or directories that match the given filter.
-	// Filters can use * for wildcards, and ** for recursive wildcards.
-	// eg. 
-	//	./MyFolder/*.ini 
-	//	./MyFolder/**/Project.ini
-	//	./**.ini
-	// Input path should be absolute.
+    
+    /** \brief Attempts to find all file or directories that match the given filter.
+     *
+     *  \param Path Filter path containing wildcards to match. Path must be absolute.
+     *
+     *  \returns All files or directories that matched the filter.
+	 * 
+	 *  Filters can use * for wildcards, and ** for recursive wildcards.
+	 *  eg. 
+	 *	 ./MyFolder/*.ini 
+	 *	 ./MyFolder/** /Project.ini
+	 * 	 ./**.ini
+     */
 	static Array<Path> MatchFilter(const Path& path);
 
-	// Performs th same matching logic as MatchFilter to see if the given
-	// path would match the given filter.
-	// If Matched parameter is set it is set to the path segments matched
-	// for wildcards.
-	bool Matches(const Path& other, Path* Matched = nullptr);
-
-	// Gets the common path that a list of paths share, returns false if
-	// all the paths do not share a common path.
-	static bool GetCommonPath(Array<Path>& paths, Path& result);
-
-	// Gets the current working directory, should be used only for expanding
-	// command line input.
+    /** \brief Performs the same matching logic as MatchFilter to see if this
+	 *         path would match the given filter.
+     *
+     *  \param Other   Filter path containing wildcards to match. Path must be absolute.
+     *  \param Matched If set the path contains the path fragments that the wildcards matched.
+     *
+     *  \returns True if this path matches the filter.
+     */
+	bool Matches(const Path& Other, Path* Matched = nullptr);
+    
+    /** \brief Gets the common path that a list of paths share, returns false if
+     *         all the paths do not share a common path.
+     *
+     *  \param Paths  Paths to get common paths from.
+     *  \param Result Common path shared between Paths list.
+     *
+     *  \returns True if the paths share a valid common path.
+     */ 
+	static bool GetCommonPath(Array<Path>& Paths, Path& Result);
+    
+    /** \brief Gets the current working directory
+     *
+     *  \returns Working directory set on the platform.
+     *
+     *  The working directory should never be modified or used in principle,
+     *  the engine should be primarily agnostic. This is only here for 
+     *  managing input from the platform.
+     */
 	static Path GetWorkingDirectory();
-
-	// Sets the current working directory.
-	static void SetWorkingDirectory(const Path& other);
-
-	// Returns the part of the path following the common path that is
-	// has been obtained from GetCommonPath.
+    
+    /** \brief Sets the current working directory. 
+     *
+     *  \param Other New working directory to set.
+     *
+     *  The working directory should never be modified or used in principle,
+     *  the engine should be primarily agnostic. This is only here for 
+     *  managing input from the platform.
+     */
+	static void SetWorkingDirectory(const Path& Other);
+    
+    /** \brief Returns the part of the path following the common path that is
+	 *         has been obtained from GetCommonPath.
+     *
+     *  \param CommonPath Common path to strip when getting the uncommon path.
+     *
+     *  \returns The uncommon path. If common path is not found, this path is 
+     *           returned unmodified.
+     */ 
 	Path GetUncommonPath(Path& commonPath);
 
 };

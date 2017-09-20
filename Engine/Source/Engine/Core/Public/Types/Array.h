@@ -274,7 +274,7 @@ public:
 	/// \brief TODO
 	void Insert(const ElementType& Element, const int Index)
 	{
-		Assert(Index >= 0 && Index <= m_Length);
+		LD_ASSERT(Index >= 0 && Index <= m_Length);
 		SetLength(m_Length + 1);
 
 		for (int i = m_Length - 2; i >= Index; i--)
@@ -288,7 +288,7 @@ public:
 	/// \brief TODO
 	void InsertUnordered(const ElementType& Element, const int Index)
 	{
-		Assert(Index >= 0 && Index <= m_Length);
+		LD_ASSERT(Index >= 0 && Index <= m_Length);
 		SetLength(m_Length + 1);
 
 		m_Data[m_Length - 1] = m_Data[Index];
@@ -298,7 +298,7 @@ public:
 	/// \brief TODO
 	void Insert(const ElementType* Ptr, const int Count, const int Index)
 	{
-		Assert(Index >= 0 && Index <= m_Length);
+		LD_ASSERT(Index >= 0 && Index <= m_Length);
 
 		int PreviousLength = m_Length;
 		SetLength(m_Length + Count);
@@ -320,7 +320,7 @@ public:
 	/// \brief TODO
 	void InsertUnordered(const ElementType* Ptr, const int Count, const int Index)
 	{
-		Assert(Index >= 0 && Index <= m_Length);
+		LD_ASSERT(Index >= 0 && Index <= m_Length);
 
 		int StartIndex = m_Length;
 		SetLength(m_Length + Count);
@@ -608,7 +608,7 @@ public:
 	/// \brief TODO
 	ElementType Pop(int Count = 1)
 	{
-		Assert(Count <= Length());
+		LD_ASSERT(Count <= Length());
 		ElementType Result = m_Data[m_Length - Count];
 		SetLength(m_Length - Count);
 		return Result;
@@ -682,14 +682,14 @@ public:
 	/// \brief TODO
 	const ElementType& operator[](const int Index) const
 	{
-		Assert(IsValidIndex(Index));
+		LD_ASSERT(IsValidIndex(Index));
 		return m_Data[Index];
 	}
 
 	/// \brief TODO
 	ElementType& operator[](const int Index)
 	{
-		Assert(IsValidIndex(Index));
+        LD_ASSERT(IsValidIndex(Index));
 		return m_Data[Index];
 	}
 

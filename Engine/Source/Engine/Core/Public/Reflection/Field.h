@@ -17,56 +17,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#include "Core/Public/Reflection/Type.h"
+#include "Core/Public/Reflection/Record.h"
 
 namespace Ludo {
 
-/// \brief TODO
-class Field : public Type
+class Type;
+
+/*
+\brief Represents a record for an individual field in a class.
+
+Contains general information on the field and permits the getting
+or setting of fields on individual class instances.
+*/
+class Field 
+	: public Record
 {
 protected:
-	friend class ReflectionFileScanner;
-
-	StringId m_ClassNameRaw;
-
-	Type*    m_DataType;
-	StringId m_DataTypeRaw;
-	StringId m_DataTypeRawRefRemoved;
+	Type* m_DataType;
 
 	bool m_bStatic;
-	bool m_bConst;
 
 protected:
-	virtual void SetInternal(void* Instance, void* Data);
-	virtual void GetInternal(void* Instance, void* Data);
 
 public:
+
+	// \brief Constructors
 	Field();
-
-	/// \brief TODO
-	Type* GetDataType();
-
-	/// \brief TODO
-	bool IsStatic();
-
-	/// \brief TODO
-	bool IsConst();
-
-	/// \brief TODO
-	template <typename DataType>
-	DataType GetValue(void* Instance)
-	{
-		DataType Value;
-		GetInternal(Instance, reinterpret_cast<void*>(&Value));
-		return Value;
-	}
-
-	/// \brief TODO
-	template <typename DataType>
-	void SetValue(void* Instance, DataType Type)
-	{
-		SetInternal(Instance, reinterpret_cast<void*>(&Type));
-	}
 
 };
 

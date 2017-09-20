@@ -21,39 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Reflection/Field.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 Field::Field()
 	: m_DataType(nullptr)
 {
 }
 
-Type* Field::GetDataType()
-{
-	return m_DataType;
-}
-
-bool Field::IsStatic()
-{
-	return m_bStatic;
-}
-
-bool Field::IsConst()
-{
-	return m_bConst;
-}
-
-void Field::SetInternal(void* Instance, void* Data)
-{
-	LD_UNUSED_PARAMETER(Instance);
-	LD_UNUSED_PARAMETER(Data);
-	PureVirtual();
-}
-
-void Field::GetInternal(void* Instance, void* Data)
-{
-	LD_UNUSED_PARAMETER(Instance);
-	LD_UNUSED_PARAMETER(Data);
-	PureVirtual();
-}
+// ************************************************************************************************
 
 }; // namespace Ludo

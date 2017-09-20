@@ -41,17 +41,38 @@ enum class MemoryLocationHint
 
 /// \brief TODO
 const int DefaultAlignment = -1;
-
-/// \brief TODO
+ 
+/** \brief TODO
+ * 
+ *  \param Arena
+ *  \param bResizable
+ *  \param InitialSize
+ */
 void GetPlatformArenaStateOverride(StandardMemoryArena Arena, bool& bResizable, int& InitialSize);
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Size
+ *  \param LocationHint
+ *  \param Alignment
+ *
+ *  \returns
+ */
 void* Allocate(int Size, MemoryLocationHint LocationHint, int Alignment = DefaultAlignment);
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Ptr
+ *  \param Size
+ *
+ *  \returns
+ */
 void* Reallocate(void* Ptr, int Size);
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Ptr
+ */
 void Free(void* Ptr);
 
 }; // namespace Memory

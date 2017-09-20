@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 Error ITextEncoding::Encode(const String& Value, Array<uint8>& Buffer)
 {
 	Array<uint8> Bytes;
@@ -31,6 +33,8 @@ Error ITextEncoding::Encode(const String& Value, Array<uint8>& Buffer)
 
 	return Encode(Bytes, &Buffer);
 }
+
+// ************************************************************************************************
 
 Error ITextEncoding::Decode(String& Value, const Array<uint8>& Buffer)
 {
@@ -46,5 +50,7 @@ Error ITextEncoding::Decode(String& Value, const Array<uint8>& Buffer)
 
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

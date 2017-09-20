@@ -24,7 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief TODO
+ *
+ *  \param Name
+ *  \param BasebResizable
+ *  \param BaseDefaultSize
+ *  \param LocationHint
+ *  \param DisplayName
+ *  \param DisplayDescription
+ */
 #define DEFINE_MEMORY_ARENA(Name, BasebResizable, BaseDefaultSize, LocationHint, DisplayName, DisplayDescription) \
 	class Name##MemoryArena : public IMemoryArena \
 	{ \

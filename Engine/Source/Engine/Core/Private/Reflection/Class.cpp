@@ -24,89 +24,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
+ClassTemplateParameter::ClassTemplateParameter(EClassTemplateParameterType InType, int64_t InValue, Type* InBaseType)
+	: ParameterType(InType)
+	, Value(InValue)
+	, BaseType(InBaseType)
+{
+}
+
+// ************************************************************************************************
+
 Class::Class()
 {
 }
 
-void* Class::NewInstance(IAllocator* Allocator)
-{
-	LD_UNUSED_PARAMETER(Allocator);
-	Assert("Attempt to create instance of class with non-overriden NewInstance method.");
-	return nullptr;
-}
-
-Method* Class::FindMethod(const StringId& Name, Type* ReturnType, Array<Type*> ParameterTypes)
-{
-	for (Method* Mth : m_Methods)
-	{
-		if (Mth->GetName() == Name)
-		{
-			Array<Parameter> MethodParameters = Mth->GetParameters();
-			if (MethodParameters.Length() == ParameterTypes.Length())
-			{
-				bool bMatch = true;
-
-				for (int i = 0; i < MethodParameters.Length(); i++)
-				{
-					if (MethodParameters[i].DataType != ParameterTypes[i])
-					{
-						bMatch = false;
-						break;
-					}
-				}
-
-				if (Mth->GetReturnType() != ReturnType)
-				{
-					bMatch = false;
-				}
-
-				if (bMatch)
-				{
-					return Mth;
-				}
-			}
-		}
-	}
-
-	return nullptr;
-}
-
-Field* Class::FindField(const StringId& Name, Type* DataType)
-{
-	for (Field* Fld : m_Fields)
-	{
-		if (Fld->GetName() == Name && Fld->GetDataType() == DataType)
-		{
-			return Fld;
-		}
-	}
-
-	return nullptr;
-}
-
-bool Class::IsAbstract()
-{
-	return m_bAbstract;
-}
-
-Array<Class*> Class::GetBaseClasses()
-{
-	return m_BaseClasses;
-}
-
-Array<Class*> Class::GetDerivedClasses()
-{
-	return m_DerivedClasses;
-}
-
-Array<Field*> Class::GetFields()
-{
-	return m_Fields;
-}
-
-Array<Method*> Class::GetMethods()
-{
-	return m_Methods;
-}
+// ************************************************************************************************
 
 }; // namespace Ludo

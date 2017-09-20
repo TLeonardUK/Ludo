@@ -23,30 +23,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief Base class for text-encoding implementations.
+ *
+ * Text encoding classes provide functionality to encode or decode byte arrays or strings
+ * to and from a given encoding.
+ */
 class ITextEncoding
 {
 public:
 
-	/// \brief TODO
+	/** \brief  Checks if the bytes in the buffer represent a new line character sequence.
+     *
+     *  \param  Buffer  Buffer of bytes to check.
+     *
+     *  \return Returns true if its a new line.
+     */
 	virtual bool IsNewLine(const Array<uint8>& Buffer) const = 0;
 
-	/// \brief TODO
+    /** \brief Checks if the bytes in a buffer represent are valid for the encoding.
+     *  \param  Buffer  Buffer of bytes to check.
+     *
+     *  \return Returns true if byte buffer is valid for the encoding.
+     */
 	virtual bool IsValid(const Array<uint8>& Buffer) const = 0;
 
-	/// \brief Encodes the given buffer of utf8 text into the given encoding.
+    /** \brief  Encodes the given buffer of utf8 text into the given encoding.
+     *
+     *  \param  InputBuffer    Buffer of utf8 bytes to encode.
+     *  \param  OutputBuffer   Output buffer that resulting encoding should be written to.
+     *
+     *  \return Error value determining success.
+     */
 	virtual Error Encode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const = 0;
-	 
-	/// \brief Decodes the given buffer of encoded text into utf8.
+
+    /** \brief Decodes the given buffer of encoded text into utf8.
+     *
+     *  \param  InputBuffer    Buffer of bytes in the given encoding to decode.
+     *  \param  OutputBuffer   Output buffer that resulting utf8 text should be written to.
+     *
+     *  \return Error value determining success.
+     */
 	virtual Error Decode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const = 0;
 
-	/// \brief TODO
+    /** \brief If encoding uses a BOM, this will return the BOM used for this encoding.
+    *
+    *   \return Byte order mark for this encoding.
+    */
 	virtual Array<uint8> GetBom() const = 0;
 
-	/// \brief TODO
+    /** \brief Encodes a string to a sequence of bytes in the encoding.
+    *
+    *  \param  Value  String to encode.
+    *  \param  Buffer Output buffer that resulting encoding should be written to.
+    *
+    *  \return Error value determining success.
+    */
 	Error Encode(const String& Value, Array<uint8>& Buffer);
 
-	/// \brief TODO
+    /** \brief Decodes a sequence of bytes in the encoding, to a string.
+    *
+    *  \param  Value  String value result should be written to.
+    *  \param  Buffer Buffer of bytes in encoding to decode.
+    *
+    *  \return Error value determining success.
+    */
 	Error Decode(String& Value, const Array<uint8>& Buffer);
 
 

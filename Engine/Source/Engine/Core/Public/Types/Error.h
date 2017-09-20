@@ -19,63 +19,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+/// \brief TODO
+enum class ErrorType
+{
+	Success,
+	Failure,
+	NotReentrant,
+	AlreadyOpen,
+	Corrupt,
+	NotSupported,
+	AtEnd,
+
+	Count
+};
+
+/// \brief TODO
+class Error
+{
+protected:
+	ErrorType m_ErrorType;
+
+	static const char* s_ErrorStrings[(int)ErrorType::Count];
+
+public:
 	/// \brief TODO
-	enum class ErrorType
+	Error()
+		: m_ErrorType(ErrorType::Success)
 	{
-		Success,
-		Failure,
-		NotReentrant,
-		AlreadyOpen,
-		Corrupt,
-		NotSupported,
-		AtEnd,
-
-		Count
-	};
+	}
 
 	/// \brief TODO
-	class Error
+	Error(const ErrorType Type)
+		: m_ErrorType(Type)
 	{
-	protected:
-		ErrorType m_ErrorType;
+	}
 
-		static const char* s_ErrorStrings[(int)ErrorType::Count];
+	/// \brief TODO
+	inline bool Failed() const
+	{
+		return !Succeeded();
+	}
 
-	public:
-		/// \brief TODO
-		Error()
-			: m_ErrorType(ErrorType::Success)
-		{
-		}
+	/// \brief TODO
+	inline ErrorType GetType()
+	{
+		return m_ErrorType;
+	}
 
-		/// \brief TODO
-		Error(const ErrorType Type)
-			: m_ErrorType(Type)
-		{
-		}
+	/// \brief TODO
+	inline bool Succeeded() const
+	{
+		return (m_ErrorType == ErrorType::Success);
+	}
 
-		/// \brief TODO
-		inline bool Failed() const
-		{
-			return !Succeeded();
-		}
-
-		/// \brief TODO
-		inline ErrorType GetType()
-		{
-			return m_ErrorType;
-		}
-
-		/// \brief TODO
-		inline bool Succeeded() const
-		{
-			return (m_ErrorType == ErrorType::Success);
-		}
-
-		const char* ToString() const
-		{
-			return s_ErrorStrings[(int)m_ErrorType];
-		}
-	};
+	const char* ToString() const
+	{
+		return s_ErrorStrings[(int)m_ErrorType];
+	}
+};
 
 };

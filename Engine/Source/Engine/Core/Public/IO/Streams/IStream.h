@@ -22,39 +22,102 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief Base interface for input-output stream implementation (such as files, sockets, etc).
+ *
+ * Always use asyncronous streams when possible.
+ */
 class IStream 
 {
 public:
 
-	/// \brief TODO
+	/** \brief  Syncronously writes a buffer of bytes to a stream. The position
+     *          in the stream is not updated.
+     *
+     *  \param  Buffer Buffer of bytes to write.
+     *  \param  Length Number of bytes to write.
+     *  \param  Offset Offset to write to..
+     *
+     *  \return Error value determining success.
+     */
+	//virtual Future<AsyncFileOperation> AsyncWrite(void* Buffer, uint64 Length, uint64 Offset) = 0;
+
+    /** \brief  Asyncronously reads a buffer of bytes to a stream. The position
+     *          in the stream is not updated.
+     *
+     *  \param  Buffer Buffer of bytes to read.
+     *  \param  Length Number of bytes to read.
+     *  \param  Offset Offset to read from.
+     *
+     *  \return Error value determining success.
+     */
+	//virtual Future<AsyncFileOperation> AsyncRead(void* Buffer, uint64 Length, uint64 Offset) = 0;
+
+	/** \brief  Syncronously writes a buffer of bytes to a stream and increments
+     *          the position in the stream by the buffer length.
+     *
+     *  \param  Buffer Buffer of bytes to write.
+     *  \param  Length Number of bytes to write.
+     *
+     *  \return Error value determining success.
+     */
 	virtual Error Write(void* Buffer, uint64 BufferLength) = 0;
 
-	/// \brief TODO
-	virtual Error Read(void* Buffer, uint64 BufferLength) = 0;
+    /** \brief  Syncronously reads a buffer of bytes to a stream and increments
+     *           the position in the stream by the buffer length.
+     *
+     *  \param  Buffer Buffer of bytes to read.
+     *  \param  Length Number of bytes to read.
+     *
+     *  \return Error value determining success.
+     */
+	virtual Error Read(void* Buffer, uint64 Length) = 0;
 
-	/// \brief TODO
+    /** \brief  Gets the position offset in bytes in stream that we 
+    *           are currently reading or writing to.
+     *
+     *  \return Position in stream in bytes.
+     */
 	virtual uint64 Position() = 0;
-
-	/// \brief TODO
+    
+    /** \brief  Gets the total length of stream in bytes.
+     *
+     *  \return Total length of stream in bytes.
+     */
 	virtual uint64 Length() = 0;
-
-	/// \brief TODO
+    
+    /** \brief  Moves the position we are currently reading and writing
+     *          to, to the given position offset.
+     *
+     *  \param  Position Offset to move to in bytes.
+     */
 	virtual void Seek(uint64 Position) = 0;
-
-	/// \brief TODO
+    
+    /// \brief  Flushes any pending writes in any internal buffers. This is implicitly
+    ///         called when you destroy a stream.
 	virtual void Flush();
-
-	/// \brief TODO
+    
+    /** \brief  Gets if we have read to the end of a stream.
+     *
+     *  \return If we are at the end of a stream.
+     */
 	virtual bool AtEnd();
-
-	/// \brief TODO
+    
+    /** \brief  Gets the number of bytes left to read.
+     *
+     *  \return Number of bytes left to read.
+     */
 	virtual uint64 BytesLeft();
-
-	/// \brief TODO
+    
+    /** \brief  Gets if this stream can be read from.
+     *
+     *  \return If this stream can be read from.
+     */
 	virtual bool CanRead() = 0;
-
-	/// \brief TODO
+    
+    /** \brief  Gets if this stream can be written to.
+     *
+     *  \return If this stream can be written to.
+     */
 	virtual bool CanWrite() = 0;
 
 };

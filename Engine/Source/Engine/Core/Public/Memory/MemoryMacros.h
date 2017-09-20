@@ -21,28 +21,70 @@ namespace Ludo {
 
 class Allocator;
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Arena
+ *  \param Type
+ *
+ *  \returns
+ */
 #define LD_ARENA_NEW(Arena, Type, ...) (ArenaAllocator<Arena>().New<Type>(__VA_ARGS__))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Allocator
+ *  \param Type
+ *
+ *  \returns
+ */
 #define LD_NEW(Allocator, Type, ...) (Allocator.New<Type>(__VA_ARGS__))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Arena
+ *  \param Obj
+ */
 #define LD_ARENA_DELETE(Arena, Obj) (ArenaAllocator<Arena>().Delete(Obj))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Allocator
+ *  \param Obj
+ */
 #define LD_DELETE(Allocator, Obj) (Allocator.Delete(Obj))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Arena
+ *  \param Type
+ *  \param Size
+ *
+ *  \returns
+ */
 #define LD_ARENA_NEW_ARRAY(Arena, Type, Size) (ArenaAllocator<Arena>().NewArray<Type>(Size))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Allocator
+ *  \param Type
+ *  \param Size
+ *
+ *  \returns
+ */
 #define LD_NEW_ARRAY(Allocator, Type, Size) (Allocator.NewArray<Type>(Size))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Arena
+ *  \param Obj
+ */
 #define LD_ARENA_DELETE_ARRAY(Arena, Obj) (ArenaAllocator<Arena>().DeleteArray(Obj))
 
-/// \brief TODO
+/** \brief TODO
+ * 
+ *  \param Allocator
+ *  \param Obj
+ */
 #define LD_DELETE_ARRAY(Allocator, Obj) (Allocator.DeleteArray(Obj))
 
 }; // namespace Ludo

@@ -24,16 +24,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Time/Time.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 Path::Path()
 	: m_raw("")
 {
 }
+
+// ************************************************************************************************
+
 Path::Path(const char* InValue)
 	: m_raw(InValue)
 {
 	Normalize();
 }
+
+// ************************************************************************************************
 
 Path::Path(const String& InValue)
 	: m_raw(InValue)
@@ -41,30 +48,42 @@ Path::Path(const String& InValue)
 	Normalize();
 }
 
+// ************************************************************************************************
+
 String Path::ToString() const
 {
 	return m_raw;
 }
+
+// ************************************************************************************************
 
 Path Path::operator +(const Path& Other) const
 {
 	return String::Format("%s%c%s", m_raw.Data(), Seperator, Other.m_raw.Data());
 }
 
+// ************************************************************************************************
+
 Path Path::operator +(const String& Other) const
 {
 	return String::Format("%s%c%s", m_raw.Data(), Seperator, Other.Data());
 }
+
+// ************************************************************************************************
 
 bool Path::operator ==(const Path& Other) const
 {
 	return (m_raw == Other.m_raw);
 }
 
+// ************************************************************************************************
+
 bool Path::operator !=(const Path& Other) const
 {
 	return !(operator ==(Other));
 }
+
+// ************************************************************************************************
 
 String Path::GetBaseName() const
 {
@@ -85,6 +104,8 @@ String Path::GetBaseName() const
 	return result;
 }
 
+// ************************************************************************************************
+
 String Path::GetExtension() const
 {
 	auto lastDotOffset = m_raw.LastIndexOf('.');
@@ -95,6 +116,8 @@ String Path::GetExtension() const
 
 	return "";
 }
+
+// ************************************************************************************************
 
 String Path::GetMount() const
 {
@@ -113,6 +136,8 @@ String Path::GetMount() const
 	return "";
 }
 
+// ************************************************************************************************
+
 String Path::GetFilename() const
 {
 	auto lastDirOffset = m_raw.LastIndexOf(Seperator);
@@ -124,6 +149,8 @@ String Path::GetFilename() const
 	return m_raw;
 }
 
+// ************************************************************************************************
+
 Path Path::GetDirectory() const
 {
 	auto lastDirOffset = m_raw.LastIndexOf(Seperator);
@@ -134,6 +161,8 @@ Path Path::GetDirectory() const
 
 	return "";
 }
+
+// ************************************************************************************************
 
 Path Path::ChangeExtension(const String& Value) const
 {
@@ -155,6 +184,8 @@ Path Path::ChangeExtension(const String& Value) const
 		);
 	}
 }
+
+// ************************************************************************************************
 
 Path Path::ChangeBaseName(const String& Value) const
 {
@@ -190,6 +221,8 @@ Path Path::ChangeBaseName(const String& Value) const
 	);
 }
 
+// ************************************************************************************************
+
 Path Path::ChangeMount(const String& Value) const
 {
 	if (!m_raw.IsEmpty())
@@ -213,6 +246,8 @@ Path Path::ChangeMount(const String& Value) const
 	return *this;
 }
 
+// ************************************************************************************************
+
 Path Path::ChangeFilename(const String& Value) const
 {
 	auto lastDirOffset = m_raw.LastIndexOf(Seperator);
@@ -225,6 +260,8 @@ Path Path::ChangeFilename(const String& Value) const
 		return Value;
 	}
 }
+
+// ************************************************************************************************
 
 Path Path::ChangeDirectory(const Path& Value) const
 {
@@ -247,6 +284,8 @@ Path Path::ChangeDirectory(const Path& Value) const
 	}
 }
 
+// ************************************************************************************************
+
 Path Path::AppendFragment(const String& Value, bool bAddDeliminator) const
 {
 	if (bAddDeliminator)
@@ -260,20 +299,28 @@ Path Path::AppendFragment(const String& Value, bool bAddDeliminator) const
 	}
 }
 
+// ************************************************************************************************
+
 bool Path::IsEmpty() const
 {
 	return m_raw.IsEmpty();
 }
+
+// ************************************************************************************************
 
 bool Path::IsRelative() const
 {
 	return GetMount() == "";
 }
 
+// ************************************************************************************************
+
 bool Path::IsAbsolute() const
 {
 	return !IsRelative();
 }
+
+// ************************************************************************************************
 
 bool Path::IsRoot() const
 {
@@ -288,10 +335,14 @@ bool Path::IsRoot() const
 	return false;
 }
 
+// ************************************************************************************************
+
 Array<String> Path::GetFragments() const
 {
 	return m_raw.Split(Seperator, 0, false);
 }
+
+// ************************************************************************************************
 
 void Path::Normalize()
 {
@@ -429,8 +480,8 @@ void Path::Normalize()
 		{
 			if (skipCount > 0)
 			{
-				LogF(LogCore, 
-					LogWarning,
+				LD_LOGF(Core, 
+					Warning,
 					"Path '%s' attempted to reference directory above root!",
 					m_raw.Data());
 			}
@@ -442,6 +493,8 @@ void Path::Normalize()
 
 	//printf("original=%s raw=%s\n", original.c_str(), m_raw.c_str());
 }
+
+// ************************************************************************************************
 
 Path Path::RelativeTo(const Path& Destination) const
 {
@@ -504,6 +557,8 @@ Path Path::RelativeTo(const Path& Destination) const
 
 	return result;
 }
+
+// ************************************************************************************************
 
 bool Path::GetCommonPath(Array<Path>& paths, Path& result)
 {
@@ -577,12 +632,16 @@ bool Path::GetCommonPath(Array<Path>& paths, Path& result)
 	return true;
 }
 
+// ************************************************************************************************
+
 Path Path::GetUncommonPath(Path& commonPath)
 {
 	String pathString = commonPath.ToString();
 	Path uncommon = m_raw.SubString(pathString.End());
 	return uncommon;
 }
+
+// ************************************************************************************************
 
 struct PathMatchFragment
 {
@@ -591,6 +650,8 @@ struct PathMatchFragment
 	bool valid;
 	bool isDirectory;
 };
+
+// ************************************************************************************************
 
 void MatchFilter_GetDirectories_r(const Path& base, Array<Path>& results)
 {
@@ -607,6 +668,8 @@ void MatchFilter_GetDirectories_r(const Path& base, Array<Path>& results)
 		MatchFilter_GetDirectories_r(fullPath, results);
 	}
 }
+
+// ************************************************************************************************
 
 Array<Path> MatchFilter_r(
 	const Path& base,
@@ -822,6 +885,8 @@ Array<Path> MatchFilter_r(
 	return result;
 }
 
+// ************************************************************************************************
+
 bool SplitIntoMatchStack(
 	String pathString,
 	Array<String>& matchStack,
@@ -868,8 +933,8 @@ bool SplitIntoMatchStack(
 					String lastValue = matchStack[matchStack.Length() - 1];
 					if (lastValue == "*" || lastValue == "**")
 					{
-						LogF(LogCore,
-							LogError,
+						LD_LOGF(Core,
+							Error,
 							"Wildcard followed by another wildcard in value '%s', "
 							"this is ambiguous and cannot be expanded.",
 							pathString.Data());
@@ -897,6 +962,8 @@ bool SplitIntoMatchStack(
 
 	return true;
 }
+
+// ************************************************************************************************
 
 void TrimMatchStackDownToFirstWildcard(
 	Array<String>& matchStack,
@@ -926,6 +993,8 @@ void TrimMatchStackDownToFirstWildcard(
 
 	matchStack.RemoveRange(0, firstValidStartIndex + 1);
 }
+
+// ************************************************************************************************
 
 Array<Path> Path::MatchFilter(const Path& path)
 {
@@ -961,19 +1030,26 @@ Array<Path> Path::MatchFilter(const Path& path)
 	return result;
 }
 
+// ************************************************************************************************
+
 Path Path::GetWorkingDirectory()
 {
 	char buffer[2048];
 	char* result = getcwd(buffer, 2048);
-	Assert(result != nullptr);
+	LD_ASSERT(result != nullptr);
 	return result;
 }
+
+// ************************************************************************************************
 
 void Path::SetWorkingDirectory(const Path& other)
 {
 	int result = chdir(other.m_raw.Data());
-	Assert(result == 0);
+	LD_ASSERT(result == 0);
+	LD_UNUSED_PARAMETER(result);
 }
+
+// ************************************************************************************************
 
 bool MatchEatNeedle(const char*& remaining, const char*& match)
 {
@@ -1023,6 +1099,8 @@ bool MatchEatNeedle(const char*& remaining, const char*& match)
 	return false;
 }
 
+// ************************************************************************************************
+
 bool DoesMatchStartWith(const char* data, String& needle)
 {
 	for (int i = 0; i < needle.CharLength(); i++)
@@ -1038,6 +1116,8 @@ bool DoesMatchStartWith(const char* data, String& needle)
 	}
 	return true;
 }
+
+// ************************************************************************************************
 
 bool Matches_r(
 	Array<String>& matchStack,
@@ -1168,6 +1248,8 @@ bool Matches_r(
 	return Matches_r(matchStack, matchStackIndex, remaining, matched, matchedSegment);
 }
 
+// ************************************************************************************************
+
 bool Path::Matches(const Path& other, Path* matched)
 {
 	// Split into wildcards and fragments.
@@ -1216,5 +1298,7 @@ bool Path::Matches(const Path& other, Path* matched)
 
 	return true;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

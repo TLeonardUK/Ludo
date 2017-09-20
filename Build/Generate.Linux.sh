@@ -1,2 +1,2 @@
-../Tools/MicroBuild/Binaries/linux_x64/microbuild generate make Config/Workspace.ini
+../Tools/MicroBuild/Binaries/Linux/Shipping_x64/microbuild generate make Config/Workspace.ini
 

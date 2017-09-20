@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/// \brief Implementation of text encoding using the utf-16 encoding standard.
 class Utf16TextEncoding : public ITextEncoding
 {
 private:

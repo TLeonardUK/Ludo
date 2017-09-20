@@ -23,8 +23,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Sigh, this allows you to paste things together line Name##__LINE__, which requires indirection
 // to work correctly (6.10.3 of C99 standard -_-).
-#define LD_INDIRECT_TOKEN_PASTE_SUB(x, y) x ## y
-#define LD_INDIRECT_TOKEN_PASTE(x, y) LD_INDIRECT_TOKEN_PASTE_SUB(x, y)
+#define LD_INDIRECT_TOKEN_PASTE_INNER_2(x, y) x ## y
+#define LD_INDIRECT_TOKEN_PASTE_2(x, y) LD_INDIRECT_TOKEN_PASTE_INNER_2(x, y)
+
+#define LD_INDIRECT_TOKEN_PASTE_INNER_3(x, y, z) x ## y ## z
+#define LD_INDIRECT_TOKEN_PASTE_3(x, y, z) LD_INDIRECT_TOKEN_PASTE_INNER_3(x, y, z)
+
+#define LD_INDIRECT_TOKEN_PASTE_INNER_4(a, b, c, d) a ## b ## c ## d
+#define LD_INDIRECT_TOKEN_PASTE_4(a, b, c, d) LD_INDIRECT_TOKEN_PASTE_INNER_4(a, b, c, d)
+
+#define LD_INDIRECT_TOKEN_PASTE_INNER_5(a, b, c, d, e) a ## b ## c ## d ## e
+#define LD_INDIRECT_TOKEN_PASTE_5(a, b, c, d, e) LD_INDIRECT_TOKEN_PASTE_INNER_5(a, b, c, d, e)
+
+#define LD_INDIRECT_TOKEN_PASTE_INNER_6(a, b, c, d, e, f) a ## b ## c ## d ## e ## f
+#define LD_INDIRECT_TOKEN_PASTE_6(a, b, c, d, e, f) LD_INDIRECT_TOKEN_PASTE_INNER_6(a, b, c, d, e, f)
+
+#define LD_INDIRECT_TOKEN_PASTE(x, y) LD_INDIRECT_TOKEN_PASTE_2(x, y)
 
 // Compiler/Debugging support.
 #include "Core/Public/Build/BuildInfo.h"

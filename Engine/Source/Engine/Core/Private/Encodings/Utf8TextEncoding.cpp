@@ -23,10 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ThirdParty/Utf8Cpp/source/utf8.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 Utf8TextEncoding::Utf8TextEncoding()
 {
 }
+
+// ************************************************************************************************
 
 bool Utf8TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 {
@@ -75,10 +79,14 @@ bool Utf8TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 	return false;
 }
 
+// ************************************************************************************************
+
 bool Utf8TextEncoding::IsValid(const Array<uint8>& Buffer) const
 {	
 	return utf8::is_valid(Buffer.Data(), Buffer.Data() + Buffer.Length());
 }
+
+// ************************************************************************************************
 
 Error Utf8TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -86,6 +94,8 @@ Error Utf8TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* Ou
 	*OutputBuffer = InputBuffer;
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 Error Utf8TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -105,10 +115,14 @@ Error Utf8TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* Ou
 	return ErrorType::Success;
 }
 
+// ************************************************************************************************
+
 Array<uint8> Utf8TextEncoding::GetBom() const
 {
 	Array<uint8> Result;
 	return Result;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

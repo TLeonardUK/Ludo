@@ -21,11 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Parallel/Jobs/JobScheduler.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 JobScheduler::JobScheduler(int ThreadCount)
 	: m_Aborting(false)
 {
-	Assert(ThreadCount > 0);
+	LD_ASSERT(ThreadCount > 0);
 
 	// Push all empty job indices.
 	for (int i = 0; i < MaxJobCount; i++)
@@ -49,6 +51,8 @@ JobScheduler::JobScheduler(int ThreadCount)
 	}
 }
 
+// ************************************************************************************************
+
 JobScheduler::~JobScheduler()
 {
 	m_Aborting = true;
@@ -61,6 +65,8 @@ JobScheduler::~JobScheduler()
 	}
 	m_Threads.Empty();
 }
+
+// ************************************************************************************************
 
 bool JobScheduler::AllocateJob(JobHandle& Handle)
 {
@@ -78,11 +84,13 @@ bool JobScheduler::AllocateJob(JobHandle& Handle)
 	return false;
 }
 
+// ************************************************************************************************
+
 JobHandle JobScheduler::CreateJob(JobCallback Callback)
 {
 	JobHandle Handle;
 	bool bResult = AllocateJob(Handle);
-	AssertMsg(bResult, "Unable to allocate job index, possibly to many jobs queued.");
+	LD_ASSERT_MSG(bResult, "Unable to allocate job index, possibly to many jobs queued.");
 
 	if (bResult)
 	{
@@ -91,6 +99,8 @@ JobHandle JobScheduler::CreateJob(JobCallback Callback)
 
 	return Handle;
 }
+
+// ************************************************************************************************
 
 JobScheduler::Job* JobScheduler::GetJob(JobHandle Handle)
 {
@@ -101,29 +111,33 @@ JobScheduler::Job* JobScheduler::GetJob(JobHandle Handle)
 	return &m_Jobs[Handle.Index];
 }
 
+// ************************************************************************************************
+
 void JobScheduler::AddDependency(JobHandle Dependent, JobHandle Parent)
 {
 	Job* DependentJob = GetJob(Dependent);
 	Job* ParentJob = GetJob(Parent);
 
-	AssertMsg(DependentJob != nullptr, "Dependent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
-	AssertMsg(ParentJob != nullptr, "Parent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
+	LD_ASSERT_MSG(DependentJob != nullptr, "Dependent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
+	LD_ASSERT_MSG(ParentJob != nullptr, "Parent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
 
-	AssertMsg(!DependentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
-	AssertMsg(!ParentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
+	LD_ASSERT_MSG(!DependentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
+	LD_ASSERT_MSG(!ParentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
 
 	DependentJob->DependenciesPending++;
 	DependentJob->Dependencies.Add(Parent);
 	ParentJob->Dependents.Add(Dependent);
 }
 
+// ************************************************************************************************
+
 void JobScheduler::Enqueue(JobHandle Handle)
 {
 	// Ensure we aren't already enqueued.
 	Job* ParentJob = GetJob(Handle);
 
-	AssertMsg(ParentJob != nullptr, "Parent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
-	AssertMsg(!ParentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
+	LD_ASSERT_MSG(ParentJob != nullptr, "Parent job handle is no longer valid - its probably already been executed. Add job dependencies before enqueing them.");
+	LD_ASSERT_MSG(!ParentJob->Enqueued, "Dependent job has already been enqueued. Add job dependencies before enqueing jobs.");
 
 	if (ParentJob->DependenciesPending <= 0)
 	{
@@ -131,7 +145,7 @@ void JobScheduler::Enqueue(JobHandle Handle)
 
 		if (!m_QueuedJobs.Push(Handle.Index))
 		{
-			ConstantAssertMsg("Failed to enqueue job, job queue is probably full, increasing MaxJobCount may be required.");
+			LD_CONSTANT_ASSERT_MSG("Failed to enqueue job, job queue is probably full, increasing MaxJobCount may be required.");
 		}
 	}
 
@@ -148,6 +162,8 @@ void JobScheduler::Enqueue(JobHandle Handle)
 	m_WorkSemaphore.Signal();
 }
 
+// ************************************************************************************************
+
 bool JobScheduler::IsComplete(JobHandle Handle)
 {
 	if (m_Jobs[Handle.Index].Completed ||
@@ -157,6 +173,8 @@ bool JobScheduler::IsComplete(JobHandle Handle)
 	}
 	return false;
 }
+
+// ************************************************************************************************
 
 void JobScheduler::Wait(JobHandle Handle, TimeSpan TimeoutDuration)
 {
@@ -175,6 +193,8 @@ void JobScheduler::Wait(JobHandle Handle, TimeSpan TimeoutDuration)
 		}
 	}
 }
+
+// ************************************************************************************************
 
 bool JobScheduler::RunJob()
 {
@@ -215,5 +235,7 @@ void JobScheduler::ThreadEntryPoint()
 		}
 	}
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

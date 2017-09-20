@@ -23,24 +23,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Environment/Environment.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 void AssertFailed(const char* Message, const char* File, int Line)
 {
 	const char* Format = \
+        "\n" \
 		"----- Assert Failed -----\n" \
 		"Condition: {Condition}\n" \
-		"File: {File}:{Line}\n";
+		"File: {File}:{Line}\n" \
+        "\n";
 
 	StringArgumentList Args;
 	Args.Add("Condition", Message);
 	Args.Add("File", File);
 	Args.Add("Line", Line);
 
-	LogF(LogCore, LogError, Format, Args);
+	LD_LOGF(Core, Error, Format, Args);
 
 	Environment::DebugBreak();
 	Environment::Exit();
 }
+
+// ************************************************************************************************
 
 void AssertFailed(const char* Message, const char* File, int Line, const char* Format)
 {
@@ -48,13 +54,17 @@ void AssertFailed(const char* Message, const char* File, int Line, const char* F
 	AssertFailedF(Message, File, Line, Format, Args);
 }
 
+// ************************************************************************************************
+
 void AssertFailedF(const char* Message, const char* File, int Line, const char* Format, StringArgumentList& Args)
 {
 	const char* RealFormat = \
+        "\n" \
 		"----- Assert Failed -----\n" \
 		"Condition: {Condition}\n" \
 		"File: {File}:{Line}\n" \
-		"Message: {Message}";
+		"Message: {Message}\n" \
+        "\n";
 
 	String UserMessage = String::FormatArgs(Format, Args);
 
@@ -64,19 +74,23 @@ void AssertFailedF(const char* Message, const char* File, int Line, const char* 
 	RealArgs.Add("Line", Line);
 	RealArgs.Add("Message", UserMessage.Data());
 
-	LogF(LogCore, LogError, RealFormat, RealArgs);
+	LD_LOGF(Core, Error, RealFormat, RealArgs);
 
 	Environment::DebugBreak();
 	Environment::Exit();
 }
 
+// ************************************************************************************************
+
 void AssertFailedF(const char* Message, const char* File, int Line, const char* Format, ...)
 {
 	const char* RealFormat = \
+        "\n" \
 		"----- Assert Failed -----\n" \
 		"Condition: {Condition}\n" \
 		"File: {File}:{Line}\n" \
-		"Message: {Message}";
+		"Message: {Message}\n" \
+        "\n";
 
 	va_list list;
 	va_start(list, Format);
@@ -89,10 +103,12 @@ void AssertFailedF(const char* Message, const char* File, int Line, const char* 
 	RealArgs.Add("Line", Line);
 	RealArgs.Add("Message", UserMessage.Data());
 
-	LogF(LogCore, LogError, RealFormat, RealArgs);
+	LD_LOGF(Core, Error, RealFormat, RealArgs);
 
 	Environment::DebugBreak();
 	Environment::Exit();
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

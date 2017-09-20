@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#include "Core/Public/Reflection/Type.h"
+#include "Core/Public/Reflection/Record.h"
 #include "Core/Public/Reflection/Method.h"
 #include "Core/Public/Reflection/Field.h"
 
@@ -25,128 +25,67 @@ namespace Ludo {
 
 class Method;
 
-/// \brief TODO
-class Class : public Type
+/*
+\brief Primitive types supported for class template parameters.
+*/
+enum class EClassTemplateParameterType
+{
+	Type,
+	Integer
+};
+
+/*
+\brief Parameter of a class template type.
+
+A template type can either be a typename or an integer, we do not support
+other template types supported by C++.
+*/
+struct ClassTemplateParameter
+{
+public:
+
+	// \brief Type of template argument, can be a type or an integer.
+	EClassTemplateParameterType ParameterType;
+
+	// \brief Value if base-type is an integral argument.
+	int64_t Value;
+
+	// \brief The actual resolved type of the template argument
+	Type* BaseType;
+
+	// \brief Constructor.
+	ClassTemplateParameter(EClassTemplateParameterType InType, int64_t InValue, Type* InBaseType);
+
+};
+
+/* 
+\brief Represents a record for an individual class.
+
+Contains general information on the class - methods, fields, properties, 
+and allows the instantiation of new instances.
+*/
+class Class 
+	: public Record
 {
 protected:
-	friend class ReflectionFileScanner;
 
 	Array<Method*> m_Methods;
 	Array<Field*> m_Fields;
-
-	Array<StringId> m_BaseClassesRaw;
-	
 	Array<Class*> m_BaseClasses;
-	Array<Class*> m_DerivedClasses;
+
 	bool m_bAbstract;
+	bool m_bStruct;
+	bool m_bTemplate;
+	bool m_bTemplateInstance;
+
+	Array<ClassTemplateParameter> m_TemplateParameters;
 
 protected:
-	void CollectParameterTypes(Array<Type*>& Result)
-	{
-		LD_UNUSED_PARAMETER(Result);
-		// Termination function of templated version, intentially left empty.
-	}
-
-	template <typename Arg1, typename... Args>
-	void CollectParameterTypes(Array<Type*>& Result, Arg1& x, Args&... args)
-	{
-		Result.Push(TypeOf(x));
-		CollectParameterTypes(Result, args...);
-	}
-
-	void CollectParameters(Array<Type*>& Result)
-	{
-		LD_UNUSED_PARAMETER(Result);
-		// Termination function of templated version, intentially left empty.
-	}
-
-	template <typename Arg1, typename... Args>
-	void CollectParameters(Array<Type*>& Result, Arg1& x, Args&... args)
-	{
-		Result.Push(x);
-		CollectParameters(Result, args...);
-	}
-
-	virtual void* NewInstance(IAllocator* Allocator);
 
 public:
+
+	// \brief Constructors
 	Class();
-
-	/// \brief TODO
-	template <typename Arena, typename ResultType, typename... Args>
-	ResultType* New(Args... args)
-	{
-		ArenaAllocator<Arena> Allocator;
-		void* Instance = NewInstance(&Allocator);
-
-		Array<Type*> ParameterTypes;
-		CollectParameterTypes(ParameterTypes, args...);
-
-		Method* Constructor = FindMethod(m_Name, TypeOfStatic(ResultType*), ParameterTypes);
-		if (Constructor == nullptr)
-		{
-			String Signature = m_Name.ToString() + "(";
-			for (int i = 0; i < ParameterTypes.Length(); i++)
-			{
-				Type* Type = ParameterTypes[i];
-				if (i > 0)
-				{
-					Signature += ", ";
-				}
-				if (Type == nullptr)
-				{
-					Signature += "Unknown";
-				}
-				else
-				{
-					Signature += Type->GetFullName().ToString();
-				}
-			}
-			Signature += ")";
-
-			ConstantAssertMsgF("Failed to find appropriate constructor to create class instance by reflection, expected constructor with signature '%s'.", Signature.Data());
-		}
-
-		return Constructor->Invoke<ResultType*, Args...>(Instance, args...);
-	}
-
-	/// \brief TODO
-	Method* FindMethod(const StringId& Name, Type* ReturnType, Array<Type*> ParameterTypes);
-
-	/// \brief TODO
-	template <typename... Args>
-	Method* FindMethod(const StringId& Name, Type* ReturnType, Args... args)
-	{
-		Array<Type*> ParameterTypes;
-		CollectParameters(ParameterTypes, args...);
-
-		return FindMethod(Name, ReturnType, ParameterTypes);
-	}
-
-	/// \brief TODO
-	Field* FindField(const StringId& Name, Type* DataType);
-
-	/// \brief TODO
-	bool IsAbstract();
-
-	/// \brief TODO
-	Array<Class*> GetBaseClasses();
-
-	/// \brief TODO
-	Array<Class*> GetDerivedClasses();
-
-	/// \brief TODO
-	Array<Field*>  GetFields();
-
-	/// \brief TODO
-	Array<Method*> GetMethods();
-
-/*
-	// Templates are not currently supported.
-	bool IsTemplate();
-	bool IsTemplateInstance();	
-	Array<Type*>  GetTemplateTypes();
-*/
 
 };
 

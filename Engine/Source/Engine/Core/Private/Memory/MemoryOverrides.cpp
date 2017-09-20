@@ -31,13 +31,15 @@ namespace Ludo
 	static bool gLegacyMemoryReEntranceGuard = false;
 #endif
 
+    // ************************************************************************************************
+
 	void* LegacyNew(std::size_t count)
 	{
 #if OPT_DUMP_LEGACY_NEW_WARNINGS
 		if (!gLegacyMemoryReEntranceGuard)
 		{
 			gLegacyMemoryReEntranceGuard = true;
-			LogF(LogMemory, LogWarning, "Allocated %i bytes through default new. Use LD_NEW instead.", count);
+			LD_LOGF(LogMemory, Warning, "Allocated %i bytes through default new. Use LD_NEW instead.", count);
 			gLegacyMemoryReEntranceGuard = false;
 		}
 #endif
@@ -45,6 +47,8 @@ namespace Ludo
 		Ludo::ArenaAllocator<Ludo::LibCMemoryArena> allocator;
 		return allocator.Alloc((int)count);
 	}
+
+    // ************************************************************************************************
 
 	void* LegacyNewArray(std::size_t count)
 	{
@@ -52,7 +56,7 @@ namespace Ludo
 		if (!gLegacyMemoryReEntranceGuard)
 		{
 			gLegacyMemoryReEntranceGuard = true;
-			LogF(LogMemory, LogWarning, "Allocated %i bytes through default new[]. Use LD_NEW_ARRAY instead.", count);
+			LD_LOGF(LogMemory, Warning, "Allocated %i bytes through default new[]. Use LD_NEW_ARRAY instead.", count);
 			gLegacyMemoryReEntranceGuard = false;
 		}
 #endif
@@ -61,13 +65,15 @@ namespace Ludo
 		return allocator.Alloc((int)count);
 	}
 
+    // ************************************************************************************************
+
 	void LegacyDelete(void* ptr)
 	{
 #if OPT_DUMP_LEGACY_NEW_WARNINGS
 		if (!gLegacyMemoryReEntranceGuard)
 		{
 			gLegacyMemoryReEntranceGuard = true;
-			LogF(LogMemory, LogWarning, "Deleted memory through default delete. Use LD_DELETE instead.");
+			LD_LOGF(LogMemory, Warning, "Deleted memory through default delete. Use LD_DELETE instead.");
 			gLegacyMemoryReEntranceGuard = false;
 		}
 #endif
@@ -75,6 +81,8 @@ namespace Ludo
 		Ludo::ArenaAllocator<Ludo::LibCMemoryArena> allocator;
 		allocator.Free(ptr);
 	}
+
+    // ************************************************************************************************
 
 	void LegacyDeleteArray(void* ptr)
 	{
@@ -82,7 +90,7 @@ namespace Ludo
 		if (!gLegacyMemoryReEntranceGuard)
 		{
 			gLegacyMemoryReEntranceGuard = true;
-			LogF(LogMemory, LogWarning, "Deleted memory through default delete[]. Use LD_DELETE_ARRAY instead.");
+			LD_LOGF(LogMemory, Warning, "Deleted memory through default delete[]. Use LD_DELETE_ARRAY instead.");
 			gLegacyMemoryReEntranceGuard = false;
 		}
 #endif
@@ -90,17 +98,26 @@ namespace Ludo
 		Ludo::ArenaAllocator<Ludo::LibCMemoryArena> allocator;
 		allocator.Free(ptr);
 	}
+
+    // ************************************************************************************************
+
 };
+
+// ************************************************************************************************
 
 void* operator new(std::size_t count)
 {
 	return Ludo::LegacyNew(count);
 }
 
+// ************************************************************************************************
+
 void* operator new[](std::size_t count)
 {
 	return Ludo::LegacyNewArray(count);
 }
+
+// ************************************************************************************************
 
 void* operator new(std::size_t count, const std::nothrow_t& tag) throw()
 {
@@ -108,21 +125,29 @@ void* operator new(std::size_t count, const std::nothrow_t& tag) throw()
 	return Ludo::LegacyNew(count);
 }
 
+// ************************************************************************************************
+
 void* operator new[](std::size_t count, const std::nothrow_t& tag) throw()
 {
 	LD_UNUSED_PARAMETER(tag);
 	return Ludo::LegacyNewArray(count);
 }
 
+// ************************************************************************************************
+
 void operator delete(void* ptr) throw()
 {
 	Ludo::LegacyDelete(ptr);
 }
 
+// ************************************************************************************************
+
 void operator delete[](void* ptr) throw()
 {
 	Ludo::LegacyDeleteArray(ptr);
 }
+
+// ************************************************************************************************
 
 void operator delete(void* ptr, const std::nothrow_t& tag) throw()
 {
@@ -130,9 +155,12 @@ void operator delete(void* ptr, const std::nothrow_t& tag) throw()
 	Ludo::LegacyDelete(ptr);
 }
 
+// ************************************************************************************************
+
 void operator delete[](void* ptr, const std::nothrow_t& tag) throw()
 {
 	LD_UNUSED_PARAMETER(tag);
 	Ludo::LegacyDeleteArray(ptr);
 }
 
+// ************************************************************************************************

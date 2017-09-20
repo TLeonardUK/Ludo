@@ -26,9 +26,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Encodings/Utf32TextEncoding.h"
 
 namespace Ludo {
-
-/// \brief TODO
-class TextStream : public StreamWrapper
+    
+/** \brief Wraps a stream and provides additional functionality for reading and writing
+ *         to it in a textural format with a given encoding.
+ *
+ * Always use asyncronous streams when possible.
+ */
+class TextStream 
+    : public StreamWrapper
 {
 private:
 	int m_IndentLevel;
@@ -45,26 +50,48 @@ private:
 
 
 protected:
+    
+	/** \brief Reads a single codepoint in the text streams encoding
+     *         out of the stream.
+     *
+     *  \param  Buffer Byte buffer to store full codepoint in.
+     *
+     *  \returns Error value indicating success or failure.
+     */
 	Error ReadCodePoint(Array<uint8>& Buffer);
 
 public:
-
-	/// \brief TODO
+    
+	/** \brief Constructs the text stream.
+     *
+     *  \param  BaseStream Base stream to redirect internal IO to.
+     *  \param  Encoding   Encoding to read and write textural data in.
+     */
 	TextStream(IStream* BaseStream, ITextEncoding* Encoding = nullptr);
 
-	/// \brief TODO
 	virtual ~TextStream();
-
-	/// \brief TODO
+    
+	/** \brief Writes a line of formatted text to the stream.
+     *
+     *  \param  Format   Printf format of line to write.
+     *  \param  Encoding Additional arguments to substitute into the Format parameter.
+     *
+     *  \returns Error value indicating success or failure.
+     */
 	Error WriteLine(String Format, ...);
 
-	/// \brief TODO
+	/// \brief Indents any lines written out by one tab level.
 	void Indent();
 
-	/// \brief TODO
+    /// \brief Undents any lines written out by one tab level.
 	void Undent();
-
-	/// \brief TODO
+    
+	/** \brief Reads a line of text from the stream.
+     *
+     *  \param  Result Reference to string to store read line into.
+     *
+     *  \returns Error value indicating success or failure.
+     */
 	Error ReadLine(String& Result);
 
 };

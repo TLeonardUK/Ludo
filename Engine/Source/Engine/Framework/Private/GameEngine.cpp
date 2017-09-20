@@ -22,8 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 extern Error CreateEngineCore(EngineCore** Result);
 extern Error DeleteEngineCore(EngineCore** Result);
+
+// ************************************************************************************************
 
 int LudoEntryPoint()
 {
@@ -31,24 +35,30 @@ int LudoEntryPoint()
 	return engine.EntryPoint();
 }
 
+// ************************************************************************************************
+
 void GameEngine::InitPlatform()
 {
 	Environment::Init();
 }
+
+// ************************************************************************************************
 
 void GameEngine::TermPlatform()
 {
 	Environment::Term();
 }
 
+// ************************************************************************************************
+
 void GameEngine::InitLogging()
 {
 #if !defined(LD_SHIPPING_BUILD)
 	// Everything during development.
-	LogOutput::SetLogVerbosity(MAX_LOG_VERBOSITY); 
+	LogListener::SetLogVerbosity(LD_MAX_LOG_VERBOSITY); 
 #else
 	// Errors only during shipping.
-	LogOutput::SetLogVerbosity(1); 
+	LogListener::SetLogVerbosity(1); 
 #endif
 
 	// Get the std output up and running.
@@ -58,26 +68,30 @@ void GameEngine::InitLogging()
 	Args.Add("Changelist", LD_BUILD_CHANGELIST);
 	Args.Add("Branch", LD_BUILD_BRANCH);
 
-	LD_LOG(LogEngine, LogInfo, "Ludo Engine");
-	LD_LOG(LogEngine, LogInfo, "Copyright (C) TwinDrills, All Rights Reserved");
-	LD_LOG(LogEngine, LogInfo, "");
-	LogF(LogEngine, LogInfo, "Changelist {Changelist}, Branch {Branch}", Args);
-	LD_LOG(LogEngine, LogInfo, "Compiled on " LD_BUILD_TIMESTAMP);
-	LD_LOG(LogEngine, LogInfo, "");
+	LD_LOG(Engine, Info, "Ludo Engine");
+	LD_LOG(Engine, Info, "Copyright (C) TwinDrills, All Rights Reserved");
+	LD_LOG(Engine, Info, "");
+	LD_LOGF(Engine, Info, "Changelist {Changelist}, Branch {Branch}", Args);
+	LD_LOG(Engine, Info, "Compiled on " LD_BUILD_TIMESTAMP);
+	LD_LOG(Engine, Info, "");
 }
+
+// ************************************************************************************************
 
 void GameEngine::TermLogging()
 {
 }
 
+// ************************************************************************************************
+
 // Pointer to the function that will load linked metadata, we do it this way to try and avoid
 // compile errors if building a bootstrap build before the reflection generator has run.
-typedef void (*RegisterLinkedMetadataFunction)();
+//typedef void (*RegisterLinkedMetadataFunction)();
 
 void GameEngine::InitReflection()
 {
-	LD_LOG(LogEngine, LogInfo, "Loading engine metadata ...");
-
+	LD_LOG(Engine, Info, "Loading engine metadata ...");
+	/*
 	// Register primitive types.
 	Register_Primitive_Metadata();
 
@@ -90,17 +104,20 @@ void GameEngine::InitReflection()
 	}
 	else
 	{
-		LD_LOG(LogEngine, LogInfo, "Looks like no metadata has been linked. Bootstrap build?");
+		LD_LOG(Engine, Info, "Looks like no metadata has been linked. Bootstrap build?");
 	}
 
 	for (TypeModule* Mod : TypeModule::GetModules())
 	{
 		Mod->RegisterTypes();
-	}
+	}*/
 }
+
+// ************************************************************************************************
 
 void GameEngine::TermReflection()
 {
+	/*
 	for (TypeModule* Mod : TypeModule::GetModules())
 	{
 		Mod->UnregisterTypes();
@@ -108,8 +125,10 @@ void GameEngine::TermReflection()
 	for (TypeModule* Mod : TypeModule::GetModules())
 	{
 		TypeModule::UnregisterModule(Mod);
-	}
+	}*/
 }
+
+// ************************************************************************************************
 
 void GameEngine::EmitBuildInfo()
 {
@@ -121,11 +140,11 @@ void GameEngine::EmitBuildInfo()
 	Args.Add("PlatformName", Environment::GetPlatformName());
 	Args.Add("ConcurrencyFactor", Environment::GetConcurrencyFactor());
 
-	LD_LOG(LogEngine, LogInfo, "Machine Specs:");
-	LogF(LogEngine, LogInfo, "\tUsername: {Username}", Args);
-	LogF(LogEngine, LogInfo, "\tExecutable Path: {ExecutablePath}", Args);
-	LogF(LogEngine, LogInfo, "\tPlatform Name: {PlatformName}", Args);
-	LogF(LogEngine, LogInfo, "\tConcurrency Factor: {ConcurrencyFactor}", Args);
+	LD_LOG(Engine, Info, "Machine Specs:");
+	LD_LOGF(Engine, Info, "\tUsername: {Username}", Args);
+	LD_LOGF(Engine, Info, "\tExecutable Path: {ExecutablePath}", Args);
+	LD_LOGF(Engine, Info, "\tPlatform Name: {PlatformName}", Args);
+	LD_LOGF(Engine, Info, "\tConcurrency Factor: {ConcurrencyFactor}", Args);
 
 	for (int i = 0; i < Environment::GetCpuCount(); i++)
 	{
@@ -146,7 +165,7 @@ void GameEngine::EmitBuildInfo()
 		Args.Add("CpuCoreCount", CpuInfo.CoreCount);
 		Args.Add("CpuThreadCount", CpuInfo.ThreadCount);
 		Args.Add("CpuFeatures", FeatureString);
-		LogF(LogEngine, LogInfo, "\tCPU[{CpuIndex}]: Name={CpuName}, Cores={CpuCoreCount}, Threads={CpuThreadCount}, Features={CpuFeatures}", Args);
+		LD_LOGF(Engine, Info, "\tCPU[{CpuIndex}]: Name={CpuName}, Cores={CpuCoreCount}, Threads={CpuThreadCount}, Features={CpuFeatures}", Args);
 	}
 
 	for (int i = 0; i < Environment::GetGpuCount(); i++)
@@ -156,7 +175,7 @@ void GameEngine::EmitBuildInfo()
 		Args.Add("GpuIndex", i);
 		Args.Add("GpuName", GpuInfo.Name);
 		Args.Add("GpuTotalMemory", GpuInfo.TotalVRam, &SizeFormatter);
-		LogF(LogEngine, LogInfo, "\tGPU[{GpuIndex}]: Name={GpuName}, VRam={GpuTotalMemory}", Args);
+		LD_LOGF(Engine, Info, "\tGPU[{GpuIndex}]: Name={GpuName}, VRam={GpuTotalMemory}", Args);
 	}
 
 	{
@@ -165,44 +184,50 @@ void GameEngine::EmitBuildInfo()
 		Args.Add("TotalPhysicalMemory", MemoryInfo.TotalPhysicalRam, &SizeFormatter);
 		Args.Add("TotalVirtualMemory", MemoryInfo.TotalVirtualRam, &SizeFormatter);
 		Args.Add("TotalPageMemory", MemoryInfo.TotalPageRam, &SizeFormatter);
-		LogF(LogEngine, LogInfo, "\tRAM: Physical={TotalPhysicalMemory}, Virtual={TotalVirtualMemory}, PageFile={TotalPageMemory}", Args);
+		LD_LOGF(Engine, Info, "\tRAM: Physical={TotalPhysicalMemory}, Virtual={TotalVirtualMemory}, PageFile={TotalPageMemory}", Args);
 	}
 
-	LD_LOG(LogEngine, LogInfo, "");
+	LD_LOG(Engine, Info, "");
 }
+
+// ************************************************************************************************
 
 Error GameEngine::LoadEngineCore()
 {
-	LD_LOG(LogEngine, LogInfo, "Loading engine core.");
+	LD_LOG(Engine, Info, "Loading engine core.");
 
 	Error Result = CreateEngineCore(&m_EngineCore);
 	if (Result.Failed())
 	{
-		LogF(LogEngine, LogInfo, "Failed to load engine core CreateEngineCore returned %s.", Result.ToString());
+		LD_LOGF(Engine, Info, "Failed to load engine core CreateEngineCore returned %s.", Result.ToString());
 		return Error(ErrorType::Failure);
 	}
 
 	return Error(ErrorType::Success);
 }
 
+// ************************************************************************************************
+
 void GameEngine::UnloadEngineCore()
 {
-	LD_LOG(LogEngine, LogInfo, "Unloading engine core.");
+	LD_LOG(Engine, Info, "Unloading engine core.");
 
 	Error Result = m_EngineCore->Term();
 	if (Result.Failed())
 	{
-		LogF(LogEngine, LogInfo, "Failed to unload engine core EngineCore->Term returned %s.", Result.ToString());
+		LD_LOGF(Engine, Info, "Failed to unload engine core EngineCore->Term returned %s.", Result.ToString());
 		return;
 	}
 
 	Result = DeleteEngineCore(&m_EngineCore);
 	if (Result.Failed())
 	{
-		LogF(LogEngine, LogInfo, "Failed to unload engine core DeleteEngineCore returned %s.", Result.ToString());
+		LD_LOGF(Engine, Info, "Failed to unload engine core DeleteEngineCore returned %s.", Result.ToString());
 		return;
 	}
 }
+
+// ************************************************************************************************
 
 Error GameEngine::UpdatePaths()
 {
@@ -226,7 +251,7 @@ Error GameEngine::UpdatePaths()
 
 		if (m_RootDirectory.IsRoot())
 		{
-			LogF(LogEngine, LogError, "Failed to find root directory, unable to continue, please check installation is not corrupt.");
+			LD_LOGF(Engine, Error, "Failed to find root directory, unable to continue, please check installation is not corrupt.");
 		}
 
 		m_RootDirectory = m_RootDirectory.GetDirectory();
@@ -238,13 +263,15 @@ Error GameEngine::UpdatePaths()
 	return ErrorType::Success;
 }
 
+// ************************************************************************************************
+
 int GameEngine::EntryPoint()
 {
 	InitLogging();
 	InitReflection();
 	InitPlatform();
 
-	LD_LOG(LogEngine, LogInfo, "");
+	LD_LOG(Engine, Info, "");
 
 	int ExitCode = 0;
 
@@ -259,17 +286,17 @@ int GameEngine::EntryPoint()
 				EmitBuildInfo();
 			}
 
-			LD_LOG(LogEngine, LogInfo, "Initializing engine core.");
+			LD_LOG(Engine, Info, "Initializing engine core.");
 
 			Result = m_EngineCore->Init(this);
 			if (Result.Succeeded())
 			{
-				LD_LOG(LogEngine, LogInfo, "Successfully initialized engine core.");
+				LD_LOG(Engine, Info, "Successfully initialized engine core.");
 				ExitCode = m_EngineCore->Run();
 			}		
 			else
 			{
-				LogF(LogEngine, LogInfo, "Failed to initialize engine core, EngineCore->Init returned %s.", Result.ToString());
+				LD_LOGF(Engine, Info, "Failed to initialize engine core, EngineCore->Init returned %s.", Result.ToString());
 			}
 
 			UnloadEngineCore();
@@ -283,6 +310,8 @@ int GameEngine::EntryPoint()
 	return ExitCode;
 }
 
+// ************************************************************************************************
+
 Path GameEngine::GetEnginePath(EnginePath PathType)
 {
 	switch (PathType)
@@ -295,10 +324,12 @@ Path GameEngine::GetEnginePath(EnginePath PathType)
 	case EnginePath::RootDirectory:			return m_RootDirectory;
 	default:
 		{
-			NotImplemented();
+			LD_NOT_IMPLEMENTED();
 			return Path();
 		}
 	}
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

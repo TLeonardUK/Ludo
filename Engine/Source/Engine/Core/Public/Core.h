@@ -17,6 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
+// This file bulk includes all the comment core classes that almost every
+// file requires.
+
 #include "Core/Public/Build/Common.h"
 
 #include "Core/Public/Debug/StackTrace.h"
@@ -28,9 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Core/Public/Environment/Environment.h"
 
-#include "Core/Public/IO/Streams/BinaryStream.h"
-#include "Core/Public/IO/Streams/BitStream.h"
-#include "Core/Public/IO/Streams/FileStream.h"
 #include "Core/Public/IO/Streams/IStream.h"
 #include "Core/Public/IO/Streams/StreamWrapper.h"
 #include "Core/Public/IO/Streams/TextStream.h"
@@ -45,13 +45,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Math/Geometry/Vector.h"
 #include "Core/Public/Math/Standard/Standard.h"
 
-#include "Core/Public/Memory/Allocator.h"
-#include "Core/Public/Memory/ArenaAllocator.h"
+#include "Core/Public/Memory/Allocators/Allocator.h"
+#include "Core/Public/Memory/Allocators/ArenaAllocator.h"
 #include "Core/Public/Memory/Endianness.h"
-#include "Core/Public/Memory/HeapAllocator.h"
 #include "Core/Public/Memory/Memory.h"
 #include "Core/Public/Memory/MemoryArena.h"
-#include "Core/Public/Memory/StackAllocator.h"
 
 #include "Core/Public/Meta/Traits/INotCopyable.h"
 #include "Core/Public/Meta/IPimpl.h"
@@ -71,15 +69,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Parallel/Thread.h"
 #include "Core/Public/Parallel/ThreadLocal.h"
 
-#include "Core/Public/Reflection/PrimitiveTypes/PrimitiveTypes.h"
 #include "Core/Public/Reflection/Attribute.h"
 #include "Core/Public/Reflection/Class.h"
 #include "Core/Public/Reflection/Enum.h"
 #include "Core/Public/Reflection/Field.h"
 #include "Core/Public/Reflection/Method.h"
+#include "Core/Public/Reflection/Record.h"
+#include "Core/Public/Reflection/RecordModule.h"
 #include "Core/Public/Reflection/Reflection.h"
+#include "Core/Public/Reflection/ReflectionMacros.h"
 #include "Core/Public/Reflection/Type.h"
-#include "Core/Public/Reflection/TypeModule.h"
 
 #include "Core/Public/Time/Time.h"
 #include "Core/Public/Time/Timeout.h"

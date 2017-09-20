@@ -24,8 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/IO/Path.h"
 
 namespace Ludo {
-
-/// \brief TODO
+    
+/** \brief Represents a executable process running, or to be run, on the host platform. 
+ *         Provides a stream interface to read and write from the running process.
+ */
 class Process :
 	public IStream,
 	public IPimpl,
@@ -33,62 +35,83 @@ class Process :
 {
 public:
 
-	/// \brief TODO
 	Process();
-
-	/// \brief TODO
 	~Process();
-
-	/// \brief TODO
+    
+	/** \brief Attempts to start a process of the given executable with the given properties.
+     * 
+     *  \param Command              Path to executable, or name of command, to execute. 
+     *                              Depending on the platform if this is relative, the host platform may look through 
+     *                              common directories (typically in the PATH envvar) to find the requested executable.
+     *  \param WorkingDirectory     Directory process should start in.
+     *  \param Arguments            Command line arguments to pass to process. It is not required to pass in the command
+     *                              in this argument list (like argv).
+     *  \param bRedirectStdInOut    If set the standard pipes will be captured so input and output can be read and writte
+     *                              from the process using this classes stream interface.
+     *
+     *  \returns Error value determining success.
+     */
 	Error Open(const Path& Command, const Path& WorkingDirectory, const Array<String>& Arguments, bool bRedirectStdInOut = false);
-
-	/// \brief TODO
+    
+	/** \brief Detaches from the process and frees any associated resources. This is implicitly called on destruction.
+     *
+     *  Once not attached to the process, no other functionality is valid as we are no longer
+     *  able to monitor or influence it.
+     */
 	void Detach();
 
-	/// \brief TODO
+	/** \brief Sends a single to the process to tell it to terminate itself.
+     *
+     * This is not guaranteed to terminate the process, as on many platforms the process 
+     * can capture and ignore any requests to terminate it.
+     */
 	void Terminate();
-
-	/// \brief TODO
+    
+	/** \brief Returns true if the process is currently running.
+     *
+     *  \returns True if process is currently running.
+     */
 	bool IsRunning();
-
-	/// \brief TODO
+    
+	/** \brief Returns true if we are currently attached to the process and able to monitor its state.
+     *
+     *  \returns True if we are currently attached to the process.
+     *
+     *  If not attached to the process, no other functionality is valid as we are no longer
+     *  able to monitor or influence it.
+     */
 	bool IsAttached();
-
-	/// \brief TODO
+    
+	/** \brief Pauses execution of current thread until the process exits.
+     *
+     *  \param Timeout How long to wait for the process to exit before
+     *                 resuming. By default this will wait indefinitely.
+     *
+     *  \returns True if we resumed due to process exit, false if we resumed
+     *           due to other reason (timeout, spurious wakeup, etc).
+     */
 	bool Wait(TimeSpan Timeout = TimeSpan::Infinite);
-
-	/// \brief TODO
+    
+	/** \brief Returns the exit code reported to the operating system when this process shutdown.
+     *
+     *  \returns Processes reported exit code.
+     *
+     *  It is not valid to call this function while the process is still running.
+     */
 	int GetExitCode();
 
-	/// \brief TODO
-	Error Write(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
-	Error Read(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
-	uint64 Position() override;
-
-	/// \brief TODO
-	uint64 Length() override;
-
-	/// \brief TODO
-	void Seek(uint64 Position) override;
-
-	/// \brief TODO
-	bool AtEnd() override;
-
-	/// \brief TODO
-	void Flush() override;
-
-	/// \brief TODO
-	uint64 BytesLeft() override;
-
-	/// \brief TODO
-	bool CanRead() override;
-
-	/// \brief TODO
-	bool CanWrite() override;
+    // IStream 
+    virtual Error Write(void* Buffer, uint64 BufferLength) override;
+    virtual Error Read(void* Buffer, uint64 BufferLength) override;
+    virtual uint64 Position() override;
+    virtual uint64 Length() override;
+    virtual void Seek(uint64 Position) override;
+    virtual bool AtEnd() override;
+    virtual void Flush() override;
+    virtual uint64 BytesLeft() override;
+	virtual bool CanRead() override;
+    virtual bool CanWrite() override;
+    // End IStream 
 
 };
 

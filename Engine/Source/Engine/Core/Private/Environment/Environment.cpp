@@ -23,6 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Ludo {
 namespace Environment {
 
+// ************************************************************************************************
+
 const char* CpuFeatureName[(int)CpuFeature::Count] = {
 	"MMX",
 	"SSE",
@@ -57,6 +59,8 @@ const char* CpuFeatureName[(int)CpuFeature::Count] = {
 	"XOP"
 };
 
+// ************************************************************************************************
+
 String GetEnvironmentVariable(const String& tag)
 {
 	const char* ptr = std::getenv(tag.Data());
@@ -69,6 +73,8 @@ String GetEnvironmentVariable(const String& tag)
 		return ptr;
 	}
 }
+
+// ************************************************************************************************
 
 }; // namespace Environment
 }; // namespace Ludo

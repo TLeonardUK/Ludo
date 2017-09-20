@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/// \brief Engine core implementation used to run the game-editor.
 class EditorCore : public EngineCore
 {
 public:

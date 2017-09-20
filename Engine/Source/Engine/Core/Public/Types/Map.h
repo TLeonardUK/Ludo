@@ -461,7 +461,7 @@ public:
 			}
 		}
 
-		ConstantAssertMsg("Attempted to index constant map with unknown key.");		
+		LD_CONSTANT_ASSERT_MSG("Attempted to index constant map with unknown key.");		
 
 		static ValueType invalid_type;
 		return invalid_type;
@@ -481,7 +481,7 @@ public:
 			}
 		}
 
-		ConstantAssertMsg("Attempted to index constant map with unknown key.");
+		LD_CONSTANT_ASSERT_MSG("Attempted to index constant map with unknown key.");
 
 		static ValueType invalid_type;
 		return invalid_type;

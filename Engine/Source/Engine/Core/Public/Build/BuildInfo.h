@@ -32,3 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LD_BUILD_TIMESTAMP __DATE__ " at " __TIME__
 #endif
 
+// If false asserts are compiled out.
+#if !defined(LD_SHIPPING_BUILD)
+#define LD_ASSERTS_ENABLED 1
+#endif

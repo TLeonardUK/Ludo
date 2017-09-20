@@ -21,23 +21,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Debug/StackTrace.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 StackTrace::StackTrace()
 {
 }
 
+// ************************************************************************************************
+
 StackTrace::~StackTrace()
 {
 }
+
+// ************************************************************************************************
 
 int StackTrace::FrameCount()
 {
 	return m_Frames.Length();
 }
 
-StackFrame StackTrace::GetFrame(int Index)
+// ************************************************************************************************
+
+StackFrame& StackTrace::GetFrame(int Index)
 {
 	return m_Frames[Index];
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

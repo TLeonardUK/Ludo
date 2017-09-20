@@ -25,10 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 Utf16TextEncoding::Utf16TextEncoding(bool bBigEndian)
 	: m_BigEndian(bBigEndian)
 {
 }
+
+// ************************************************************************************************
 
 bool Utf16TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 {
@@ -68,6 +72,8 @@ bool Utf16TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 	return false;
 }
 
+// ************************************************************************************************
+
 bool Utf16TextEncoding::IsValid(const Array<uint8>& Buffer) const
 {
 	// TODO: Add some proper validation here please.
@@ -79,6 +85,8 @@ bool Utf16TextEncoding::IsValid(const Array<uint8>& Buffer) const
 
 	return true;
 }
+
+// ************************************************************************************************
 
 Error Utf16TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -100,6 +108,8 @@ Error Utf16TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* O
 
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 Error Utf16TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -143,6 +153,8 @@ Error Utf16TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* O
 	return ErrorType::Success;
 }
 
+// ************************************************************************************************
+
 Array<uint8> Utf16TextEncoding::GetBom() const
 {
 	Array<uint8> Result;
@@ -160,5 +172,7 @@ Array<uint8> Utf16TextEncoding::GetBom() const
 
 	return Result;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

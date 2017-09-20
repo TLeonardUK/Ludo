@@ -21,9 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Reflection/Attribute.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 Attribute::~Attribute()
 {
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

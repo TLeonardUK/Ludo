@@ -21,53 +21,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Reflection/Method.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
+
+Parameter::Parameter()
+{
+}
+
+// ************************************************************************************************
+
+Type* Parameter::GetType() const
+{
+	return m_DataType;
+}
+
+// ************************************************************************************************
 
 Method::Method()
 	: m_ReturnType(nullptr)
 {
 }
 
-Array<Parameter> Method::GetParameters()
-{
-	return m_Parameters;
-}
-
-Type* Method::GetReturnType()
-{
-	return m_ReturnType;
-}
-
-void Method::InvokeInternal(void* Instance, void* Result, Array<void*>& Parameters)
-{
-	LD_UNUSED_PARAMETER(Instance);
-	LD_UNUSED_PARAMETER(Result);
-	LD_UNUSED_PARAMETER(Parameters);
-	PureVirtual();
-}
-
-bool Method::IsConstructor()
-{
-	return m_bConstructor;
-}
-
-bool Method::IsStatic()
-{
-	return m_bStatic;
-}
-
-bool Method::IsConst()
-{
-	return m_bConst;
-}
-
-bool Method::IsVirtual()
-{
-	return m_bVirtual;
-}
-
-bool Method::IsPureVirtual()
-{
-	return m_bPureVirtual;
-}
+// ************************************************************************************************
 
 }; // namespace Ludo

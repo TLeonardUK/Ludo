@@ -22,51 +22,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
-class StreamWrapper : public IStream
+/** \brief This is the base class for all stream wrappers. Stream wrappers take a base stream
+ *         and provides the same stream interface, but typically perform or provide some additional 
+ *         intermediate functionality.
+ */
+class StreamWrapper 
+    : public IStream
 {
 private:
 	IStream* m_BaseStream;
 
 public:
 
-	/// \brief TODO
 	StreamWrapper(IStream* BaseStream);
-
-	/// \brief TODO
 	virtual ~StreamWrapper();
 
 public:
 
-	/// \brief TODO
+    // IStream 
 	virtual Error Write(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
 	virtual Error Read(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
 	virtual uint64 Position() override;
-
-	/// \brief TODO
 	virtual uint64 Length() override;
-
-	/// \brief TODO
 	virtual void Seek(uint64 Position) override;
-
-	/// \brief TODO
 	virtual void Flush() override;
-
-	/// \brief TODO
 	virtual bool AtEnd() override;
-
-	/// \brief TODO
 	virtual uint64 BytesLeft() override;
-
-	/// \brief TODO
 	virtual bool CanRead() override;
-
-	/// \brief TODO
 	virtual bool CanWrite() override;
+    // End IStream 
 
 };
 

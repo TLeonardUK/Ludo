@@ -17,44 +17,74 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#include "Core/Public/Reflection/Type.h"
+#include "Core/Public/Reflection/Record.h"
 
 namespace Ludo {
 
 class Enum;
 
-/// \brief TODO
+/* 
+\brief Represents an individual key defined in an Enum record.
+*/
 class EnumKey
+	: public Record
 {
 private:
-	friend class ReflectionFileScanner;
 
-	StringId m_Name;
 	Enum* m_Enum;
 	int64 m_Value;
 
 public:
-	EnumKey();
-	EnumKey(Enum* Base, StringId Name, int64 Value);
 
+	// \brief Constructors
+	EnumKey();
+
+	/*
+	\brief		Gets the enum this key is contained in.
+	\returns	The enum this key is contained in.
+	*/
 	Enum*	 GetEnum() const;
-	StringId GetName() const;
+
+	/*
+	\brief		Gets the value of this key.
+	\returns	The integer value of this key.
+	*/
 	int64	GetValue() const;
 
 };
 
-/// \brief TODO
-class Enum : public Type
+/*
+\brief Represents a record for an individual enum.
+
+Contains general functionality to get individual keys and their
+name and values.
+*/
+class Enum 
+	: public Record
 {
 protected:
-	friend class ReflectionFileScanner;
 
 	Array<EnumKey> m_Keys;
 
 public:
+
+	/*
+	\brief		Gets an array of all keys stored in this enum.
+	\returns	Array of all keys in this enum, const as the should never be edited at runtime.
+	*/
 	Array<const EnumKey*> GetKeys();
 
+	/*
+	\brief		Finds a key given a hashed stringid.
+	\returns	Constant pointer to key if it exists, otherwise nullptr.
+	*/
 	const EnumKey* FindKey(const StringId& Name);
+
+	/*
+	\brief		Finds a key given a value.
+	\returns	Constant pointer to key if it exists, otherwise nullptr. If multiple keys
+				exist with the same value the first will be returned.
+	*/
 	const EnumKey* FindKey(int64 Value);
 
 };

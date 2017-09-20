@@ -27,11 +27,15 @@ StringId StringId::Empty(0u, 0);
 Map<unsigned int, int> StringId::m_StringIndexLookup;
 Array<String> StringId::m_StringArray;
 
+// ************************************************************************************************
+
 StringId::StringId()
 	: m_Hash(0)
 	, m_Index(-1)
 {
 }
+
+// ************************************************************************************************
 
 StringId::StringId(unsigned int Hash, int Index)
 	: m_Hash(Hash)
@@ -39,25 +43,35 @@ StringId::StringId(unsigned int Hash, int Index)
 {
 }
 
+// ************************************************************************************************
+
 bool StringId::operator==(const StringId& Other) const
 {
 	return m_Index == Other.m_Index;
 }
+
+// ************************************************************************************************
 
 bool StringId::operator!=(const StringId& Other) const
 {
 	return m_Index != Other.m_Index;
 }
 
+// ************************************************************************************************
+
 String StringId::ToString() const
 {
 	return Lookup(*this);
 }
 
+// ************************************************************************************************
+
 unsigned int StringId::GetHash() const
 {
 	return m_Hash;
 }
+
+// ************************************************************************************************
 
 StringId StringId::Create(const String& Value)
 {
@@ -91,10 +105,14 @@ StringId StringId::Create(const String& Value)
 	return StringId(Hash, Index);
 }
 
+// ************************************************************************************************
+
 StringId StringId::Create(const char* Value)
 {
 	return Create(String(Value));
 }
+
+// ************************************************************************************************
 
 String StringId::Lookup(const StringId& Id)
 {
@@ -105,5 +123,7 @@ String StringId::Lookup(const StringId& Id)
 
 	return m_StringArray[Id.m_Index];
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

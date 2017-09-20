@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdarg.h>
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 TextStream::TextStream(IStream* BaseStream, ITextEncoding* Encoding)
 	: StreamWrapper(BaseStream)
@@ -113,11 +115,15 @@ TextStream::TextStream(IStream* BaseStream, ITextEncoding* Encoding)
 	}
 }
 
+// ************************************************************************************************
+
 TextStream::~TextStream()
 {
 	// Don't delete, auto-detected are RAII, passed encodings are responsibility of caller.
 	m_Encoding = nullptr;
 }
+
+// ************************************************************************************************
 
 Error TextStream::WriteLine(String Format, ...)
 {
@@ -140,17 +146,23 @@ Error TextStream::WriteLine(String Format, ...)
 	return Result;
 }
 
+// ************************************************************************************************
+
 void TextStream::Indent()
 {
 	m_IndentLevel++;
 }
 
+// ************************************************************************************************
+
 void TextStream::Undent()
 {
-	Assert(m_IndentLevel > 0);
+	LD_ASSERT(m_IndentLevel > 0);
 
 	m_IndentLevel--;
 }
+
+// ************************************************************************************************
 
 Error TextStream::ReadCodePoint(Array<uint8>& Buffer)
 {
@@ -182,6 +194,8 @@ Error TextStream::ReadCodePoint(Array<uint8>& Buffer)
 
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 Error TextStream::ReadLine(String& Result)
 {
@@ -241,5 +255,7 @@ Error TextStream::ReadLine(String& Result)
 	Result = String((char*)m_IntermediateLine.Data(), m_IntermediateLine.Length());
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

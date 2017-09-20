@@ -24,11 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ThirdParty/Utf8Cpp/source/utf8.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 Utf32TextEncoding::Utf32TextEncoding(bool bBigEndian)
 	: m_BigEndian(bBigEndian)
 {
 }
+
+// ************************************************************************************************
 
 bool Utf32TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 {
@@ -79,6 +83,8 @@ bool Utf32TextEncoding::IsNewLine(const Array<uint8>& Buffer) const
 	return false;
 }
 
+// ************************************************************************************************
+
 bool Utf32TextEncoding::IsValid(const Array<uint8>& Buffer) const
 {
 	// TODO: Add some proper validation here please.
@@ -90,6 +96,8 @@ bool Utf32TextEncoding::IsValid(const Array<uint8>& Buffer) const
 
 	return true;
 }
+
+// ************************************************************************************************
 
 Error Utf32TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -111,6 +119,8 @@ Error Utf32TextEncoding::Encode(const Array<uint8>& InputBuffer, Array<uint8>* O
 
 	return ErrorType::Success;
 }
+
+// ************************************************************************************************
 
 Error Utf32TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* OutputBuffer) const
 {
@@ -154,6 +164,8 @@ Error Utf32TextEncoding::Decode(const Array<uint8>& InputBuffer, Array<uint8>* O
 	return ErrorType::Success;
 }
 
+// ************************************************************************************************
+
 Array<uint8> Utf32TextEncoding::GetBom() const
 {
 	Array<uint8> Result;
@@ -175,5 +187,7 @@ Array<uint8> Utf32TextEncoding::GetBom() const
 
 	return Result;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

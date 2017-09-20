@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Types/Formatters/SimpleStringFormatter.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 SimpleStringArgumentFormatter::SimpleStringArgumentFormatter()
 	: m_PadLeftLength(0)
@@ -29,11 +31,15 @@ SimpleStringArgumentFormatter::SimpleStringArgumentFormatter()
 {
 }
 
+// ************************************************************************************************
+
 void SimpleStringArgumentFormatter::PadLeft(const int Length, const String& Padding)
 {
 	m_PadLeftLength = Length;
 	m_PadLeftValue = Padding;
 }
+
+// ************************************************************************************************
 
 void SimpleStringArgumentFormatter::PadRight(const int Length, const String& Padding)
 {
@@ -41,10 +47,14 @@ void SimpleStringArgumentFormatter::PadRight(const int Length, const String& Pad
 	m_PadRightValue = Padding;
 }
 
+// ************************************************************************************************
+
 void SimpleStringArgumentFormatter::SetNumberPrecision(const int Precision)
 {
 	m_NumberPrecision = Precision;
 }
+
+// ************************************************************************************************
 
 void SimpleStringArgumentFormatter::Format(const StringArgument& Argument, String& Output)
 {
@@ -97,5 +107,7 @@ void SimpleStringArgumentFormatter::Format(const StringArgument& Argument, Strin
 		Output = Output.PadRight(m_PadRightLength, m_PadRightValue);
 	}
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

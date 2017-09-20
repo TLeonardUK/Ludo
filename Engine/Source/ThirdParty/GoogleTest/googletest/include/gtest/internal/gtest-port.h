@@ -1023,7 +1023,7 @@ class Secret;
 // containing the name of the variable.
 
 #if GTEST_LANG_CXX11
-# define GTEST_COMPILE_ASSERT_(expr, msg) static_assert(expr, #msg)
+# define GTEST_COMPILE_ASSERT_(expr, msg) static_LD_ASSERT(expr, #msg)
 #else  // !GTEST_LANG_CXX11
 template <bool>
   struct CompileAssert {

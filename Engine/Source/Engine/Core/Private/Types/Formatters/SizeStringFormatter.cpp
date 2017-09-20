@@ -21,10 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Types/Formatters/SizeStringFormatter.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 SizeStringArgumentFormatter::SizeStringArgumentFormatter()
 {
 }
+
+// ************************************************************************************************
 
 void SizeStringArgumentFormatter::Format(const StringArgument& Argument, String& Output)
 {
@@ -50,7 +54,7 @@ void SizeStringArgumentFormatter::Format(const StringArgument& Argument, String&
 		case StringArgumentValueType::Double:			Result = (double)Argument.Value.DoubleValue;		break;
 		default:
 		{
-			ConstantAssert();
+			LD_CONSTANT_LD_ASSERT();
 			break;
 		}
 	}
@@ -66,5 +70,7 @@ void SizeStringArgumentFormatter::Format(const StringArgument& Argument, String&
 
 	Output = Buffer;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

@@ -17,20 +17,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
-namespace Ludo {
+#include "Core/Public/Reflection/ReflectionMacros.h"
+#include "Core/Public/Object/Object.generated.h"
 
+namespace Ludo {
+	        
 class Type;
 
-/// \brief Base class for all objects that can be accessed via reflection.
+/** \brief Base class for all game objects.
+ *
+ * The object class provides the basic functionality required to support 
+ * our internal reflection and type systems. 
+ */
 META()
 class Object
 {
-private:
+	GENERATED_BODY()
 
 public:
 
-	/// \brief Gets the reflection type for this object.
-	virtual Type* GetType();
+	/** \brief Gets the reflection type for this object.
+	 *
+	 *	\returns Constant reference to the type instance that represents this class.
+	 */
+	virtual const Type* GetType();
 
 };
 

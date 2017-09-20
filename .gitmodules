@@ -1,3 +1,6 @@
 [submodule "Tools/MicroBuild"]
 	path = Tools/MicroBuild
 	url = https://github.com/TLeonardUK/MicroBuild.git
+[submodule "Engine/Source/ThirdParty/Clang"]
+	path = Engine/Source/ThirdParty/Clang
+	url = https://github.com/TLeonardUK/Ludo-LibClang.git

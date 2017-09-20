@@ -19,15 +19,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief TODO
+*/
 class INotCopyable
 {
 public:
+
 	INotCopyable()
 	{
 	}
+
 private:
+
 	INotCopyable(const INotCopyable& Other) = delete;
+
 };
 
 }; // namespace Ludo

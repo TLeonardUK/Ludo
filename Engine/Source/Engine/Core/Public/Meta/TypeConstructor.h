@@ -19,33 +19,61 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief TODO
+ *
+ *  \tparam ElementType
+ */
 template <typename ElementType>
 struct TypeConstructor
 {
+
+    /** \brief TODO
+     *
+     *  \param Ref
+     */
 	static void Construct(ElementType& Ref)
 	{
 		new (&Ref) ElementType();
 	}
+
+    /** \brief TODO
+     *
+     *  \param Ref
+     */
 	static void Destruct(ElementType& Ref)
 	{
 		LD_UNUSED_PARAMETER(Ref); // Not sure why VS requires this...
 		Ref.~ElementType();
 	}
+
 };
 
-/// \brief TODO
+/** \brief TODO
+*
+*  \tparam ElementType
+*/
 template <typename ElementType>
 struct TypeConstructor<ElementType*>
 {
+
+    /** \brief TODO
+     *
+     *  \param Ref
+     */
 	static void Construct(ElementType*& Ref)
 	{
 		Ref = nullptr;
 	}
+    
+    /** \brief TODO
+     *
+     *  \param Ref
+     */
 	static void Destruct(ElementType*& Ref)
 	{
 		Ref = nullptr;
 	}
+
 };
 
 };

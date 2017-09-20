@@ -19,18 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/* 
-@brief Interface that hides a pointer to a private implementation of a derived class.
-
-@description This is primarily used for things like platform-specific objects where you do 
-no want to pull in all the dependencies the implementation requires to everywhere
-that uses it. 
-
-This can be done cleaner in a more tranditional pimpl implementation, using virtual
-methods and wrappers, but this results in uneccecssary virtual function calls, 
-where as this method can be resolved at compile time without indirection.
-
-*/
+/** \brief Interface that hides a pointer to a private implementation of a derived class.
+ *
+ * This is primarily used for things like platform-specific objects where you do 
+ * no want to pull in all the dependencies the implementation requires to everywhere
+ * that uses it. 
+ *
+ * This can be done cleaner in a more tranditional pimpl implementation, using virtual
+ * methods and wrappers, but this results in uneccecssary virtual function calls, 
+ * where as this method can be resolved at compile time without indirection.
+ */
 class IPimpl
 {
 protected:
@@ -38,48 +36,51 @@ protected:
 
 protected:
 
-	/*
-	@brief Constructor.
-	*/
+	/// \brief Constructor.
 	IPimpl()
 		: m_Impl(nullptr)
 	{
 	}
 
-	/* 
-	@brief		Helper function, returns the implementation pointer reintepreted to the template type.
-	@returns	Implementation reinterpreted to the template type.	
-
-	@tparam	ResultType		
-	Type to cast implementation pointer to.
-	*/
+	/** \brief Helper function, returns the implementation pointer reintepreted to the template type.
+     *
+     *  \tparam ResultType Type to cast implementation pointer to.
+     *
+	 *  \returns Implementation reinterpreted to the template type.	
+     */
 	template <typename ResultType>
 	ResultType* GetImpl()
 	{
-		Assert(m_Impl != nullptr);
+		LD_ASSERT(m_Impl != nullptr);
 		return reinterpret_cast<ResultType*>(m_Impl);
 	}
 
 	template <typename ResultType>
 	const ResultType* GetImpl() const
 	{
-		Assert(m_Impl != nullptr);
+		LD_ASSERT(m_Impl != nullptr);
 		return reinterpret_cast<ResultType*>(m_Impl);
 	}
 
-	/*
-	@brief TODO
-	*/
+    /** \brief TODO
+     *
+     *  \tparam ArenaType
+     *  \tparam ImplType
+     *
+     *  \returns
+     */
 	template <typename ArenaType, typename ImplType>
 	ImplType* CreateImpl()
 	{
 		m_Impl = LD_ARENA_NEW(ArenaType, ImplType);
 		return GetImpl<ImplType>();
 	}
-
-	/*
-	@brief TODO
-	*/
+    
+    /** \brief TODO
+     *
+     *  \tparam ArenaType
+     *  \tparam ImplType
+     */
 	template <typename ArenaType, typename ImplType>
 	void DestroyImpl()
 	{

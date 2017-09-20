@@ -22,10 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 TimeStringArgumentFormatter::TimeStringArgumentFormatter(const char* Format)
 	: m_Format(Format)
 {
 }
+
+// ************************************************************************************************
 
 void TimeStringArgumentFormatter::Format(const StringArgument& Argument, String& Output)
 {
@@ -33,5 +37,7 @@ void TimeStringArgumentFormatter::Format(const StringArgument& Argument, String&
 	LD_UNUSED_PARAMETER(Argument);
 	LD_UNUSED_PARAMETER(Output);
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

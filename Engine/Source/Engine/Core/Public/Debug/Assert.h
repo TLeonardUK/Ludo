@@ -21,58 +21,147 @@ namespace Ludo {
 
 struct StringArgumentList;
 
+/** \brief Shows a warning message and terminates the application.
+ *
+ * \param Message Stringified code that failed.
+ * \param File    Name of file that assert failed in.
+ * \param Line    Line of file that assert failed on.
+ *
+ * This is the internal function that is called when an assert fails.
+ * When invoked this shows the message provided along with the file and line location.
+ */
 void AssertFailed(const char* Message, const char* File, int Line);
+
+/** \brief Shows a warning message and terminates the application.
+ *
+ * \param Message Stringified code that failed.
+ * \param File    Name of file that assert failed in.
+ * \param Line    Line of file that assert failed on.
+ * \param Format  User defined message explaining what caused failure.
+ *
+ * This is the internal function that is called when an assert fails.
+ * When invoked this shows the message provided along with the file and line location.
+ */
 void AssertFailed(const char* Message, const char* File, int Line, const char* Format);
+
+/** \brief Shows a warning message and terminates the application.
+ *
+ * \param Message Stringified code that failed.
+ * \param File    Name of file that assert failed in.
+ * \param Line    Line of file that assert failed on.
+ * \param Format  User defined message explaining what caused failure.
+ * \param Args    Additional arguments that can be inserted into the Format message
+ *                using printf formatting tags.
+ *
+ * This is the internal function that is called when an assert fails.
+ * When invoked this shows the message provided along with the file and line location.
+ */
 void AssertFailedF(const char* Message, const char* File, int Line, const char* Format, StringArgumentList& Args);
+
+/** \brief Shows a warning message and terminates the application. 
+ *
+ * \param Message Stringified code that failed.
+ * \param File    Name of file that assert failed in.
+ * \param Line    Line of file that assert failed on.
+ * \param Format  User defined message explaining what caused failure.
+ * \param ..      Varidic arguments arguments that can be inserted into the Format message
+ *                using printf formatting tags.
+ *
+ * This is the internal function that is called when an assert fails.
+ * When invoked this shows the message provided along with the file and line location.
+ */
 void AssertFailedF(const char* Message, const char* File, int Line, const char* Format, ...);
 
 }; // namespace Ludo
 
-#ifndef LD_SHIPPING_BUILD
+#if !defined(LD_ASSERTS_ENABLED)
 
-/// \brief TODO
-#define Assert(cond) \
-	if (!(cond)) \
+/** \brief Checks a condition, if it evaluates to false a warning message 
+ *        is shown and the application terminates.
+ *
+ * \tparam Condition Condition to evaluate.
+ */
+#define LD_ASSERT(Condition) \
+	if (!(Condition)) \
 	{ \
-		Ludo::AssertFailed(#cond, __FILE__, __LINE__); \
-	}
-#define AssertMsg(cond, format) \
-	if (!(cond)) \
-	{ \
-		Ludo::AssertFailed(#cond, __FILE__, __LINE__, format); \
-	}
-#define AssertMsgF(cond, format, ...) \
-	if (!(cond)) \
-	{ \
-		Ludo::AssertFailedF(#cond, __FILE__, __LINE__, format, ##__VA_ARGS__); \
+		Ludo::AssertFailed(#Condition, __FILE__, __LINE__); \
 	}
 
-#define ConstantAssert() \
+/** \brief Checks a condition, if it evaluates to false a warning message
+ *        is shown and the application terminates.
+ *
+ * \tparam Condition Condition to evaluate.
+ * \tparam Message   Message to show describing the failure.
+ */
+#define LD_ASSERT_MSG(Condition, Message) \
+	if (!(Condition)) \
+	{ \
+		Ludo::AssertFailed(#Condition, __FILE__, __LINE__, Message); \
+	}
+
+/** \brief Checks a condition, if it evaluates to false a warning message
+ *        is shown and the application terminates.
+ *
+ * \tparam Condition Condition to evaluate.
+ * \tparam Format    Printf style formatting string for message describing
+ *                   the failure.
+ * \param ..         Varidic arguments arguments that can be inserted into the Format message
+ *                   using printf formatting tags.
+ */
+#define LD_ASSERT_MSGF(Condition, Format, ...) \
+	if (!(Condition)) \
+	{ \
+		Ludo::AssertFailedF(#Condition, __FILE__, __LINE__, Format, ##__VA_ARGS__); \
+	}
+
+/// \brief Shows a warning message and the application terminates.
+#define LD_CONSTANT_LD_ASSERT() \
 	Ludo::AssertFailed("ConstantAssert", __FILE__, __LINE__);
 
-#define ConstantAssertMsg(format) \
-	Ludo::AssertFailed("ConstantAssert", __FILE__, __LINE__, format); 
+/** \brief Shows a warning message and the application terminates.
+ *
+ * \tparam Message   Message to show describing the failure.
+ */
+#define LD_CONSTANT_ASSERT_MSG(Message) \
+	Ludo::AssertFailed("ConstantAssert", __FILE__, __LINE__, Message); 
 
-#define ConstantAssertMsgF(format, ...) \
+/** \brief Shows a warning message and the application terminates.
+ *
+ * \tparam Format    Printf style formatting string for message describing
+ *                   the failure.
+ * \param ..         Varidic arguments arguments that can be inserted into the Format message
+ *                   using printf formatting tags.
+ */
+#define LD_CONSTANT_ASSERT_MSGF(format, ...) \
 	Ludo::AssertFailedF("ConstantAssert", __FILE__, __LINE__, format, ##__VA_ARGS__); 
 
-#define NotImplemented() \
-	ConstantAssertMsg("Invoked non-implemented function.");
+/** \brief To be placed in unimplemented functions.
+ * 
+ * Shows a warning message saying the function is not implemented and then
+ * terminates the application.
+ */
+#define LD_NOT_IMPLEMENTED() \
+	LD_CONSTANT_ASSERT_MSG("Invoked non-implemented function.");
 
-#define PureVirtual() \
-	ConstantAssertMsg("Invoked non-implemented pure-virtual function.");
+/** \brief To be placed in pure-virtual functions.
+ *
+ * Shows a warning message saying the function is pure-virtual and then
+ * terminates the application.
+ */
+#define LD_PURE_VIRTUAL() \
+	LD_CONSTANT_ASSERT_MSG("Invoked non-implemented pure-virtual function.");
 
 #else
 
-#define Assert(cond) 
-#define AssertMsg(cond, format) 
-#define AssertMsgF(cond, format, ...) 
+#define LD_ASSERT(cond) 
+#define LD_ASSERT_MSG(cond, format) 
+#define LD_ASSERT_MSGF(cond, format, ...) 
 
-#define ConstantAssert() 
-#define ConstantAssertMsg(format) 
-#define ConstantAssertMsgF(format, ...) 
+#define LD_CONSTANT_LD_ASSERT() 
+#define LD_CONSTANT_ASSERT_MSG(format) 
+#define LD_CONSTANT_ASSERT_MSGF(format, ...) 
 
-#define NotImplemented() 
-#define PureVirtual() 
+#define LD_NOT_IMPLEMENTED() 
+#define LD_PURE_VIRTUAL() 
 
 #endif

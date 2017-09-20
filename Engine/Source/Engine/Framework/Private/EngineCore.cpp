@@ -22,9 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+// ************************************************************************************************
+
 bool EngineCore::UseFastInit()
 {
 	return false;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

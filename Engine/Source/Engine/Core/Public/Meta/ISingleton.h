@@ -19,4 +19,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
+/** \brief TODO
+ *
+ *  \tparam BaseType
+ */
+template <typename BaseType>
+class ISingleton
+{
+public:
+
+    /** \brief TODO
+     *
+     */
+    static BaseType Instance;
+
+};
+
 };

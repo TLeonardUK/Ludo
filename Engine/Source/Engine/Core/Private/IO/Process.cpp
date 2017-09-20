@@ -21,33 +21,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/IO/Process.h"
 
 namespace Ludo {
+    
+// ************************************************************************************************
 
 uint64 Process::Position()
 {
-	NotImplemented();
+	LD_NOT_IMPLEMENTED();
 	return 0;
 }
 
+// ************************************************************************************************
+
 uint64 Process::Length()
 {
-	NotImplemented();
+	LD_NOT_IMPLEMENTED();
 	return 0;
 }
+
+// ************************************************************************************************
 
 void Process::Seek(uint64 Position)
 {
 	LD_UNUSED_PARAMETER(Position);
-	NotImplemented();
+	LD_NOT_IMPLEMENTED();
 }
+
+// ************************************************************************************************
 
 bool Process::CanRead()
 {
 	return true;
 }
 
+// ************************************************************************************************
+
 bool Process::CanWrite()
 {
 	return true;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

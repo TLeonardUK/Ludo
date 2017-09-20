@@ -21,35 +21,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Reflection/Enum.h"
 
 namespace Ludo {
-
-EnumKey::EnumKey(Enum* Base, StringId Name, int64 Value)
-	: m_Enum(Base)
-	, m_Name(Name)
-	, m_Value(Value)
-{
-}
+    
+// ************************************************************************************************
 
 EnumKey::EnumKey()
 	: m_Enum(nullptr)
-	, m_Name(StringId::Empty)
 	, m_Value(0)
 {
 }
+
+// ************************************************************************************************
 
 Enum* EnumKey::GetEnum() const
 {
 	return m_Enum;
 }
 
-StringId EnumKey::GetName() const
-{
-	return m_Name;
-}
+// ************************************************************************************************
 
 int64 EnumKey::GetValue() const
 {
 	return m_Value;
 }
+
+// ************************************************************************************************
 
 Array<const EnumKey*> Enum::GetKeys()
 {
@@ -60,6 +55,8 @@ Array<const EnumKey*> Enum::GetKeys()
 	}
 	return Results;
 }
+
+// ************************************************************************************************
 
 const EnumKey* Enum::FindKey(const StringId& Name)
 {
@@ -73,6 +70,8 @@ const EnumKey* Enum::FindKey(const StringId& Name)
 	return nullptr;
 }
 
+// ************************************************************************************************
+
 const EnumKey* Enum::FindKey(int64 Value)
 {
 	for (EnumKey& Key : m_Keys)
@@ -84,5 +83,7 @@ const EnumKey* Enum::FindKey(int64 Value)
 	}
 	return nullptr;
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

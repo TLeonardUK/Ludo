@@ -17,6 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #pragma once
 
+#include "Core/Public/Reflection/ReflectionMacros.h"
+
 #include "Core/Public/Types/StringId.h"
 
 #include "Core/Public/Reflection/Attribute.h"
@@ -26,8 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Reflection/Method.h"
 #include "Core/Public/Reflection/Type.h"
 
-#include <typeindex>
+#include "Core/Public/Object/Object.h"
 
+#include <typeindex>
+ 
 namespace Ludo {
 
 

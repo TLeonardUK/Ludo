@@ -25,37 +25,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/*
-typedef std::function<bool(EngineInterface& Output)> CreateGameInterfaceFunction_t;
-
-Module Own = Module::Self();
-CreateGameInterfaceFunction_t CreateFunction = Own.GetFunction<CreateGameInterfaceFunction_t>("CreateGameInterface");
-GameInterface* GameInterace = CreateFunction();
-*/
-
-/// \brief TODO
+/** \brief Represents a module of executable code on the 
+ *         platforms local file system.
+ *
+ * Example of using this to load a function from an external module:
+ *
+ *   typedef std::function<bool(EngineInterface& Output)> CreateGameInterfaceFunction_t;
+ *   Module Own = Module::Self();
+ *   CreateGameInterfaceFunction_t CreateFunction = Own.GetFunction<CreateGameInterfaceFunction_t>("CreateGameInterface");
+ *   GameInterface* GameInterace = CreateFunction();
+ */
 class Module :
 	public IPimpl,
 	public INotCopyable
 {
 public:
 
-	/// \brief TODO
 	Module();
-
-	/// \brief TODO
 	~Module();
 
-	/// \brief TODO
-	ErrorType Open(const Path& Path);
+    /** \brief Opens the module on the platforms file system.
+     *
+     *  \param  Path Path to the module on the local file system.
+     *
+     *  \returns Error value indicating success or failure.
+     */
+	Error Open(const Path& Path);
 
-	/// \brief TODO
+    /// \brief Closes access to the module. This is implicitly called during destruction.
 	void Close();
-
-	/// \brief TODO
+    
+    /** \brief Gets a pointer to the exported function from the module.
+     *
+     *  \param Name Name of exported address to get a pointer to..
+     *
+     *  \returns Pointer to exported function, or null if not found.
+     */
 	intptr GetExportAddress(const String& Name);
-
-	/// \brief TODO
+    
+    /** \brief Gets a function in the form of a function signature typedef.
+     *
+     *  \param Name       Name of exported function to retrieve.
+     *  \tparam Signature Signature of function to retrieve.
+     *
+     *  \returns Pointer to function in the format of the typedef provided.
+     */
 	template <typename Signature>
 	Signature GetFunction(const String& Name)
 	{
@@ -66,8 +80,11 @@ public:
 		}
 		return nullptr;
 	}
-
-	/// \brief TODO
+    
+    /** \brief Retrieves a module representing the currently executing module.
+     *
+     *  \returns Currently executing module.
+     */
 	static Module* Self();
 
 };

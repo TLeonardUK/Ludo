@@ -25,8 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Core/Public/Environment/Environment.h"
 
 namespace Ludo {
-
-/// \brief TODO
+ 
+/** \brief Mode to open file in. Determines what operations
+ *         can be performed on the file.
+ */
 enum class FileFlags
 {
 	Read		= 1,
@@ -34,7 +36,9 @@ enum class FileFlags
 	ReadWrite	= Read | Write,
 };
 
-/// \brief TODO
+/** \brief Represents a file on the platforms file system. Provides a stream
+ *         interface to read and write to it.
+ */
 class File : 
 	public IStream, 
 	public IPimpl,
@@ -42,74 +46,40 @@ class File :
 {
 public:
 
-	/// \brief TODO
+	/// \brief Constructs a new file instance.
 	File();
 
-	/// \brief TODO
-	~File();
+    ~File();
+    
+	/** \brief Opens the file on the platforms file system with the given mode/
+     *
+     *  \param  Path  Path to the file to open.
+     *  \param  Flags Flags determining what mode the file should be opened in.
+     *
+     *  \returns Error value indicating success or failure.
+     */
+	Error Open(const Path& Path, FileFlags Flags);
 
-	/// \brief TODO
-	Error Open(const Path& path, FileFlags flags);
-
-	/// \brief TODO
+	/// \brief Closes access to the file. This is implicitly called during destruction.
 	void Close();
 
-	/// \brief TODO
+	/** \brief Returns true if this file is currently open and accessible.
+     *
+     *  \returns True if file is open and accessible.
+     */
 	bool IsOpen();
 
-	/// \brief TODO
+    // IStream 
 	virtual Error Write(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
 	virtual Error Read(void* Buffer, uint64 BufferLength) override;
-
-	/// \brief TODO
 	virtual uint64 Position() override;
-
-	/// \brief TODO
 	virtual uint64 Length() override;
-
-	/// \brief TODO
 	virtual void Seek(uint64 Position) override;
-
-	/// \brief TODO
 	virtual bool AtEnd() override;
-
-	/// \brief TODO
 	virtual void Flush() override;
-
-	/// \brief TODO
 	virtual bool CanRead() override;
-
-	/// \brief TODO
 	virtual bool CanWrite() override;
-
-};
-
-/// \brief TODO
-struct FileMutex
-{
-private:
-	File m_File;
-
-public:
-	FileMutex(const Path& PathToFile)
-	{
-		while (true)
-		{
-			m_File.Open(PathToFile, FileFlags::Write);
-			if (m_File.IsOpen())
-			{
-				break;
-			}
-			Environment::Delay(TimeSpan(1000LLU));
-		}
-	}
-
-	~FileMutex()
-	{
-		m_File.Close();
-	}
+    // End IStream 
 
 };
 

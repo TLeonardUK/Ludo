@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/// \brief Represents an individual frame within a callstack trace.
 struct StackFrame
 {
 public:		
@@ -34,12 +34,27 @@ public:
 
 public:
 
-	/// \brief TODO
+	/** \brief Symbolicates the stack frame information.
+     *
+     * Symbolication involves invoking the platform-specific symbol service to 
+     * resolve the stack frames function address, this will produce the function name
+     * and file location.
+     *
+     * Calling this can take in the order of hundreds of milliseconds.
+     *
+     * \returns Error value determining if function was successful.
+     */
 	Error Resolve();
 
 };
 
-/// \brief TODO
+/** \brief Represents a platform-indepdendent stack-trace.
+ *
+ * Capturing a stack-trace is reasonably quick, however the stack frames
+ * will not be symbolicated. If you want symbol information you should call
+ * the Resolve method on each StackFrame, which will do a platform-specific
+ * lookup to try and resolve the symbol information, which will likely be slow.
+ */
 class StackTrace
 {
 private:
@@ -47,22 +62,40 @@ private:
 
 public:
 
-	/// \brief TODO
+	/** \brief Platform independent respresentation of a stack frame generated
+     *          from an exception. 
+     *
+     * Instances of this can be passed into the Generate function to produce 
+     * a stack trace. 
+     */
 	typedef void* ExceptionRecord;
 
-	/// \brief TODO
 	StackTrace();
+    ~StackTrace();
 
-	/// \brief TODO
-	~StackTrace();
-
-	/// \brief TODO
+	/** \brief   Gets the number of frames in the stack.
+     *  \returns The number of frames in the stack.
+     */
 	int FrameCount();
 
-	/// \brief TODO
-	StackFrame GetFrame(int Index);
+    /** \brief   Gets a specific frame in the stack.
+     *
+     *  \param Index Index of the frame to get, frames are ordered from 
+     *               most deep, to least.
+     *
+     *  \returns A reference to the frame at the given index in the stack.
+     */
+	StackFrame& GetFrame(int Index);
 
-	/// \brief TODO
+	/** \brief Generates a stack trace either from an exception record
+     *         or if none is provided, from the current thread.  
+     *
+     *  \param Trace  Reference to variable to store trace in.
+     *  \param Record Exception record, if generating from an exception
+     *                produced stack-trace.
+     *
+     *  \returns Error value determining if this generation failed or succeeded.
+     */
 	static Error Generate(StackTrace& Trace, ExceptionRecord Record = nullptr);
 
 };

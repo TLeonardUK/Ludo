@@ -26,9 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-// -----------------------------------------------------------------------------
-// String Arguments
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 StringArgument::StringArgument()
 	: Tag("")
@@ -37,12 +35,16 @@ StringArgument::StringArgument()
 {
 }
 
+// ************************************************************************************************
+
 StringArgument::StringArgument(String InTag, StringArgumentValue InValue, StringArgumentFormatter* InFormatter)
 	: Tag(InTag)
 	, Value(InValue)
 	, Formatter(InFormatter)
 {
 }
+
+// ************************************************************************************************
 
 void StringArgumentList::Add(String Tag, StringArgumentValue Value, StringArgumentFormatter* Formatter)
 {
@@ -56,6 +58,8 @@ void StringArgumentList::Add(String Tag, StringArgumentValue Value, StringArgume
 
 	Arguments.Add(Argument);
 }
+
+// ************************************************************************************************
 
 struct GlobalStrings
 {
@@ -76,9 +80,7 @@ struct GlobalStrings
 
 GlobalStrings gGlobalStrings;
 
-// -----------------------------------------------------------------------------
-// Memory Buffer
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 String::MemoryBuffer::MemoryBuffer()
 	: RefCount(1)
@@ -88,10 +90,14 @@ String::MemoryBuffer::MemoryBuffer()
 {
 }
 
+// ************************************************************************************************
+
 void String::MemoryBuffer::Retain()
 {
 	RefCount++;
 }
+
+// ************************************************************************************************
 
 void String::MemoryBuffer::Release()
 {
@@ -107,6 +113,8 @@ void String::MemoryBuffer::Release()
 		}
 	}
 }
+
+// ************************************************************************************************
 
 String::MemoryBuffer* String::MemoryBuffer::Allocate(int Size)
 {
@@ -126,10 +134,8 @@ String::MemoryBuffer* String::MemoryBuffer::Allocate(int Size)
 	return Buffer;
 }
 
+// ************************************************************************************************
 
-// -----------------------------------------------------------------------------
-// Iterators
-// -----------------------------------------------------------------------------
 String::CharIterator::CharIterator()
 	: m_StartByte(-1)
 	, m_NextByte(-1)
@@ -138,6 +144,8 @@ String::CharIterator::CharIterator()
 	, m_Buffer(nullptr)
 {
 }
+
+// ************************************************************************************************
 
 String::CharIterator::CharIterator(const String& Source, int StartByte, int NextByte, int CharIndex)
 {
@@ -152,6 +160,8 @@ String::CharIterator::CharIterator(const String& Source, int StartByte, int Next
 	}
 }
 
+// ************************************************************************************************
+
 String::CharIterator::CharIterator(const CharIterator& Iter)
 {
 	m_StartByte = Iter.m_StartByte;
@@ -165,6 +175,8 @@ String::CharIterator::CharIterator(const CharIterator& Iter)
 	}
 }
 
+// ************************************************************************************************
+
 String::CharIterator::~CharIterator()
 {
 	if (m_Buffer != nullptr)
@@ -172,6 +184,8 @@ String::CharIterator::~CharIterator()
 		m_Buffer->Release();
 	}
 }
+
+// ************************************************************************************************
 
 String::CharIterator& String::CharIterator::CharIterator::operator =(const CharIterator& Iter)
 {
@@ -193,71 +207,93 @@ String::CharIterator& String::CharIterator::CharIterator::operator =(const CharI
 	return *this;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::ValidFor(const String& Other) const
 {
 	return IsValid() && (Other.m_Buffer == m_Buffer);
 }
+
+// ************************************************************************************************
 
 int String::CharIterator::CharIndex() const
 {
 	return m_CharIndex;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::IsValid() const
 {
 	return (m_StartByte >= 0 && m_NextByte >= m_StartByte && m_CharIndex >= 0 && m_CharIndex <= m_Buffer->CharSize && m_Iteration == m_Buffer->Iteration);
 }
+
+// ************************************************************************************************
 
 bool String::CharIterator::Exists() const
 {
 	return (m_StartByte >= 0 && m_NextByte > m_StartByte && m_CharIndex >= 0 && m_CharIndex < m_Buffer->CharSize && m_Iteration == m_Buffer->Iteration);
 }
 
+// ************************************************************************************************
+
 const String::CharIterator& String::CharIterator::operator++()
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(1);
 	return *this;
 }
+
+// ************************************************************************************************
 
 const String::CharIterator& String::CharIterator::operator--()
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(-1);
 	return *this;
 }
 
+// ************************************************************************************************
+
 const String::CharIterator String::CharIterator::operator++(int)
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(1);
 	return *this;
 }
 
+// ************************************************************************************************
+
 const String::CharIterator String::CharIterator::operator--(int)
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(-1);
 	return *this;
 }
 
+// ************************************************************************************************
+
 String::CharIterator& String::CharIterator::operator+=(int CharOffset)
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(CharOffset);
 	return *this;
 }
 
+// ************************************************************************************************
+
 String::CharIterator& String::CharIterator::operator-=(int CharOffset)
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 	Advance(-CharOffset);
 	return *this;
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::CharIterator::operator+(int CharOffset) const
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 
 	String::CharIterator Copy = *this;
 	Copy.Advance(CharOffset);
@@ -265,15 +301,19 @@ String::CharIterator String::CharIterator::operator+(int CharOffset) const
 	return Copy;
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::CharIterator::operator-(int CharOffset) const
 {
-	AssertMsg(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
+	LD_ASSERT_MSG(m_Iteration == m_Buffer->Iteration, "Character iterator is no longer valid, string buffer has been changed.");
 
 	String::CharIterator Copy = *this;
 	Copy.Advance(-CharOffset);
 
 	return Copy;
 }
+
+// ************************************************************************************************
 
 void String::CharIterator::Advance(int Offset)
 {
@@ -326,66 +366,83 @@ void String::CharIterator::Advance(int Offset)
 	}
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::operator< (const CharIterator& rhs) const
 {
-	AssertMsg(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
+	LD_ASSERT_MSG(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
 	return m_CharIndex < rhs.m_CharIndex;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::operator> (const CharIterator& rhs) const
 {
-	AssertMsg(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
+	LD_ASSERT_MSG(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
 	return m_CharIndex > rhs.m_CharIndex;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::operator<=(const CharIterator& rhs) const
 {
-	AssertMsg(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
+	LD_ASSERT_MSG(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
 	return m_CharIndex <= rhs.m_CharIndex;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::operator>=(const CharIterator& rhs) const
 {
-	AssertMsg(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
+	LD_ASSERT_MSG(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
 	return m_CharIndex >= rhs.m_CharIndex;
 }
 
+// ************************************************************************************************
+
 bool String::CharIterator::operator==(const CharIterator& rhs) const
 {
-	AssertMsg(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
+	LD_ASSERT_MSG(m_Iteration == rhs.m_Iteration && m_Buffer == rhs.m_Buffer, "Comparison of incompatible character iterators.");
 	return m_StartByte == rhs.m_StartByte;
 }
+
+// ************************************************************************************************
 
 bool String::CharIterator::operator!=(const CharIterator& Other) const
 {
 	return !operator==(Other);
 }
 
+// ************************************************************************************************
+
 String String::CharIterator::operator*()
 {
-	AssertMsg(m_StartByte < m_Buffer->Size, "Attempt to dereference out of range (probably end()?) iterator.");
+	LD_ASSERT_MSG(m_StartByte < m_Buffer->Size, "Attempt to dereference out of range (probably end()?) iterator.");
 	return String(m_Buffer->Buffer + m_StartByte, m_NextByte - m_StartByte);
 }
 
+// ************************************************************************************************
 
 String::CharIterator::operator bool() const
 {
 	return m_CharIndex >= 0 && m_CharIndex < m_Buffer->CharSize;
 }
 
-// -----------------------------------------------------------------------------
-// Constructors
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 String::~String()
 {
 	m_Buffer->Release();
 }
 
+// ************************************************************************************************
+
 String::String()
 {
 	m_Buffer = gGlobalStrings.m_EmptyBuffer;
 }
+
+// ************************************************************************************************
 
 String::String(const CharType Value, const int Size)
 {
@@ -395,6 +452,8 @@ String::String(const CharType Value, const int Size)
 	m_Buffer->CharSize = GetBufferCharLength(m_Buffer->Buffer, m_Buffer->Buffer + m_Buffer->Size);
 	m_Buffer->Iteration++;
 }
+
+// ************************************************************************************************
 
 String::String(const int Value)
 {
@@ -409,6 +468,8 @@ String::String(const int Value)
 	m_Buffer->Iteration++;
 }
 
+// ************************************************************************************************
+
 String::String(const float Value)
 {
 	char Buffer[128];
@@ -422,6 +483,8 @@ String::String(const float Value)
 	m_Buffer->Iteration++;
 }
 
+// ************************************************************************************************
+
 String::String(const CharType* Value)
 {
 	int Length = (int)strlen(Value);
@@ -432,28 +495,37 @@ String::String(const CharType* Value)
 	m_Buffer->Iteration++;
 }
 
+// ************************************************************************************************
+
 String::String(const CharType* Value, const int Length)
 {
 	m_Buffer = MemoryBuffer::Allocate(Length);
 	memcpy(m_Buffer->Buffer, Value, Length);
 
 	int realLen = (int)strlen(m_Buffer->Buffer);
-	Assert(realLen == m_Buffer->Size);
+	LD_ASSERT(realLen == m_Buffer->Size);	
+	LD_UNUSED_PARAMETER(realLen);
 
 	m_Buffer->CharSize = GetBufferCharLength(m_Buffer->Buffer, m_Buffer->Buffer + m_Buffer->Size);
 	m_Buffer->Iteration++;
 }
+
+// ************************************************************************************************
 
 String::String(String::MemoryBuffer* Value)
 {
 	m_Buffer = Value;
 }
 
+// ************************************************************************************************
+
 String::String(const String& Value)
 {
 	m_Buffer = Value.m_Buffer;
 	m_Buffer->Retain();
 }
+
+// ************************************************************************************************
 
 String::String(const CharType Value)
 {
@@ -463,6 +535,8 @@ String::String(const CharType Value)
 	m_Buffer->CharSize = GetBufferCharLength(m_Buffer->Buffer, m_Buffer->Buffer + m_Buffer->Size);
 	m_Buffer->Iteration++;
 }
+
+// ************************************************************************************************
 
 String::String(const Array<CharType>& Value)
 {
@@ -475,6 +549,8 @@ String::String(const Array<CharType>& Value)
 	m_Buffer->CharSize = GetBufferCharLength(m_Buffer->Buffer, m_Buffer->Buffer + m_Buffer->Size);
 	m_Buffer->Iteration++;
 }
+
+// ************************************************************************************************
 
 String::String(std::initializer_list<CharType> List)
 {
@@ -489,9 +565,7 @@ String::String(std::initializer_list<CharType> List)
 	m_Buffer->Iteration++;
 }
 
-// -----------------------------------------------------------------------------
-// Operator overloads.
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 int String::Compare(const String& Other) const
 {
@@ -511,6 +585,8 @@ int String::Compare(const String& Other) const
 	return (Other.m_Buffer->Size - m_Buffer->Size);
 }
 
+// ************************************************************************************************
+
 String& String::operator =(const String& Other)
 {
 	Other.m_Buffer->Retain();
@@ -518,6 +594,8 @@ String& String::operator =(const String& Other)
 	m_Buffer = Other.m_Buffer;
 	return *this;
 }
+
+// ************************************************************************************************
 
 String String::operator +(const String& Other) const
 {
@@ -545,6 +623,8 @@ String String::operator +(const String& Other) const
 
 	return String(NewBuffer);
 }
+
+// ************************************************************************************************
 
 String String::operator +(const char* Other) const
 {
@@ -575,24 +655,32 @@ String String::operator +(const char* Other) const
 	return String(NewBuffer);
 }
 
+// ************************************************************************************************
+
 String& String::operator +=(const String& Other)
 {
 	return operator =(*this + Other);
 }
+
+// ************************************************************************************************
 
 String operator+(const char* A, const String& B)
 {
 	return String(A) + B;
 }
 
+// ************************************************************************************************
+
 String String::operator [](const int Index) const
 {
-	Assert(Index >= 0 && Index < m_Buffer->CharSize);
+	LD_ASSERT(Index >= 0 && Index < m_Buffer->CharSize);
 
 	CharIterator Iterator = GetCharIterator(Index);
 	
 	return String(m_Buffer->Buffer + Iterator.m_StartByte, Iterator.m_NextByte - Iterator.m_StartByte);
 }
+
+// ************************************************************************************************
 
 bool String::operator ==(const String& Other) const
 {
@@ -603,48 +691,63 @@ bool String::operator ==(const String& Other) const
 	return (memcmp(m_Buffer->Buffer, Other.m_Buffer->Buffer, m_Buffer->Size) == 0);
 }
 
+// ************************************************************************************************
+
 bool String::operator !=(const String& Other) const
 {
 	return !(operator ==(Other));
 }
+
+// ************************************************************************************************
 
 bool String::operator <(const String& Other) const
 {
 	return Compare(Other) < 0;
 }
 
+// ************************************************************************************************
+
 bool String::operator >(const String& Other) const
 {
 	return Compare(Other) > 0;
 }
+
+// ************************************************************************************************
 
 bool String::operator <=(const String& Other) const
 {
 	return Compare(Other) <= 0;
 }
 
+// ************************************************************************************************
+
 bool String::operator >=(const String& Other) const
 {
 	return Compare(Other) >= 0;
 }
 
-// -----------------------------------------------------------------------------
-// Iteration
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
+
 int String::CharLength() const
 {
 	return m_Buffer->CharSize;
 }
+
+// ************************************************************************************************
 
 int String::ByteLength() const
 {
 	return m_Buffer->Size;
 }
 
+// ************************************************************************************************
+
 const char* String::Data() const
 {
 	return m_Buffer->Buffer;
 }
+
+// ************************************************************************************************
 
 int String::GetBufferCharLength(const CharType* Start, const CharType* End)
 {
@@ -660,9 +763,11 @@ int String::GetBufferCharLength(const CharType* Start, const CharType* End)
 	return Length;
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::GetCharIterator(int CharOffset) const
 {
-	AssertMsg(CharOffset >= 0 && CharOffset <= m_Buffer->CharSize, "Attempt to get iterator for invalid character index.");
+	LD_ASSERT_MSG(CharOffset >= 0 && CharOffset <= m_Buffer->CharSize, "Attempt to get iterator for invalid character index.");
 
 	CharIterator StartIter = CharIterator(*this, 0, 0, 0);
 	StartIter.Advance(1);
@@ -676,25 +781,35 @@ String::CharIterator String::GetCharIterator(int CharOffset) const
 	return StartIter + CharOffset;
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::BeginCharIterator() const
 {
 	return GetCharIterator(0);
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::EndCharIterator() const
 {
 	return CharIterator(*this, m_Buffer->Size, m_Buffer->Size, m_Buffer->CharSize);
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::Begin() const
 {
 	return BeginCharIterator();
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::End() const
 {
 	return EndCharIterator();
 }
+
+// ************************************************************************************************
 
 /*
 String::GraphemeIterator String::GetGraphemeIterator() const
@@ -702,49 +817,60 @@ String::GraphemeIterator String::GetGraphemeIterator() const
 	GraphemeIterator Iterator;
 	
 	// TODO
-	NotImplemented();
+	LD_NOT_IMPLEMENTED();
 
 	return Iterator;
 }
+
+// ************************************************************************************************
 
 String::GraphemeIterator String::GetGraphemeIterator(CharIterator Start) const
 {
 	GraphemeIterator Iterator;
 
 	// TODO
-	NotImplemented();
+	LD_NOT_IMPLEMENTED();
 
 	return Iterator;
 }
 */
+
+// ************************************************************************************************
 
 String::CharIterator String::begin()
 {
 	return BeginCharIterator();
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::end()
 {
 	return EndCharIterator();
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::begin() const
 {
 	return BeginCharIterator();
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::end() const
 {
 	return EndCharIterator();
 }
 
-// -----------------------------------------------------------------------------
-// Conversion / Formatting
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
+
 int String::ToInt() const
 {
 	return atoi(m_Buffer->Buffer);
 }
+
+// ************************************************************************************************
 
 unsigned int String::ToHash() const
 {
@@ -765,20 +891,28 @@ unsigned int String::ToHash() const
 	return Hash;
 }
 
+// ************************************************************************************************
+
 bool String::ToBool() const
 {
 	return m_Buffer->Size == 0 || !(stricmp(m_Buffer->Buffer, "false") == 0 || stricmp(m_Buffer->Buffer, "0") == 0);
 }
+
+// ************************************************************************************************
 
 float String::ToFloat() const
 {
 	return (float)atof(m_Buffer->Buffer);
 }
 
+// ************************************************************************************************
+
 bool String::IsEmpty() const
 {
 	return (ByteLength() == 0);
 }
+
+// ************************************************************************************************
 
 bool String::IsNumeric() const
 {
@@ -794,6 +928,8 @@ bool String::IsNumeric() const
 	return true;
 }
 
+// ************************************************************************************************
+
 bool String::IsAlpha() const
 {
 	for (int i = 0; i < ByteLength(); i++)
@@ -807,6 +943,8 @@ bool String::IsAlpha() const
 	}
 	return true;
 }
+
+// ************************************************************************************************
 
 bool String::IsAlphaNumeric() const
 {
@@ -822,6 +960,8 @@ bool String::IsAlphaNumeric() const
 	return true;
 }
 
+// ************************************************************************************************
+
 bool String::IsHex() const
 {
 	for (int i = 0; i < ByteLength(); i++)
@@ -836,6 +976,8 @@ bool String::IsHex() const
 	return true;
 }
 
+// ************************************************************************************************
+
 String String::HexToString(const int Value)
 {
 	std::stringstream Stream;
@@ -843,10 +985,14 @@ String String::HexToString(const int Value)
 	return String(Stream.str().c_str());
 }
 
+// ************************************************************************************************
+
 int String::IntFromHex() const
 {
 	return strtol(Data(), nullptr, 16);
 }
+
+// ************************************************************************************************
 
 String String::Format(String Format, ...)
 {
@@ -857,6 +1003,8 @@ String String::Format(String Format, ...)
 
 	return Result;
 }
+
+// ************************************************************************************************
 
 String String::FormatArgs(const StringArgumentList& Arguments) const
 {
@@ -953,10 +1101,14 @@ String String::FormatArgs(const StringArgumentList& Arguments) const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::FormatArgs(const String& Format, const StringArgumentList& Arguments)
 {
 	return Format.FormatArgs(Arguments);
 }
+
+// ************************************************************************************************
 
 String String::FormatVA(va_list list) const
 {
@@ -1002,29 +1154,35 @@ String String::FormatVA(va_list list) const
 	return Buffer;
 }
 
+// ************************************************************************************************
+
 String String::FormatVA(const String& Format, va_list List)
 {
 	return Format.FormatVA(List);
 }
 
-// -----------------------------------------------------------------------------
-// Searching
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 bool String::Contains(const String& Needle) const
 {
 	return (IndexOf(Needle).Exists());
 }
 
+// ************************************************************************************************
+
 bool String::ContainsAny(const Array<String>& Needles) const
 {
 	return (IndexOfAny(Needles).Exists());
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::IndexOf(const String& Needle) const
 {
 	return IndexOf(Needle, BeginCharIterator());
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::IndexOf(const String& Needle, const CharIterator& StartIndex) const
 {
@@ -1050,10 +1208,14 @@ String::CharIterator String::IndexOf(const String& Needle, const CharIterator& S
 	return EndIterator;
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::IndexOfAny(const Array<String>& Needles) const
 {
 	return IndexOfAny(Needles, BeginCharIterator());
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::IndexOfAny(const Array<String>& Needles, const CharIterator& StartIndex) const
 {
@@ -1088,10 +1250,14 @@ String::CharIterator String::IndexOfAny(const Array<String>& Needles, const Char
 	return EndCharIterator();
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::LastIndexOf(const String& Needle) const
 {
 	return LastIndexOf(Needle, EndCharIterator());
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::LastIndexOf(const String& Needle, const CharIterator& EndIndex) const
 {
@@ -1129,10 +1295,14 @@ String::CharIterator String::LastIndexOf(const String& Needle, const CharIterato
 	return EndCharIterator();
 }
 
+// ************************************************************************************************
+
 String::CharIterator String::LastIndexOfAny(const Array<String>& Needles) const
 {
 	return LastIndexOfAny(Needles, EndCharIterator());
 }
+
+// ************************************************************************************************
 
 String::CharIterator String::LastIndexOfAny(const Array<String>& Needles, const CharIterator& EndIndex) const
 {
@@ -1173,6 +1343,8 @@ String::CharIterator String::LastIndexOfAny(const Array<String>& Needles, const 
 	return EndCharIterator();
 }
 
+// ************************************************************************************************
+
 bool String::StartsWith(const String& What) const
 {
 	if (m_Buffer->Size < What.m_Buffer->Size || What.m_Buffer->Size <= 0)
@@ -1181,6 +1353,8 @@ bool String::StartsWith(const String& What) const
 	}
 	return (memcmp(m_Buffer->Buffer, What.m_Buffer->Buffer, What.m_Buffer->Size) == 0);
 }
+
+// ************************************************************************************************
 
 bool String::EndsWith(const String& What) const
 {
@@ -1191,9 +1365,7 @@ bool String::EndsWith(const String& What) const
 	return (memcmp(m_Buffer->Buffer + m_Buffer->Size - What.m_Buffer->Size, What.m_Buffer->Buffer, What.m_Buffer->Size) == 0);
 }
 
-// -----------------------------------------------------------------------------
-// Splitting / Joining
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 Array<String> String::Split(const String& Seperator, const int MaxSplits, const bool RemoveDuplicates) const
 {
@@ -1242,6 +1414,8 @@ Array<String> String::Split(const String& Seperator, const int MaxSplits, const 
 	return Result;
 }
 
+// ************************************************************************************************
+
 void String::SplitOnIndex(const CharIterator& Index, String& LeftOut, String& RightOut) const
 {
 	// These temporaries are intentional as its common to do things like this with this function:
@@ -1256,6 +1430,8 @@ void String::SplitOnIndex(const CharIterator& Index, String& LeftOut, String& Ri
 	RightOut = RightValue;
 }
 
+// ************************************************************************************************
+
 String String::Join(const Array<String>& Fragments) const
 {
 	String Result = "";
@@ -1269,6 +1445,8 @@ String String::Join(const Array<String>& Fragments) const
 	}
 	return Result;
 }
+
+// ************************************************************************************************
 
 String String::Filter(const String& AllowedChars, const String& Replacement) const
 {
@@ -1307,9 +1485,7 @@ String String::Filter(const String& AllowedChars, const String& Replacement) con
 	return Result;
 }
 
-// -----------------------------------------------------------------------------
-// State changing
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 String String::ToLower() const
 {
@@ -1323,6 +1499,8 @@ String String::ToLower() const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::ToUpper() const
 {
 	String Result = "";
@@ -1334,6 +1512,8 @@ String String::ToUpper() const
 	}
 	return Result;
 }
+
+// ************************************************************************************************
 
 String String::Escape() const
 {
@@ -1352,14 +1532,14 @@ String String::Escape() const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::DoubleQuoted() const
 {
 	return String('"') + Escape() + String('"');
 }
 
-// -----------------------------------------------------------------------------
-// General manipulation.
-// -----------------------------------------------------------------------------
+// ************************************************************************************************
 
 String String::Replace(const CharIterator& Start, const int Length, const String& Replacement) const
 {
@@ -1367,11 +1547,15 @@ String String::Replace(const CharIterator& Start, const int Length, const String
 	return Slice(BeginIterator, Start) + Replacement + Slice(Start + Length);
 }
 
+// ************************************************************************************************
+
 String String::Replace(const CharIterator& Start, const CharIterator& End, const String& Replacement) const
 {
 	CharIterator BeginIterator = BeginCharIterator();
 	return Slice(BeginIterator, Start) + Replacement + Slice(End);
 }
+
+// ************************************************************************************************
 
 String String::Replace(const String& What, const String& With) const
 {
@@ -1413,12 +1597,16 @@ String String::Replace(const String& What, const String& With) const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::Insert(const String& What, const CharIterator& Offset) const
 {
 	CharIterator BeginIterator = BeginCharIterator();
 
 	return Slice(BeginIterator, Offset) + What + Slice(Offset);
 }
+
+// ************************************************************************************************
 
 String String::Remove(const CharIterator& Start, const int CharLength) const
 {
@@ -1427,12 +1615,16 @@ String String::Remove(const CharIterator& Start, const int CharLength) const
 	return Slice(BeginIterator, Start) + Slice(Start + CharLength);
 }
 
+// ************************************************************************************************
+
 String String::Remove(const CharIterator& Start, const CharIterator& End) const
 {
 	CharIterator BeginIterator = BeginCharIterator();
 
 	return Slice(BeginIterator, Start) + Slice(End);
 }
+
+// ************************************************************************************************
 
 String String::Reverse() const
 {
@@ -1456,6 +1648,8 @@ String String::Reverse() const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::LimitEnd(const int CharLength, const String& Postfix) const
 {
 	if (CharLength <= Postfix.CharLength())
@@ -1469,6 +1663,8 @@ String String::LimitEnd(const int CharLength, const String& Postfix) const
 		return Slice(BeginIterator, BeginIterator + (CharLength - (Postfix.CharLength()))) + Postfix;
 	}
 }
+
+// ************************************************************************************************
 
 String String::LimitStart(const int CharLength, const String& Postfix) const
 {
@@ -1484,6 +1680,8 @@ String String::LimitStart(const int CharLength, const String& Postfix) const
 		return Postfix + Slice(BeginIterator + CutLength);
 	}
 }
+
+// ************************************************************************************************
 
 String String::PadLeft(const int CharLength, const String& padding) const
 {
@@ -1507,6 +1705,8 @@ String String::PadLeft(const int CharLength, const String& padding) const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::PadRight(const int CharLength, const String& padding) const
 {
 	String Result = *this;
@@ -1529,23 +1729,31 @@ String String::PadRight(const int CharLength, const String& padding) const
 	return Result;
 }
 
+// ************************************************************************************************
+
 String String::SubString(const CharIterator& Start, const int Count) const
 {
-	Assert(Start.ValidFor(*this));
+	LD_ASSERT(Start.ValidFor(*this));
 	return Slice(Start, Start + Count);
 }
 
+// ************************************************************************************************
+
 String String::SubString(const CharIterator& Start, const CharIterator& End) const
 {
-	Assert(Start.ValidFor(*this));
-	Assert(End.ValidFor(*this));
+	LD_ASSERT(Start.ValidFor(*this));
+	LD_ASSERT(End.ValidFor(*this));
 	return Slice(Start, End);
 }
+
+// ************************************************************************************************
 
 String String::Trim(const String& chars) const
 {
 	return TrimStart(chars).TrimEnd(chars);
 }
+
+// ************************************************************************************************
 
 String String::TrimStart(const String& chars) const
 {
@@ -1578,6 +1786,8 @@ String String::TrimStart(const String& chars) const
 
 	return Slice(BeginIterator, EndIterator);
 }
+
+// ************************************************************************************************
 
 String String::TrimEnd(const String& chars) const
 {
@@ -1621,16 +1831,20 @@ String String::TrimEnd(const String& chars) const
 	return Slice(BeginIterator, EndIterator + 1);
 }
 
+// ************************************************************************************************
+
 String String::Slice(const CharIterator& Start) const
 {
 	return Slice(Start, EndCharIterator());
 }
 
+// ************************************************************************************************
+
 String String::Slice(const CharIterator& Start, const CharIterator& End) const
 {
-	Assert(Start.ValidFor(*this));
-	Assert(End.ValidFor(*this));
-	Assert(Start <= End);
+	LD_ASSERT(Start.ValidFor(*this));
+	LD_ASSERT(End.ValidFor(*this));
+	LD_ASSERT(Start <= End);
 
 	int StartByte = Start.m_StartByte;
 	if (StartByte < 0)
@@ -1654,5 +1868,7 @@ String String::Slice(const CharIterator& Start, const CharIterator& End) const
 
 	return String(Buffer);
 }
+
+// ************************************************************************************************
 
 }; // namespace Ludo

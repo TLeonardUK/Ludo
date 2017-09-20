@@ -18,42 +18,61 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 namespace Ludo {
+	 
+/* 
+This is used to provide attributes to specific constructs in the code. This forms
+the basis of our reflection system. Each parameter passed to the META tag is expanded to 
+an instance of NameAttribute(Arguments) that is stored in the object class.
 
-	// Reflection attributes.
+eg.
+	Meta(Name("Test"))
+
+Will expand to an attribute list containing:
+	new NameAttribute("Test");
+*/
+#define META(...) 
+
+/* 
+This macro must be included inside all Object derived classes, it writes various
+meta-data related data into the class. The metadata generator will enforce inclusion
+of this macro in all Object derived classes.
+
+This is implemented as a macro that expands to another macro that is defined in the
+generated header file.
+*/
 #ifdef LD_REFLECTION_GENERATOR
 
-// Ok, so this ugly struct is here so we can do things like
-//
-// META(X)
-// class Somthing;
-//
-// Which we cannot do by default as the annotate keyword for class/structs/enums/unions
-// needs to follow the keyword not preceed it.
-//
-// The reflection builder determines which "attribute struct" matches
-// which field/class/etc.
-//
-// Don't worry, its not compiled into final code, just for the reflection generator :).
-//#define META(...) struct __attribute__((annotate(#__VA_ARGS__))) LD_INDIRECT_TOKEN_PASTE(_MetaAttributes_, __COUNTER__) {}; 
+#define GENERATED_BODY() 
 
 #else
 
+#define GENERATED_BODY() LD_INDIRECT_TOKEN_PASTE_6(LD_, LD_REFLECTION_FILE_ID, _, __LINE__, _, GENERATED_BODY)
 
 #endif
-
-// This is used to provide attributes to specific constructs in the code. This forms
-// the basis of our reflection system.
-#define META(...) 
-
-// This macro must be included inside all Object derived classes, it writes various
-// meta-data related data into the class.
-#define GENERATED_BODY() \
-	private:\
+	 
+// This macro is what is included by the GENERATED_BODY macro.
+#define LD_GENERATED_CLASS_BODY(ClassName, SuperClassName) \
+	private: \
+		/* Handy typedef for accessing the class we are derived from. */ \
+		typedef SuperClassName Super; \
+		\
+		/* Handy typedef for referencing our own class. */ \
+		typedef ClassName Self; \
+		\
+		/* Always allow reflection accessor to use and abuse our privates. */ \
 		friend class ReflectionAccessor; \
-		/*typedef _META_ObjectXSuper Super;*/ \
-		void StaticType(); \
-	\
-	public:
+		\
+	public: \
 
+// Same as LD_GENERATED_CLASS_BODY but with no super typedef.
+#define LD_GENERATED_CLASS_BODY_NO_SUPER(ClassName) \
+	private: \
+		/* Handy typedef for referencing our own class. */ \
+		typedef ClassName Self; \
+		\
+		/* Always allow reflection accessor to use and abuse our privates. */ \
+		friend class ReflectionAccessor; \
+		\
+	public: \
 
 }; // namespace Ludo
