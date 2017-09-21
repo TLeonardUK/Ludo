@@ -19,8 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/** \brief TODO
-*/
+/** \brief When a class implements this interface its default copy constructor
+ *         will be deleted to prevent this class being trivially copied.
+ */
 class INotCopyable
 {
 public:
