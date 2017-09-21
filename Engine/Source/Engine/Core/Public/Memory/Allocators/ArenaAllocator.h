@@ -21,9 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/** \brief TODO
+/** \brief Arena allocators allocate memory from a specific pre-defined pool of memory (known as an arena).
  * 
- *  \tparam ArenaType
+ *  \tparam ArenaType Class of arena, must be derived from MemoryArena.
  */
 template <
 	typename ArenaType
@@ -34,28 +34,26 @@ class ArenaAllocator
 public:
 
     // IAllocator
+    virtual void* Alloc(const int Size, const int Alignment = DefaultAlignment) override
+    {
+        LD_UNUSED_PARAMETER(Alignment);
+        // TODO
+        return malloc(Size);
+    }
 
-	virtual void* Alloc(const int Size, const int Alignment = DefaultAlignment) override
-	{
-		LD_UNUSED_PARAMETER(Alignment);
-		// TODO
-		return malloc(Size);
-	}
+    /// \brief TODO
+    virtual void* Realloc(void* Ptr, const int Size) override
+    {
+        // TODO
+        return realloc(Ptr, Size);
+    }
 
-	/// \brief TODO
-	virtual void* Realloc(void* Ptr, const int Size) override
-	{
-		// TODO
-		return realloc(Ptr, Size);
-	}
-
-	/// \brief TODO
-	virtual void Free(void* Ptr) override
-	{
-		// TODO
-		free(Ptr);
-	}
-
+    /// \brief TODO
+    virtual void Free(void* Ptr) override
+    {
+        // TODO
+        free(Ptr);
+    }
     // End IAllocator
 
 };
