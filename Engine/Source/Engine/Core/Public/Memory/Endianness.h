@@ -20,10 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Ludo {
 namespace Endianness {
     
-/** \brief TODO
+/** \brief Swaps endian of an arbitrary type. This inverts the order of bytes, changing MSB to LSB and vis-versa.
  * 
- *  \tparam BaseType
- *  \param Data
+ *  \tparam BaseType Base type of object to swap endian of. Typically compiler infered.
+ *
+ *  \param Data Reference to object to swap endian of.
  */
 template <typename BaseType>
 void SwapEndian(BaseType& Data)
