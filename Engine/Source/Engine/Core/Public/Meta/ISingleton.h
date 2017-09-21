@@ -1,4 +1,4 @@
-#/*
+/*
 Ludo Game Engine
 Copyright (C) 2016 TwinDrills
 
@@ -19,18 +19,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/** \brief TODO
+/** \brief When a class implements this interface it will only ever have a single instance.
+ *         The instance can be retrieved from the Instance member.
  *
- *  \tparam BaseType
+ *  \tparam Type of class to host a singleton instance of. This should be the same as the 
+ *          class that is implementing this interface.
+ *
+ *  Instance is implemented as a static value-type. Time of construction is undefined, but will
+ *  always be constructed when you access it.
  */
 template <typename BaseType>
 class ISingleton
 {
 public:
 
-    /** \brief TODO
-     *
-     */
+    /// \brief Primary instance of this singleton.
     static BaseType Instance;
 
 };
