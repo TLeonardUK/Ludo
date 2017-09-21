@@ -24,14 +24,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/** \brief TODO
+/** \brief Defines an standard arena class that code can allocate memory from.
  *
- *  \param Name
- *  \param BasebResizable
- *  \param BaseDefaultSize
- *  \param LocationHint
- *  \param DisplayName
- *  \param DisplayDescription
+ *  \param Name			Name of this arena. Final class will be called NameMemoryArena.
+ *  \param BasebResizable	Default resizable state. If true the arena can grow when it runs out of space, 
+ *				otherwise it will fail when it runs out of memory. Can be overriden by platform
+ *				implementation.
+ *  \param BaseDefaultSize	Default size of the memory the arena is allocated on start. Can be overridden by 
+ *				platform implementation.
+ *  \param LocationHint		Location where backing memory for this arena should be located. This acts as a hint
+ *				to the platform implementation as to where to physically store the memoy.
+ *  \param DisplayName		Display name of this arena as shown in human-readable messages.
+ *  \param DisplayDescription	Description of this arena as shown in human-readable messages.
  */
 #define DEFINE_MEMORY_ARENA(Name, BasebResizable, BaseDefaultSize, LocationHint, DisplayName, DisplayDescription) \
 	class Name##MemoryArena : public IMemoryArena \
