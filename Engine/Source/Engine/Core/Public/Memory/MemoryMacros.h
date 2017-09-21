@@ -21,69 +21,79 @@ namespace Ludo {
 
 class Allocator;
 
-/** \brief TODO
+/** \brief Replacement for new, allocates and constructs a new instance of a given
+ *         type. Memory is allocated from the standard arena specified.
  * 
- *  \param Arena
- *  \param Type
+ *  \param Arena Type name of arena to allocate from.
+ *  \param Type  Type of object to allocate.
+ *  \param ...   Arguments to pass to type constructor.
  *
- *  \returns
+ *  \returns Pointer to new object, or nullptr on failure.
  */
 #define LD_ARENA_NEW(Arena, Type, ...) (ArenaAllocator<Arena>().New<Type>(__VA_ARGS__))
 
-/** \brief TODO
+/** \brief Replacement for new, allocates and constructs a new instance of a given
+ *         type. Memory is allocated from the supplied allocator.
  * 
- *  \param Allocator
- *  \param Type
+ *  \param Allocator Reference to allocator to allocate memory form.
+ *  \param Type      Type of object to allocate.
+ *  \param ...       Arguments to pass to type constructor.
  *
- *  \returns
+ *  \returns Pointer to new object, or nullptr on failure.
  */
 #define LD_NEW(Allocator, Type, ...) (Allocator.New<Type>(__VA_ARGS__))
 
-/** \brief TODO
+/** \brief Replacement for delete. Destructs and frees memory from an object previously 
+ *         constructed by a call to LD_ARENA_NEW. 
  * 
- *  \param Arena
- *  \param Obj
+ *  \param Arena Reference to arena the object was allocated from.
+ *  \param Obj   Pointer to object to free.
  */
 #define LD_ARENA_DELETE(Arena, Obj) (ArenaAllocator<Arena>().Delete(Obj))
 
-/** \brief TODO
+/** \brief Replacement for delete. Destructs and frees memory from an object previously 
+ *         constructed by a call to LD_NEW. 
  * 
- *  \param Allocator
- *  \param Obj
+ *  \param Arena Reference to allocator the object was allocated from.
+ *  \param Obj   Pointer to object to free.
  */
 #define LD_DELETE(Allocator, Obj) (Allocator.Delete(Obj))
-
-/** \brief TODO
+  
+/** \brief Replacement for new[], allocates and constructs a new array of the given
+ *         type. Memory is allocated from the standard arena specified.
  * 
- *  \param Arena
- *  \param Type
- *  \param Size
+ *  \param Arena Type name of arena to allocate from.
+ *  \param Type  Type of object to allocate.
+ *  \param Size  Number of elements in allocated array.
  *
- *  \returns
+ *  \returns Pointer to new array, or nullptr on failure.
  */
 #define LD_ARENA_NEW_ARRAY(Arena, Type, Size) (ArenaAllocator<Arena>().NewArray<Type>(Size))
 
-/** \brief TODO
+/** \brief Replacement for newp[, allocates and constructs a new instance of a given
+ *         type. Memory is allocated from the supplied allocator.
  * 
- *  \param Allocator
- *  \param Type
- *  \param Size
+ *  \param Allocator Reference to allocator to allocate memory form.
+ *  \param Type      Type of object to allocate.
+ *  \param Size      Number of elements in allocated array.
  *
- *  \returns
+ *  \returns Pointer to new array, or nullptr on failure.
  */
 #define LD_NEW_ARRAY(Allocator, Type, Size) (Allocator.NewArray<Type>(Size))
 
-/** \brief TODO
+/** \brief Replacement for delete[]. Destructs and frees memory from an object previously 
+ *         constructed by a call to LD_ARENA_NEW_ARRAY. 
  * 
- *  \param Arena
- *  \param Obj
+ *  \param Arena Reference to arena the object was allocated from.
+ *  \param Obj   Pointer to object to free.
  */
 #define LD_ARENA_DELETE_ARRAY(Arena, Obj) (ArenaAllocator<Arena>().DeleteArray(Obj))
 
-/** \brief TODO
+/** \brief Replacement for delete[]. Destructs and frees memory from an object previously 
+ *         constructed by a call to LD_NEW_ARRAY. 
  * 
- *  \param Allocator
- *  \param Obj
+ *  \param Arena Reference to allocator the object was allocated from.
+ *  \param Obj   Pointer to object to free.
  */
 #define LD_DELETE_ARRAY(Allocator, Obj) (Allocator.DeleteArray(Obj))
 
