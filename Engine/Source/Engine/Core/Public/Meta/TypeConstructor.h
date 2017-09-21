@@ -19,61 +19,62 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/** \brief TODO
+/** \brief Helper class for constructing and destructing types. 
  *
- *  \tparam ElementType
+ *  \tparam ElementType Type of element to construct.
+ *
+ *  For value types this results in the constructor/destructor being called, 
+ *  for pointer types this results in the value being nulled out. This is primarily 
+ *  useful for constructing arrays of unknown type or other templated data-structures.
  */
 template <typename ElementType>
 struct TypeConstructor
 {
-
-    /** \brief TODO
+    /** \brief Calls default constructor of the given value type.
      *
-     *  \param Ref
+     *  \param Ref Reference to value type to construct.
      */
-	static void Construct(ElementType& Ref)
-	{
-		new (&Ref) ElementType();
-	}
+    static void Construct(ElementType& Ref)
+    {
+        new (&Ref) ElementType();
+    }
 
-    /** \brief TODO
+    /** \brief Calls default destructor of the given value type.
      *
-     *  \param Ref
+     *  \param Ref Reference to value type to destruct.
      */
-	static void Destruct(ElementType& Ref)
-	{
-		LD_UNUSED_PARAMETER(Ref); // Not sure why VS requires this...
-		Ref.~ElementType();
-	}
-
+    static void Destruct(ElementType& Ref)
+    {
+        LD_UNUSED_PARAMETER(Ref); // Not sure why VS requires this...
+        Ref.~ElementType();
+    }
 };
 
-/** \brief TODO
-*
-*  \tparam ElementType
-*/
+/** \brief Type constructor specialization for pointer types. Read comments for the base TypeConstructor
+ *         for further details.
+ *
+ *  \tparam ElementType Type of element to construct.
+ */
 template <typename ElementType>
 struct TypeConstructor<ElementType*>
 {
-
-    /** \brief TODO
+    /** \brief Nulls out the memory location holding the given pointer.
      *
-     *  \param Ref
+     *  \param Ref Reference to pointer to null out.
      */
-	static void Construct(ElementType*& Ref)
-	{
-		Ref = nullptr;
-	}
+    static void Construct(ElementType*& Ref)
+    {
+        Ref = nullptr;
+    }
     
-    /** \brief TODO
+    /** \brief Nulls out the memory location holding the given pointer.
      *
-     *  \param Ref
+     *  \param Ref Reference to pointer to null out.
      */
-	static void Destruct(ElementType*& Ref)
-	{
-		Ref = nullptr;
-	}
-
+    static void Destruct(ElementType*& Ref)
+    {
+        Ref = nullptr;
+    }
 };
 
 };
