@@ -26,9 +26,6 @@ namespace Ludo {
  *
  * All allocations should go through an allocator, new/delete/malloc/free etc should never
  * be called directly.
- *
- * The primary reason for allocators is it provides a consistent way to track where our memory 
- * is dissappearing too.
  */
 class IAllocator 
 {
@@ -40,106 +37,108 @@ private:
 
 public:
 
-	/// \brief The default alignment all allocations should have their addresses aligned to.
-	static const int DefaultAlignment = -1;
+    /// \brief The default alignment all allocations should have their addresses aligned to.
+    static const int DefaultAlignment = -1;
 
-	/** \brief 
+    /** \brief Allocates a block of memory with the given size and alignment.
      *
-     *  \param Size
-     *  \param Alignment
+     *  \param Size      Size of block in bytes to allocate.
+     *  \param Alignment Alignment to align memory pointer to.
      *
-     *  \returns
+     *  \returns Pointer to allocated block of memory, or nullptr on failure.
      */
-	virtual void* Alloc(const int Size, const int Alignment = DefaultAlignment) = 0;
+    virtual void* Alloc(const int Size, const int Alignment = DefaultAlignment) = 0;
     
-	/** \brief 
+    /** \brief Attempts to reallocate a block of memory to a different size.
      *
-     *  \param Ptr
-     *  \param Size
+     *  \param Ptr   Pointer to block of memory to reallocate.
+     *  \param Size  New size, in bytes, to reallocate block of memory to.
      *
-     *  \returns
+     *  \returns Pointer to newly reallocated block of memory, this may or may not 
+     *           be the same as the original pointer. Returns nullptr on failure.
      */
-	virtual void* Realloc(void* Ptr, const int Size) = 0;
+    virtual void* Realloc(void* Ptr, const int Size) = 0;
     
-	/** \brief 
+    /** \brief Deallocates a block of memory previously allocated by this allocator.
      *
-     *  \param Ptr
+     *  \param Ptr Pointer to block of memory to free.
      */
-	virtual void Free(void* Ptr) = 0;
+    virtual void Free(void* Ptr) = 0;
     
-	/** \brief 
+    /** \brief Allocates memory and calls the constructor for an object of a given type.
      *
-     *  \tparam BaseType
-     *  \tparam ConstructorTypes
+     *  \tparam BaseType	 Type of object to construct.
+     *  \tparam ConstructorTypes Type of constructor arguments. Not usually explicitly defined, 
+     *                           but automatically resolved by the compiler.
      *
-     *  \param Args
+     *  \param Args		 Arguments to pass to the constructor.
      *
-     *  \returns
+     *  \returns		 Constructed instance of class, or nullptr of failure.
      */
-	template <typename BaseType, typename... ConstructorTypes>
-	BaseType* New(ConstructorTypes... Args)
-	{
-		void* Ptr = Alloc(sizeof(BaseType));
-		return new(Ptr) BaseType(Args...);
-	}
+    template <typename BaseType, typename... ConstructorTypes>
+    BaseType* New(ConstructorTypes... Args)
+    {
+        void* Ptr = Alloc(sizeof(BaseType));
+        return new(Ptr) BaseType(Args...);
+    }
     
-	/** \brief 
+    /** \brief Allocates memory and calls the constructor for an array of objects of a given type.
      *
-     *  \tparam BaseType
+     *  \tparam BaseType Type of object to construct.
      *
-     *  \param Count
+     *  \param Count Size of array to allocate.
      *
-     *  \returns
+     *  \returns Pointer to array of objects of the given size.
      */
-	template <typename BaseType>
-	BaseType* NewArray(int Count)
-	{
-		void* Ptr = Alloc(sizeof(ArrayHeader) + sizeof(BaseType) * Count);
-
-		ArrayHeader* Header = (ArrayHeader*)Ptr;
-		Header->Size = Count;
-
-		BaseType* Array = (BaseType*)(char*)(Header + 1);
-
-		for (int i = 0; i < Count; i++)
-		{
-			new (Array + i) BaseType();
-		}
-
-		return Array;
-	}
+    template <typename BaseType>
+    BaseType* NewArray(int Count)
+    {
+        void* Ptr = Alloc(sizeof(ArrayHeader) + sizeof(BaseType) * Count);
+        
+        ArrayHeader* Header = (ArrayHeader*)Ptr;
+        Header->Size = Count;
+        
+        BaseType* Array = (BaseType*)(char*)(Header + 1);
+        
+        for (int i = 0; i < Count; i++)
+        {
+            new (Array + i) BaseType();
+        }
+        
+        return Array;
+    }
     
-	/** \brief 
+    /** \brief Calls destructor and frees memory for object previously allocated with New.
      *
-     *  \tparam BaseType
+     *  \tparam BaseType Type of object to destruct. Usually resolved by the compiler.
      *
-     *  \param Data
+     *  \param Data Pointer to object to delete.
      */
-	template <typename BaseType>
-	void Delete(BaseType* Data)
-	{
-		Data->~BaseType();
-		Free(Data);
-	}
+    template <typename BaseType>
+    void Delete(BaseType* Data)
+    {
+        Data->~BaseType();
+        Free(Data);
+    }
 
-	/** \brief 
+    /** \brief Calls the destructor for each object in an array and frees the memory for the array.
      *
-     *  \tparam BaseType
+     *  \tparam BaseType Base type of array to destruct. Usually resolved by the compiler.
      *
-     *  \param Data
+     *  \param Data Pointer to array of objects to delete.
      */
-	template <typename BaseType>
-	void DeleteArray(BaseType* Data)
-	{
-		ArrayHeader* Header = ((ArrayHeader*)Data) - 1;
+    template <typename BaseType>
+    void DeleteArray(BaseType* Data)
+    {
+        ArrayHeader* Header = ((ArrayHeader*)Data) - 1;
+        
+        for (int i = 0; i < Header->Size; i++)
+        {
+            Data[i].~BaseType();
+        }
 
-		for (int i = 0; i < Header->Size; i++)
-		{
-			Data[i].~BaseType();
-		}
-
-		Free(Header);
-	}
+        Free(Header);
+    }
 
 };
 
