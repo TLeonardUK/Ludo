@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 namespace Ludo {
 namespace Memory  {
 
-/// \brief TODO
+/// \brief Identifes a list of standard memory arenas which are initialized on engine start.
 enum class StandardMemoryArena
 {
 #define DEFINE_MEMORY_ARENA(Name, BasebResizable, BaseDefaultSize, LocationHint, DisplayName, DisplayDescription) Name,
@@ -32,46 +32,71 @@ enum class StandardMemoryArena
 	Count
 };
 
-/// \brief TODO
+/* \brief Used to hint to the platform implementation what memory we want allocations to be stored in.
+ *
+ * This is not a guarantee of where the memory will end up being located, as different platforms may not have
+ * specialized memory for different tasks.
+ */
 enum class MemoryLocationHint
 {
-	CPU,
-	GPU
+	/** \brief Primary CPU accessible memory bank.
+	 *
+         * Typically slow to read from GPU but fast from CPU. Used for storing data-structures and memory
+	 * required for game logic.
+	 */
+	CPU, 
+	
+	/** \brief Primary GPU accessible memory bank.
+	 *
+         * Typically slow to read from CPU but fast from GPU. Used for storing textures, vertex/index buffers,
+	 * and other things the gpu will typically access.
+	 */
+	GPU 
 };
 
-/// \brief TODO
+/* \brief Default alignment all memory pointers are aligned to. 
+ *
+ * If number is negative a suitable alignment will be selected by the platform implementation.
+ */
 const int DefaultAlignment = -1;
  
-/** \brief TODO
+/** \brief Overridden by platform implementation. Allows platform to adjust the properties
+ *         of the standard memory areans allocated on startup.
  * 
- *  \param Arena
- *  \param bResizable
- *  \param InitialSize
+ *  \param Arena	Arena in question.
+ *  \param bResizable	Determines if the arena can resize itself when it becomes full, or
+ *                      if it should fail to allocate when full.
+ *  \param InitialSize  Size in bytes that the arena should be initialized at.
  */
 void GetPlatformArenaStateOverride(StandardMemoryArena Arena, bool& bResizable, int& InitialSize);
 
-/** \brief TODO
+/** \brief Overridden by platform implementation. Allocates a block of memory from the host
+ *         platform in the given hardware location.
  * 
- *  \param Size
- *  \param LocationHint
- *  \param Alignment
+ *  \param Size         Size in bytes of memory to allocate.
+ *  \param LocationHint Hint as to hardware location memory should be stored in.
+ *  \param Alignment    Alignment allocated memory pointer should be aligned to. If negative
+ *                      a suitable alignment will be chosen to suit the platform.
  *
- *  \returns
+ *  \returns		Pointer to allocated memory, or nullptr on failure.
  */
 void* Allocate(int Size, MemoryLocationHint LocationHint, int Alignment = DefaultAlignment);
 
-/** \brief TODO
+/** \brief Overridden by platform implementation. Reallocates a block of memory previously 
+ *         allocated by Allocate.
  * 
- *  \param Ptr
- *  \param Size
+ *  \param Ptr  Pointer to memory block we want to reallocate.
+ *  \param Size New size of memory block we want to resize to.
  *
- *  \returns
+ *  \returns Pointer to reallocated memory block, may be the same as pointer passed in. Will
+ *           return nullptr on failure.
  */
 void* Reallocate(void* Ptr, int Size);
 
-/** \brief TODO
+/** \brief Overridden by platform implementation. Frees a block of memory previously 
+ *         allocated by Allocate.
  * 
- *  \param Ptr
+ *  \param Ptr Pointer to block of memory to free.
  */
 void Free(void* Ptr);
 
