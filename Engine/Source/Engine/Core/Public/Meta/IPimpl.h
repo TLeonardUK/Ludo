@@ -32,61 +32,61 @@ namespace Ludo {
 class IPimpl
 {
 protected:
-	void* m_Impl;
+    void* m_Impl;
 
 protected:
 
-	/// \brief Constructor.
-	IPimpl()
-		: m_Impl(nullptr)
-	{
-	}
+    /// \brief Constructor.
+    IPimpl()
+        : m_Impl(nullptr)
+    {
+    }
 
-	/** \brief Helper function, returns the implementation pointer reintepreted to the template type.
+    /** \brief Helper function, returns the implementation pointer reintepreted to the template type.
      *
      *  \tparam ResultType Type to cast implementation pointer to.
      *
-	 *  \returns Implementation reinterpreted to the template type.	
+     *  \returns Implementation reinterpreted to the template type.	
      */
-	template <typename ResultType>
-	ResultType* GetImpl()
-	{
-		LD_ASSERT(m_Impl != nullptr);
-		return reinterpret_cast<ResultType*>(m_Impl);
-	}
+    template <typename ResultType>
+    ResultType* GetImpl()
+    {
+        LD_ASSERT(m_Impl != nullptr);
+        return reinterpret_cast<ResultType*>(m_Impl);
+    }
 
-	template <typename ResultType>
-	const ResultType* GetImpl() const
-	{
-		LD_ASSERT(m_Impl != nullptr);
-		return reinterpret_cast<ResultType*>(m_Impl);
-	}
+    template <typename ResultType>
+    const ResultType* GetImpl() const
+    {
+        LD_ASSERT(m_Impl != nullptr);
+        return reinterpret_cast<ResultType*>(m_Impl);
+    }
 
-    /** \brief TODO
+    /** \brief Constructs the internal implementation of this class.
      *
-     *  \tparam ArenaType
-     *  \tparam ImplType
+     *  \tparam ArenaType Arena to allocate implementation within.
+     *  \tparam ImplType  Type name of implementation.
      *
-     *  \returns
+     *  \returns Pointer to implementation.
      */
-	template <typename ArenaType, typename ImplType>
-	ImplType* CreateImpl()
-	{
-		m_Impl = LD_ARENA_NEW(ArenaType, ImplType);
-		return GetImpl<ImplType>();
-	}
+    template <typename ArenaType, typename ImplType>
+    ImplType* CreateImpl()
+    {
+        m_Impl = LD_ARENA_NEW(ArenaType, ImplType);
+        return GetImpl<ImplType>();
+    }
     
-    /** \brief TODO
+    /** \brief Destroys the internal implementation previously created with CreateImpl.
      *
-     *  \tparam ArenaType
-     *  \tparam ImplType
+     *  \tparam ArenaType Arena to deallocate implementation from.
+     *  \tparam ImplType  Type name of implementation.
      */
-	template <typename ArenaType, typename ImplType>
-	void DestroyImpl()
-	{
-		LD_ARENA_DELETE(ArenaType, m_Impl);
-		m_Impl = nullptr;
-	}
+    template <typename ArenaType, typename ImplType>
+    void DestroyImpl()
+    {
+        LD_ARENA_DELETE(ArenaType, m_Impl);
+        m_Impl = nullptr;
+    }
 
 };
 
