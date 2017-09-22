@@ -21,21 +21,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief Result that can be returned from an iteration of a ParallelFor element. Determines how
+ *	  future elements in the list should be executed.
+ */
 enum class ParallelForTaskResult
 {
-	Continue,
-	Break,
+	/// \brief If returned the parallel for loop continues executing.
+	Continue,	
+	
+	/* \brief If returned the parallel for loop stops executing and returns. This is primary used
+	 *	  to stop executing tasks due to an error.
+	 */
+	Break,		
+				
 };
 
-/// \brief TODO
+/** \brief Result of a ParallelFor invocation. Determines if the loop was broken out of or
+ *         completed normally.
+ */
 enum class ParallelForResult
 {
+	/// \brief Indicates at least one iteration of the loop returned a Break result.
 	Broken,
+	
+	/// \brief Indicates all iterations of the loop completed successfully.
 	Complete
 };
 
-/// \brief TODO
+/** \brief Takes a list of items and iterates over it, in parallel, and runs a given function on each item.
+ * 
+ *  \tparam TaskType	Type of element in the list. Usually compiler infered.
+ *  \param  Scheduler   Task scheduler that will be used to run each task in parallel.
+ *  \param  Tasks       List of elements that will be iterated over.
+ *  \param  Callback    Callback that will be called for each element.
+ *
+ *  \returns Parallel for result that determines if a callback has requested to break out of the loop, or
+ *           if each element executed normally.
+ *
+ *  \example
+ *
+ *  Array<char> letters = { 'H', 'E', 'L', 'L', 'O', ' ', 'W', 'O', 'R', 'L', 'D' };
+ *  JobScheduler scheduler(8);
+ *
+ *  ParallelForResult result = ParallelFor(scheduler, letters, [](char& value){
+ *      printf("%c", value);
+ *  });
+ *
+ */
 template <typename TaskType>
 ParallelForResult ParallelFor(JobScheduler* Scheduler, Array<TaskType>& Tasks, std::function<ParallelForTaskResult(TaskType& TaskType)> Callback)
 {
