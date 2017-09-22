@@ -176,7 +176,7 @@ bool JobScheduler::IsComplete(JobHandle Handle)
 
 // ************************************************************************************************
 
-void JobScheduler::Wait(JobHandle Handle, TimeSpan TimeoutDuration)
+bool JobScheduler::Wait(JobHandle Handle, TimeSpan TimeoutDuration)
 {
 	Timeout WaitTimeout(TimeoutDuration);
 
@@ -189,9 +189,11 @@ void JobScheduler::Wait(JobHandle Handle, TimeSpan TimeoutDuration)
 
 		if (WaitTimeout.Finished())
 		{
-			break;
+			return false;
 		}
 	}
+	
+	return true;
 }
 
 // ************************************************************************************************
