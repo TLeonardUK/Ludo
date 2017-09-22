@@ -29,7 +29,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace Ludo {
 
-/// \brief TODO
+/** \brief This type is essentially the same as a normal Queue data structure. The primary difference is that internally
+ *         it uses atomic operations to ensure that operations function correctly when run in parallel.
+ *
+ *  \tparam ElementType Type of object the queue will contain.
+ *  \tparam MaxCapacity Maximum number of elements the queue can hold at any time. Pushing more than this will result
+ *                      in stalls while space is made available.
+ */
 template <
 	typename ElementType,
 	int MaxCapacity 
@@ -38,15 +44,15 @@ class ConcurrentQueue
 	: public INotCopyable
 {
 protected:
-	ElementType		m_Data[MaxCapacity];
-	int				m_Tail;
-	int				m_UncomittedTail;
-	int				m_Head;
-	int				m_UncomittedHead;
+    ElementType        m_Data[MaxCapacity];
+    int                m_Tail;
+    int                m_UncomittedTail;
+    int                m_Head;
+    int                m_UncomittedHead;
 
 public:
 
-	/// \brief TODO
+	/// \brief Default constructor.
 	ConcurrentQueue()
 		: m_Tail(0)
 		, m_Head(0)
@@ -55,12 +61,21 @@ public:
 	{
 	}
 
-	/// \brief TODO
+	/// \brief Destructor.
 	~ConcurrentQueue()
 	{
 	}
 
-	/// \brief TODO
+	/** \brief Attempts to push a new item into the queue.
+	 *
+	 *  \param Element		Item to push into the queue.
+	 *  \param bBlockUntilAvailable If true then the call will block until there is 
+	 *                              enough space in the queue to add the new item. If
+	 *                              false then the function will just return failure if 
+	 *                              no space was available.
+	 *
+         *  \returns True if the element was able to be pushed into the queue.
+	 */
 	bool Push(const ElementType& Element, bool bBlockUntilAvailable = false)
 	{
 		while (true)
@@ -96,7 +111,15 @@ public:
 		return false;
 	}
 
-	/// \brief TODO
+	/** \brief Attempts to pop an item from the queue.
+	 *
+	 *  \param Output		Pointer to variable where we will store the poped item.
+	 *  \param bBlockUntilAvailable If true then the call will block until there is 
+	 *                              an item available to pop item. If false then the function 
+	 *                              will just return failure if no item is available.
+	 *
+         *  \returns True if an element was poped from the queue successfully.
+	 */
 	bool Pop(ElementType* Output, bool bBlockUntilAvailable = false)
 	{
 		while (true)
@@ -132,20 +155,28 @@ public:
 		return false;
 	}
 
-	/// \brief TODO
+	/** \brief Cleans the queue of all items. This is not atomic, please only call when the queue is 
+	 *         not currently being accessed.
+	 */
 	void Empty()
 	{
 		m_Top = m_Data;
 		m_ComittedTop = m_Top;
 	}
-
-	/// \brief TODO
+	
+	/** \brief Gets if the queue is currently empty.
+	 *
+         *  \returns Returns true if the queue is currently empty.
+	 */
 	bool IsEmpty() const
 	{
 		return (m_ComittedTop == m_Data);
 	}
 
-	/// \brief TODO
+	/** \brief Gets the number of items currently in the queue.
+	 *
+         *  \returns Number of items currently in the queue.
+	 */
 	int Length() const
 	{
 		return (m_ComittedTop - m_Data);
