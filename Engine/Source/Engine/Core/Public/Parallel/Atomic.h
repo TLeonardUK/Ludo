@@ -34,6 +34,78 @@ void* CompareExchange(void** Destination, void* Exchange, void* Comparand);
 
 /// \brief TODO
 void RelaxCpu();
+  
+/// \brief TODO
+template <typename ValueType>
+struct AtomicValue
+{
+private:
+    ValueType m_Value;
+  
+public:
+    ValueType()
+    {
+    }
+
+    ValueType(const ValueType& Other)
+        : m_Value(Other)
+    {      
+        Store(m_Value, Other);
+    }
+  
+    operator ValueType() const 
+    {
+        return Load(m_Value);
+    }
+  
+    operator++()
+    {
+    }
+
+    operator++(ValueType X)
+    {
+    }
+
+    operator--()
+    {
+    }
+
+    operator--(ValueType Y)
+    {
+    }
+
+    operator=()
+    {
+    }
+
+    operator+=()
+    {
+    }
+
+    operator-=()
+    {
+    }
+
+    operator&=()
+    {
+    }
+
+    operator|=()
+    {
+    }
+
+    operator^=()
+    {
+    }
+  
+    bool CompareExchange(ValueType& Orignal, ValueType& New)
+    {
+    }
+  
+    ValueType Exchange(ValueType& Orignal)
+    {
+    }
+};
 
 };
 };
